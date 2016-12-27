@@ -89,6 +89,8 @@ Public NotInheritable Class MainPage
             GridVisibilidad(gridCategoriasMaestro)
         End If
 
+        '--------------------------------------------------------
+
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
 
         If Await helper.FileExistsAsync("lista") = True Then
