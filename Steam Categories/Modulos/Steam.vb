@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.Toolkit.Uwp
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
@@ -114,7 +115,7 @@ Module Steam
 
                 Dim frame As Frame = Window.Current.Content
                 Dim pagina As Page = frame.Content
-                Dim imagen As Image = pagina.FindName("imageCuenta")
+                Dim imagen As ImageEx = pagina.FindName("imageCuenta")
 
                 imagen.Source = New BitmapImage(New Uri(temp3, UriKind.Absolute))
             End If

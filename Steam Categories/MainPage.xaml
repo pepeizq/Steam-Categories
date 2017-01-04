@@ -16,7 +16,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" Margin="4" Source="{Binding Glyph}" Stretch="UniformToFill" />
+                <controls:ImageEx Grid.Column="0" Margin="10" Source="{Binding Glyph}" Stretch="UniformToFill" />
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16" Text="{x:Bind Label}" Margin="10,0,0,0" />
             </Grid>
         </DataTemplate>
@@ -77,7 +77,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Border Grid.Column="0" BorderBrush="DarkGray" BorderThickness="1">
-                                <Image x:Name="imageCuenta" Width="96" Height="96"/>
+                                <controls:ImageEx x:Name="imageCuenta" Width="96" Height="96"/>
                             </Border>
 
                             <Grid Grid.Column="1" Margin="10" VerticalAlignment="Center">
@@ -219,9 +219,9 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Grid.Column="0" Source="Assets/Screens/cat1.png"/>
+                                        <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat1.png"/>
                                         <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                        <Image Grid.Column="2" Source="Assets/Screens/cat2.png"/>
+                                        <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat2.png"/>
                                     </Grid>
                                 </Grid>
 
@@ -251,9 +251,9 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Grid.Column="0" Source="Assets/Screens/cat3.png"/>
+                                        <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat3.png"/>
                                         <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                        <Image Grid.Column="2" Source="Assets/Screens/cat4.png"/>
+                                        <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat4.png"/>
                                     </Grid>
                                 </Grid>
 
@@ -283,9 +283,9 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Grid.Column="0" Source="Assets/Screens/cat5.png"/>
+                                        <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat5.png"/>
                                         <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                        <Image Grid.Column="2" Source="Assets/Screens/cat6.png"/>
+                                        <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat6.png"/>
                                     </Grid>
                                 </Grid>
 
