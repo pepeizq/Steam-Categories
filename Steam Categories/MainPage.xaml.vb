@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.Toolkit.Uwp
-Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.ApplicationModel.DataTransfer
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
@@ -24,12 +23,14 @@ Public NotInheritable Class MainPage
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
-        menuItemCategorias.Label = recursos.GetString("Categorias")
-        menuItemConfig.Label = recursos.GetString("Boton Configuracion")
-        menuItemVote.Label = recursos.GetString("Boton Votar")
-        menuItemShare.Label = recursos.GetString("Boton Compartir")
-        menuItemContact.Label = recursos.GetString("Boton Contactar")
-        menuItemWeb.Label = recursos.GetString("Boton Web")
+        botonPrincipal.Label = recursos.GetString("Categorias")
+        botonConfig.Label = recursos.GetString("Boton Configuracion")
+        botonVotar.Label = recursos.GetString("Boton Votar")
+        botonCompartir.Label = recursos.GetString("Boton Compartir")
+        botonContacto.Label = recursos.GetString("Boton Contactar")
+        botonMasApps.Label = recursos.GetString("Boton Web")
+
+        commadBarTop.DefaultLabelPosition = CommandBarDefaultLabelPosition.Right
 
         tbJuegosCuentaMensaje.Text = recursos.GetString("Texto Juegos Cuenta")
         tbJuegosAppMensaje.Text = recursos.GetString("Texto Juegos App")
@@ -118,16 +119,6 @@ Public NotInheritable Class MainPage
             Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
         End If
 
-        '--------------------------------------------------------
-
-        Dim coleccion As HamburgerMenuItemCollection = hamburgerMaestro.ItemsSource
-        hamburgerMaestro.ItemsSource = Nothing
-        hamburgerMaestro.ItemsSource = coleccion
-
-        Dim coleccionOpciones As HamburgerMenuItemCollection = hamburgerMaestro.OptionsItemsSource
-        hamburgerMaestro.OptionsItemsSource = Nothing
-        hamburgerMaestro.OptionsItemsSource = coleccionOpciones
-
     End Sub
 
     Private Sub GridVisibilidad(grid As Grid)
@@ -140,6 +131,55 @@ Public NotInheritable Class MainPage
         grid.Visibility = Visibility.Visible
 
     End Sub
+
+    Private Sub botonPrincipal_Click(sender As Object, e As RoutedEventArgs) Handles botonPrincipal.Click
+
+        GridVisibilidad(gridCategoriasMaestro)
+
+    End Sub
+
+    Private Sub botonConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonConfig.Click
+
+        GridVisibilidad(gridConfig)
+
+    End Sub
+
+    Private Async Sub botonVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonVotar.Click
+
+        Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
+
+    End Sub
+
+    Private Sub botonCompartir_Click(sender As Object, e As RoutedEventArgs) Handles botonCompartir.Click
+
+        Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
+        AddHandler datos.DataRequested, AddressOf MainPage_DataRequested
+        DataTransferManager.ShowShareUI()
+
+    End Sub
+
+    Private Sub MainPage_DataRequested(sender As DataTransferManager, e As DataRequestedEventArgs)
+
+        Dim request As DataRequest = e.Request
+        request.Data.SetText("Steam Categories")
+        request.Data.Properties.Title = "Steam Categories"
+        request.Data.Properties.Description = "Add categories for your Steam games"
+
+    End Sub
+
+    Private Sub botonContacto_Click(sender As Object, e As RoutedEventArgs) Handles botonContacto.Click
+
+        GridVisibilidad(gridWebContacto)
+
+    End Sub
+
+    Private Sub botonMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonMasApps.Click
+
+        GridVisibilidad(gridWeb)
+
+    End Sub
+
+    '--------------------------------------------------------------
 
     Private Sub buttonSteamConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonSteamConfigPath.Click
 
@@ -155,53 +195,12 @@ Public NotInheritable Class MainPage
 
     '--------------------------------------------------------------
 
-    Private Sub hamburgerMaestro_ItemClick(sender As Object, e As ItemClickEventArgs) Handles hamburgerMaestro.ItemClick
-
-        Dim menuItem As HamburgerMenuGlyphItem = TryCast(e.ClickedItem, HamburgerMenuGlyphItem)
-
-        If menuItem.Tag = 1 Then
-            GridVisibilidad(gridCategoriasMaestro)
-        End If
-
-    End Sub
-
-    Private Async Sub hamburgerMaestro_OptionsItemClick(sender As Object, e As ItemClickEventArgs) Handles hamburgerMaestro.OptionsItemClick
-
-        Dim menuItem As HamburgerMenuGlyphItem = TryCast(e.ClickedItem, HamburgerMenuGlyphItem)
-
-        If menuItem.Tag = 99 Then
-            GridVisibilidad(gridConfig)
-        ElseIf menuItem.Tag = 100 Then
-            Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
-        ElseIf menuItem.Tag = 101 Then
-            Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
-            AddHandler datos.DataRequested, AddressOf MainPage_DataRequested
-            DataTransferManager.ShowShareUI()
-        ElseIf menuItem.Tag = 102 Then
-            GridVisibilidad(gridWebContacto)
-        ElseIf menuItem.Tag = 103 Then
-            GridVisibilidad(gridWeb)
-        End If
-
-    End Sub
-
-    Private Sub MainPage_DataRequested(sender As DataTransferManager, e As DataRequestedEventArgs)
-
-        Dim request As DataRequest = e.Request
-        request.Data.SetText("Steam Categories")
-        request.Data.Properties.Title = "Steam Categories"
-        request.Data.Properties.Description = "Add categories for your Steam games"
-
-    End Sub
-
-    '--------------------------------------------------------------
-
     Dim listaJuegos As List(Of Juego)
 
     Private Async Sub buttonCargaCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonCargaCategorias.Click
 
-        prCategorias.Visibility = Visibility.Visible
-        prCategorias.IsIndeterminate = False
+        gridProgreso.Visibility = Visibility.Visible
+        prProgreso.IsIndeterminate = False
         buttonCargaCategorias.IsEnabled = False
         buttonBorrarCategorias.IsEnabled = False
         buttonSteamConfigPath.IsEnabled = False
@@ -631,7 +630,8 @@ Public NotInheritable Class MainPage
                     listaJuegos.Add(juego)
                 End If
 
-                prCategorias.Value = (i / tope) * 100
+                prProgreso.Value = (i / tope) * 100
+                tbProgreso.Text = "(" + i.ToString + "/" + tope.ToString + ")"
 
                 i += 1
             End While
@@ -663,7 +663,7 @@ Public NotInheritable Class MainPage
             Toast("Steam Categories", recursos.GetString("Cargado No"))
         End If
 
-        prCategorias.Visibility = Visibility.Collapsed
+        gridProgreso.Visibility = Visibility.Collapsed
         buttonCargaCategorias.IsEnabled = True
         buttonBorrarCategorias.IsEnabled = True
         buttonSteamConfigPath.IsEnabled = True
@@ -835,5 +835,6 @@ Public NotInheritable Class MainPage
         End If
 
     End Sub
+
 
 End Class
