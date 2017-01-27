@@ -161,7 +161,7 @@ Public NotInheritable Class MainPage
     Private Sub MainPage_DataRequested(sender As DataTransferManager, e As DataRequestedEventArgs)
 
         Dim request As DataRequest = e.Request
-        request.Data.SetText("Steam Categories")
+        request.Data.SetText("Download: https://www.microsoft.com/store/apps/9p54scg1n6bm")
         request.Data.Properties.Title = "Steam Categories"
         request.Data.Properties.Description = "Add categories for your Steam games"
 
