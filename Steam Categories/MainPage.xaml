@@ -55,25 +55,10 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0" Padding="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock x:Name="tbJuegosCuentaMensaje" Grid.Column="0"/>
-                    <TextBlock x:Name="tbJuegosCuenta" Grid.Column="1" Margin="5,0,20,0" Text="0"/>
-                    <TextBlock x:Name="tbJuegosAppMensaje" Grid.Column="2"/>
-                    <TextBlock x:Name="tbJuegosApp" Grid.Column="3" Margin="5,0" Text="0"/>
-                </Grid>
-
-                <Grid x:Name="gridProgreso" Grid.Row="1" Visibility="Collapsed">
+              
+                <Grid x:Name="gridProgreso" Grid.Row="0" Visibility="Collapsed">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -83,12 +68,13 @@
                     <TextBlock x:Name="tbProgreso" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" />
                 </Grid>
                 
-                <Grid Grid.Row="2" Margin="10">
+                <Grid Grid.Row="1" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <Button x:Name="buttonCargaCategorias" Grid.Column="0" Padding="10" Background="#FFE4E4E4" Margin="0,5" HorizontalAlignment="Center" IsEnabled="False">
@@ -149,11 +135,46 @@
                             <TextBlock x:Name="buttonBorrarCategoriasTexto"/>
                         </StackPanel>
                     </Button>
+
+                    <Grid Grid.Column="4" Padding="5" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Name="tbJuegosCuentaMensaje" Grid.Column="0"/>
+                            <TextBlock x:Name="tbJuegosCuenta" Grid.Column="1" Margin="5,0" Text="0"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1" HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Name="tbJuegosAppMensaje" Grid.Column="0"/>
+                            <TextBlock x:Name="tbJuegosApp" Grid.Column="1" Margin="5,0" Text="0"/>
+                        </Grid>
+                  </Grid>
                 </Grid>
 
-                <TextBlock x:Name="tbCategories" Grid.Row="3" Margin="10,10,10,0" FontSize="24" Visibility="Collapsed"/>
+                <Grid Grid.Row="2" Margin="10,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Grid x:Name="gridCategories" Grid.Row="4" Margin="10" Visibility="Collapsed">
+                    <TextBlock x:Name="tbCategories" Grid.Column="0" FontSize="24"/>
+                    <TextBlock x:Name="tbCategoriesExtra" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                </Grid>
+
+                <Grid x:Name="gridCategories" Grid.Row="3" Margin="10" IsHitTestVisible="False">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -175,97 +196,103 @@
                         <Grid x:Name="gridSeleccionUserscore" Visibility="Collapsed" VerticalAlignment="Top">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
                             <CheckBox x:Name="cbSeleccionUserscore" Grid.Row="0" Content="Userscore"/>
 
-                            <Grid Grid.Row="1" Margin="0,30,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <controls:Expander x:Name="expanderUserscore" Margin="0,10" HorizontalContentAlignment="Stretch">
+                                    <Grid Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                <FontIcon Glyph="&#xE897;" FontFamily="Segoe MDL2 Assets" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbSeleccionUserscoreInfo" Grid.Column="1" TextWrapping="Wrap"/>
-                            </Grid>
+                                        <TextBlock x:Name="tbSeleccionUserscoreInfo" Grid.Row="0" TextWrapping="Wrap"/>
 
-                            <Grid Grid.Row="2" Margin="0,15,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                                        <Grid Grid.Row="1" Margin="0,15,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
 
-                                <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat1.png"/>
-                                <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat2.png"/>
-                            </Grid>
+                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat1.png"/>
+                                            <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
+                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat2.png"/>
+                                        </Grid>
+                                    </Grid>
+                                </controls:Expander>
+                            </ScrollViewer>
                         </Grid>
 
                         <Grid x:Name="gridSeleccionMetascore" Visibility="Collapsed" VerticalAlignment="Top">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
                             <CheckBox x:Name="cbSeleccionMetascore" Grid.Row="0" Content="Metascore"/>
 
-                            <Grid Grid.Row="1" Margin="0,30,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <controls:Expander x:Name="expanderMetascore" Margin="0,10" HorizontalContentAlignment="Stretch">
+                                    <Grid Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                <FontIcon Glyph="&#xE897;" FontFamily="Segoe MDL2 Assets" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbSeleccionMetascoreInfo" Grid.Column="1" TextWrapping="Wrap"/>
-                            </Grid>
+                                        <TextBlock x:Name="tbSeleccionMetascoreInfo" Grid.Row="0" TextWrapping="Wrap"/>
 
-                            <Grid Grid.Row="2" Margin="0,15,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                                        <Grid Grid.Row="1" Margin="0,15,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
 
-                                <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat3.png"/>
-                                <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat4.png"/>
-                            </Grid>
+                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat3.png"/>
+                                            <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
+                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat4.png"/>
+                                        </Grid>
+                                    </Grid> 
+                                </controls:Expander> 
+                            </ScrollViewer>                      
                         </Grid>
 
                         <Grid x:Name="gridSeleccionAños" Visibility="Collapsed" VerticalAlignment="Top">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
                             <CheckBox x:Name="cbSeleccionAños" Grid.Row="0"/>
 
-                            <Grid Grid.Row="1" Margin="0,30,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <controls:Expander x:Name="expanderAños" Margin="0,10" HorizontalContentAlignment="Stretch">
+                                    <Grid Margin="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                <FontIcon Glyph="&#xE897;" FontFamily="Segoe MDL2 Assets" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" />
-                                <TextBlock x:Name="tbSeleccionAñosInfo" Grid.Column="1" TextWrapping="Wrap"/>
-                            </Grid>
+                                        <TextBlock x:Name="tbSeleccionAñosInfo" Grid.Row="0" TextWrapping="Wrap"/>
 
-                            <Grid Grid.Row="2" Margin="0,15,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                                        <Grid Grid.Row="1" Margin="0,15,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
 
-                                <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat5.png"/>
-                                <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat6.png"/>
-                            </Grid>
+                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat5.png"/>
+                                            <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
+                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat6.png"/>
+                                        </Grid>
+                                    </Grid> 
+                                </controls:Expander>                              
+                            </ScrollViewer>                                                         
                         </Grid>
 
                         <Grid x:Name="gridSeleccionCategorias" Visibility="Collapsed" />

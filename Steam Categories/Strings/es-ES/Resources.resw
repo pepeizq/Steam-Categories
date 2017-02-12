@@ -168,11 +168,17 @@
   <data name="Categorias" xml:space="preserve">
     <value>Categorías</value>
   </data>
+  <data name="Categorias Extra" xml:space="preserve">
+    <value>Clickea en las cajas para seleccionar que categorías añadir en Steam</value>
+  </data>
   <data name="Categorias No" xml:space="preserve">
     <value>No se han añadido las categorías de Steam</value>
   </data>
   <data name="Categorias Si" xml:space="preserve">
     <value>Se han añadido las categorías de Steam</value>
+  </data>
+  <data name="Como Funciona" xml:space="preserve">
+    <value>¿Como funciona?</value>
   </data>
   <data name="Generos" xml:space="preserve">
     <value>Géneros</value>
@@ -193,13 +199,13 @@
     <value>Juegos detectados en la cuenta:</value>
   </data>
   <data name="Texto Seleccion Años" xml:space="preserve">
-    <value>¿Como funciona? La aplicación coge la fecha de lanzamiento Steam y después pone el año en categorías.</value>
+    <value>La aplicación coge la fecha de lanzamiento Steam y después pone el año en categorías.</value>
   </data>
   <data name="Texto Seleccion Metascore" xml:space="preserve">
-    <value>¿Como funciona? La aplicación coge la nota de Steam y después la pone en categorías cada diez números.</value>
+    <value>La aplicación coge la nota de Steam y después la pone en categorías cada diez números.</value>
   </data>
   <data name="Texto Seleccion Userscore" xml:space="preserve">
-    <value>¿Como funciona? La aplicación coge la nota más reciente de Steam y después la pone en categorías cada diez números.</value>
+    <value>La aplicación coge la nota más reciente de Steam y después la pone en categorías cada diez números.</value>
   </data>
   <data name="Texto Steam Config Cliente" xml:space="preserve">
     <value>Añade la carpeta donde Steam está instalado, ejemplo: C:\Steam</value>

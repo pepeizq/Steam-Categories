@@ -43,12 +43,19 @@ Public NotInheritable Class MainPage
         buttonBorrarCategoriasTooltip.Text = recursos.GetString("Aviso Steam")
 
         tbCategories.Text = recursos.GetString("Categorias")
+        tbCategoriesExtra.Text = recursos.GetString("Categorias Extra")
 
+        expanderUserscore.Header = recursos.GetString("Como Funciona")
         tbSeleccionUserscoreInfo.Text = recursos.GetString("Texto Seleccion Userscore")
+
+        expanderMetascore.Header = recursos.GetString("Como Funciona")
         tbSeleccionMetascoreInfo.Text = recursos.GetString("Texto Seleccion Metascore")
+
+        expanderAños.Header = recursos.GetString("Como Funciona")
         buttonSeleccionAños.Content = recursos.GetString("Año Lanzamiento")
         cbSeleccionAños.Content = recursos.GetString("Año Lanzamiento")
         tbSeleccionAñosInfo.Text = recursos.GetString("Texto Seleccion Años")
+
         buttonSeleccionCategorias.Content = recursos.GetString("Categorias")
         buttonSeleccionGeneros.Content = recursos.GetString("Generos")
         buttonSeleccionTags.Content = recursos.GetString("Tags")
@@ -92,14 +99,48 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
+        If ApplicationData.Current.LocalSettings.Values("expanderUserscore") = Nothing Then
+            ApplicationData.Current.LocalSettings.Values("expanderUserscore") = "on"
+            expanderUserscore.IsExpanded = True
+        Else
+            If ApplicationData.Current.LocalSettings.Values("expanderUserscore") = "on" Then
+                expanderUserscore.IsExpanded = True
+            Else
+                expanderUserscore.IsExpanded = False
+            End If
+        End If
+
+        If ApplicationData.Current.LocalSettings.Values("expanderMetascore") = Nothing Then
+            ApplicationData.Current.LocalSettings.Values("expanderMetascore") = "on"
+            expanderMetascore.IsExpanded = True
+        Else
+            If ApplicationData.Current.LocalSettings.Values("expanderMetascore") = "on" Then
+                expanderMetascore.IsExpanded = True
+            Else
+                expanderMetascore.IsExpanded = False
+            End If
+        End If
+
+        If ApplicationData.Current.LocalSettings.Values("expanderAños") = Nothing Then
+            ApplicationData.Current.LocalSettings.Values("expanderAños") = "on"
+            expanderAños.IsExpanded = True
+        Else
+            If ApplicationData.Current.LocalSettings.Values("expanderAños") = "on" Then
+                expanderAños.IsExpanded = True
+            Else
+                expanderAños.IsExpanded = False
+            End If
+        End If
+
+        '--------------------------------------------------------
+
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
 
         If Await helper.FileExistsAsync("lista") = True Then
             listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("lista")
 
             If listaJuegos.Count > 0 Then
-                tbCategories.Visibility = Visibility.Visible
-                gridCategories.Visibility = Visibility.Visible
+                gridCategories.IsHitTestVisible = True
                 GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
 
                 gridSeleccionCategorias.Children.Add(Listado.GenerarCategorias(listaJuegos))
@@ -644,8 +685,7 @@ Public NotInheritable Class MainPage
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
         If listaJuegos.Count > 0 Then
-            tbCategories.Visibility = Visibility.Visible
-            gridCategories.Visibility = Visibility.Visible
+            gridCategories.IsHitTestVisible = True
             GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
 
             gridSeleccionCategorias.Children.Clear()
@@ -836,5 +876,33 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Sub expanderUserscore_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles expanderUserscore.SizeChanged
 
+        If expanderUserscore.IsExpanded = True Then
+            ApplicationData.Current.LocalSettings.Values("expanderUserscore") = "on"
+        Else
+            ApplicationData.Current.LocalSettings.Values("expanderUserscore") = "off"
+        End If
+
+    End Sub
+
+    Private Sub expanderMetascore_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles expanderMetascore.SizeChanged
+
+        If expanderMetascore.IsExpanded = True Then
+            ApplicationData.Current.LocalSettings.Values("expanderMetascore") = "on"
+        Else
+            ApplicationData.Current.LocalSettings.Values("expanderMetascore") = "off"
+        End If
+
+    End Sub
+
+    Private Sub expanderAños_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles expanderAños.SizeChanged
+
+        If expanderAños.IsExpanded = True Then
+            ApplicationData.Current.LocalSettings.Values("expanderAños") = "on"
+        Else
+            ApplicationData.Current.LocalSettings.Values("expanderAños") = "off"
+        End If
+
+    End Sub
 End Class

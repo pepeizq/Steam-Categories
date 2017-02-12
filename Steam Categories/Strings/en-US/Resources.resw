@@ -168,11 +168,17 @@
   <data name="Categorias" xml:space="preserve">
     <value>Categories</value>
   </data>
+  <data name="Categorias Extra" xml:space="preserve">
+    <value>Click in the boxes to select which categories add in Steam</value>
+  </data>
   <data name="Categorias No" xml:space="preserve">
     <value>Steam categories could not be added</value>
   </data>
   <data name="Categorias Si" xml:space="preserve">
     <value>Steam categories have been added</value>
+  </data>
+  <data name="Como Funciona" xml:space="preserve">
+    <value>How does it work?</value>
   </data>
   <data name="Generos" xml:space="preserve">
     <value>Genres</value>
@@ -193,13 +199,13 @@
     <value>Games detected in the account:</value>
   </data>
   <data name="Texto Seleccion Años" xml:space="preserve">
-    <value>How does it work? The app takes the release date from Steam and put the year in categories.</value>
+    <value>The app takes the release date from Steam and put the year in categories.</value>
   </data>
   <data name="Texto Seleccion Metascore" xml:space="preserve">
-    <value>How does it work? The app takes the note from Steam and put it in categories every ten numbers.</value>
+    <value>The app takes the note from Steam and put it in categories every ten numbers.</value>
   </data>
   <data name="Texto Seleccion Userscore" xml:space="preserve">
-    <value>How does it work? The app takes the recent userscore from Steam and put the note in categories every ten numbers.</value>
+    <value>The app takes the recent userscore from Steam and put the note in categories every ten numbers.</value>
   </data>
   <data name="Texto Steam Config Cliente" xml:space="preserve">
     <value>Add the folder where Steam is installed, example: C:\Steam</value>
