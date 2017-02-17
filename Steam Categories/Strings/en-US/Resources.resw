@@ -213,4 +213,7 @@
   <data name="Texto Steam Config Cuenta" xml:space="preserve">
     <value>Add your Steam Community account:</value>
   </data>
+  <data name="Twitter" xml:space="preserve">
+    <value>Show latest news from @pepeizqapps</value>
+  </data>
 </root>

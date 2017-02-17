@@ -111,6 +111,7 @@
     </Compile>
     <Compile Include="Clases\Juego.vb" />
     <Compile Include="Clases\JuegoFinal.vb" />
+    <Compile Include="Clases\Tweet.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -118,6 +119,7 @@
     <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Steam.vb" />
+    <Compile Include="Modulos\Twitter.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +200,7 @@
     <Content Include="Assets\Store\StoreLogo.scale-150.png" />
     <Content Include="Assets\Store\StoreLogo.scale-200.png" />
     <Content Include="Assets\Store\StoreLogo.scale-400.png" />
+    <Content Include="Assets\twitter_logo.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-150.png" />
