@@ -109,17 +109,17 @@
     <Compile Include="App.xaml.vb">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Clases\FeedRSS.vb" />
     <Compile Include="Clases\Juego.vb" />
     <Compile Include="Clases\JuegoFinal.vb" />
-    <Compile Include="Clases\Tweet.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
+    <Compile Include="Modulos\RSS.vb" />
     <Compile Include="Modulos\Steam.vb" />
-    <Compile Include="Modulos\Twitter.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +178,7 @@
     <Content Include="Assets\Medium\Medium150x150Logo.scale-150.png" />
     <Content Include="Assets\Medium\Medium150x150Logo.scale-200.png" />
     <Content Include="Assets\Medium\Medium150x150Logo.scale-400.png" />
+    <Content Include="Assets\rss_logo.png" />
     <Content Include="Assets\Screens\cat1.png" />
     <Content Include="Assets\Screens\cat2.png" />
     <Content Include="Assets\Screens\cat3.png" />
@@ -194,13 +195,13 @@
     <Content Include="Assets\SplashScreen\SplashScreen.scale-150.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-200.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-400.png" />
+    <Content Include="Assets\steam_logo.png" />
     <Content Include="Assets\steam_logo.svg" />
     <Content Include="Assets\Store\StoreLogo.scale-100.png" />
     <Content Include="Assets\Store\StoreLogo.scale-125.png" />
     <Content Include="Assets\Store\StoreLogo.scale-150.png" />
     <Content Include="Assets\Store\StoreLogo.scale-200.png" />
     <Content Include="Assets\Store\StoreLogo.scale-400.png" />
-    <Content Include="Assets\twitter_logo.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-150.png" />

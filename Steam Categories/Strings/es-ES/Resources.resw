@@ -121,7 +121,7 @@
     <value>Si tienes cientos o miles de juegos la carga tardara minutos</value>
   </data>
   <data name="Aviso Steam" xml:space="preserve">
-    <value>Steam debe estar cerrado</value>
+    <value>Steam debe estar cerrado para ambas opciones</value>
   </data>
   <data name="Año Lanzamiento" xml:space="preserve">
     <value>Año de Lanzamiento</value>
@@ -147,7 +147,7 @@
   <data name="Boton Compartir" xml:space="preserve">
     <value>Compartir</value>
   </data>
-  <data name="Boton Configuracion" xml:space="preserve">
+  <data name="Boton Config" xml:space="preserve">
     <value>Configuración</value>
   </data>
   <data name="Boton Contactar" xml:space="preserve">
@@ -155,6 +155,9 @@
   </data>
   <data name="Boton Escribir Categorias" xml:space="preserve">
     <value>Añadir Categorías en Steam</value>
+  </data>
+  <data name="Boton Inicio" xml:space="preserve">
+    <value>Inicio</value>
   </data>
   <data name="Boton Votar" xml:space="preserve">
     <value>Vota la App</value>
@@ -180,11 +183,23 @@
   <data name="Como Funciona" xml:space="preserve">
     <value>¿Como funciona?</value>
   </data>
+  <data name="Consejo Config" xml:space="preserve">
+    <value>Antes de añadir categorías debes añadir tu cuenta de Steam, la ubicación y cargar las categorías en la aplicación</value>
+  </data>
   <data name="Generos" xml:space="preserve">
     <value>Géneros</value>
   </data>
+  <data name="Grid Arranque" xml:space="preserve">
+    <value>Elige ventana donde arrancar</value>
+  </data>
   <data name="Idiomas" xml:space="preserve">
     <value>Idiomas</value>
+  </data>
+  <data name="No Juegos" xml:space="preserve">
+    <value>No se han cargado las categorías en la aplicación</value>
+  </data>
+  <data name="RSS" xml:space="preserve">
+    <value>Últimas Noticias</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Etiquetas</value>
@@ -212,8 +227,5 @@
   </data>
   <data name="Texto Steam Config Cuenta" xml:space="preserve">
     <value>Añade tu cuenta de Steam Community:</value>
-  </data>
-  <data name="Twitter" xml:space="preserve">
-    <value>Enseñar últimas noticias de @pepeizqapps</value>
   </data>
 </root>

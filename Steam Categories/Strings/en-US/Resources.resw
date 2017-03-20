@@ -121,7 +121,7 @@
     <value>If you have hundreds or thousands of games the load will take minutes</value>
   </data>
   <data name="Aviso Steam" xml:space="preserve">
-    <value>Steam must be closed</value>
+    <value>Steam must be closed for both options</value>
   </data>
   <data name="Año Lanzamiento" xml:space="preserve">
     <value>Release Year</value>
@@ -147,7 +147,7 @@
   <data name="Boton Compartir" xml:space="preserve">
     <value>Share</value>
   </data>
-  <data name="Boton Configuracion" xml:space="preserve">
+  <data name="Boton Config" xml:space="preserve">
     <value>Configuration</value>
   </data>
   <data name="Boton Contactar" xml:space="preserve">
@@ -155,6 +155,9 @@
   </data>
   <data name="Boton Escribir Categorias" xml:space="preserve">
     <value>Add Categories in Steam</value>
+  </data>
+  <data name="Boton Inicio" xml:space="preserve">
+    <value>Home</value>
   </data>
   <data name="Boton Votar" xml:space="preserve">
     <value>Vote the App</value>
@@ -180,11 +183,23 @@
   <data name="Como Funciona" xml:space="preserve">
     <value>How does it work?</value>
   </data>
+  <data name="Consejo Config" xml:space="preserve">
+    <value>Before adding categories you must add your Steam account, the location and load the categories in the application</value>
+  </data>
   <data name="Generos" xml:space="preserve">
     <value>Genres</value>
   </data>
+  <data name="Grid Arranque" xml:space="preserve">
+    <value>Select window where start</value>
+  </data>
   <data name="Idiomas" xml:space="preserve">
     <value>Languages</value>
+  </data>
+  <data name="No Juegos" xml:space="preserve">
+    <value>Categories have not been loaded in the app</value>
+  </data>
+  <data name="RSS" xml:space="preserve">
+    <value>Latest News</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>
@@ -212,8 +227,5 @@
   </data>
   <data name="Texto Steam Config Cuenta" xml:space="preserve">
     <value>Add your Steam Community account:</value>
-  </data>
-  <data name="Twitter" xml:space="preserve">
-    <value>Show latest news from @pepeizqapps</value>
   </data>
 </root>

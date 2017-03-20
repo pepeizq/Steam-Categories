@@ -6,7 +6,13 @@ Imports Windows.Storage.Pickers
 
 Module Steam
 
-    Public Async Sub ArranqueCliente(tbConfigPath As TextBlock, buttonConfigPath As TextBlock, picker As Boolean)
+    Public Async Sub ArranqueCliente(picker As Boolean)
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim tbConfigPath As TextBlock = pagina.FindName("tbSteamConfigPath")
+        Dim buttonConfigPath As TextBlock = pagina.FindName("buttonSteamConfigPathTexto")
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim carpeta As StorageFolder = Nothing
@@ -36,6 +42,9 @@ Module Steam
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace("SteamPath", carpeta)
                     tbConfigPath.Text = carpeta.Path
                     buttonConfigPath.Text = recursos.GetString("Boton Cambiar")
+
+                    Dim botonBorrarCategorias As Button = pagina.FindName("buttonBorrarCategorias")
+                    botonBorrarCategorias.IsEnabled = True
                 End If
             End If
         Catch ex As Exception
