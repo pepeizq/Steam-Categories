@@ -102,7 +102,11 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
-        RSS.Generar()
+        Try
+            RSS.Generar()
+        Catch ex As Exception
+
+        End Try
 
         Steam.ArranqueCliente(False)
         Steam.ArranqueCuenta(tbSteamConfigCuenta, prSteamConfigCuenta)
