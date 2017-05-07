@@ -121,7 +121,7 @@
     <value>If you have hundreds or thousands of games the load will take minutes</value>
   </data>
   <data name="Aviso Steam" xml:space="preserve">
-    <value>Steam must be closed for both options</value>
+    <value>Steam must be closed</value>
   </data>
   <data name="Año Lanzamiento" xml:space="preserve">
     <value>Release Year</value>
@@ -137,6 +137,9 @@
   </data>
   <data name="Boton Borrar Categorias" xml:space="preserve">
     <value>Delete Categories in Steam</value>
+  </data>
+  <data name="Boton Borrar Categorias App" xml:space="preserve">
+    <value>Delete Categories in the App</value>
   </data>
   <data name="Boton Cambiar" xml:space="preserve">
     <value>Change</value>
@@ -196,7 +199,7 @@
     <value>Languages</value>
   </data>
   <data name="No Juegos" xml:space="preserve">
-    <value>Categories have not been loaded in the app</value>
+    <value>Categories have not been loaded in the app, go to Configuration</value>
   </data>
   <data name="RSS" xml:space="preserve">
     <value>Latest News</value>

@@ -109,46 +109,46 @@ Module Steam
                 steamID = temp2.Trim
             End If
 
-            If html.Contains("image_src") Then
-                Dim temp, temp2, temp3 As String
-                Dim int, int2, int3 As Integer
+            'If html.Contains("image_src") Then
+            '    Dim temp, temp2, temp3 As String
+            '    Dim int, int2, int3 As Integer
 
-                int = html.IndexOf("image_src")
-                temp = html.Remove(0, int + 10)
+            '    int = html.IndexOf("image_src")
+            '    temp = html.Remove(0, int + 10)
 
-                int2 = temp.IndexOf(ChrW(34))
-                temp2 = temp.Remove(0, int2 + 1)
+            '    int2 = temp.IndexOf(ChrW(34))
+            '    temp2 = temp.Remove(0, int2 + 1)
 
-                int3 = temp2.IndexOf(ChrW(34))
-                temp3 = temp2.Remove(int3, temp2.Length - int3)
+            '    int3 = temp2.IndexOf(ChrW(34))
+            '    temp3 = temp2.Remove(int3, temp2.Length - int3)
 
-                Dim frame As Frame = Window.Current.Content
-                Dim pagina As Page = frame.Content
-                Dim imagen As ImageEx = pagina.FindName("imageCuenta")
+            '    Dim frame As Frame = Window.Current.Content
+            '    Dim pagina As Page = frame.Content
+            '    Dim imagen As ImageEx = pagina.FindName("imageCuenta")
 
-                imagen.Source = New BitmapImage(New Uri(temp3, UriKind.Absolute))
-            End If
+            '    imagen.Source = New BitmapImage(New Uri(temp3, UriKind.Absolute))
+            'End If
 
-            If html.Contains(ChrW(34) + "personaname" + ChrW(34)) Then
-                Dim temp, temp2 As String
-                Dim int, int2 As Integer
+            'If html.Contains(ChrW(34) + "personaname" + ChrW(34)) Then
+            '    Dim temp, temp2 As String
+            '    Dim int, int2 As Integer
 
-                int = html.IndexOf(ChrW(34) + "personaname" + ChrW(34))
-                temp = html.Remove(0, int)
+            '    int = html.IndexOf(ChrW(34) + "personaname" + ChrW(34))
+            '    temp = html.Remove(0, int)
 
-                int2 = temp.IndexOf(",")
-                temp2 = temp.Remove(int2, temp.Length - int2)
+            '    int2 = temp.IndexOf(",")
+            '    temp2 = temp.Remove(int2, temp.Length - int2)
 
-                temp2 = temp2.Replace("personaname", "")
-                temp2 = temp2.Replace(":", "")
-                temp2 = temp2.Replace(ChrW(34), "")
+            '    temp2 = temp2.Replace("personaname", "")
+            '    temp2 = temp2.Replace(":", "")
+            '    temp2 = temp2.Replace(ChrW(34), "")
 
-                Dim frame As Frame = Window.Current.Content
-                Dim pagina As Page = frame.Content
-                Dim tbNombre As TextBlock = pagina.FindName("tbCuentaNombre")
+            '    Dim frame As Frame = Window.Current.Content
+            '    Dim pagina As Page = frame.Content
+            '    Dim tbNombre As TextBlock = pagina.FindName("tbCuentaNombre")
 
-                tbNombre.Text = temp2.Trim
-            End If
+            '    tbNombre.Text = temp2.Trim
+            'End If
         End If
 
         html = Await Decompiladores.HttpClient(New Uri("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=488AE837ADDDA0201B51693B28F1B389&steamid=" + steamID + "&format=json"))

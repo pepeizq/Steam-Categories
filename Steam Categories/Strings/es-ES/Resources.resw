@@ -121,7 +121,7 @@
     <value>Si tienes cientos o miles de juegos la carga tardara minutos</value>
   </data>
   <data name="Aviso Steam" xml:space="preserve">
-    <value>Steam debe estar cerrado para ambas opciones</value>
+    <value>Steam debe estar cerrado</value>
   </data>
   <data name="Año Lanzamiento" xml:space="preserve">
     <value>Año de Lanzamiento</value>
@@ -138,11 +138,14 @@
   <data name="Boton Borrar Categorias" xml:space="preserve">
     <value>Borrar Categorías en Steam</value>
   </data>
+  <data name="Boton Borrar Categorias App" xml:space="preserve">
+    <value>Borrar Categorías en la Aplicación</value>
+  </data>
   <data name="Boton Cambiar" xml:space="preserve">
     <value>Cambiar</value>
   </data>
   <data name="Boton Carga Categorias" xml:space="preserve">
-    <value>Cargar Categorías en la App</value>
+    <value>Cargar Categorías en la Aplicación</value>
   </data>
   <data name="Boton Compartir" xml:space="preserve">
     <value>Compartir</value>
@@ -166,7 +169,7 @@
     <value>Más Apps</value>
   </data>
   <data name="Cargado Si" xml:space="preserve">
-    <value>Juegos cargados en la app</value>
+    <value>Juegos cargados en la aplicación</value>
   </data>
   <data name="Categorias" xml:space="preserve">
     <value>Categorías</value>
@@ -196,7 +199,7 @@
     <value>Idiomas</value>
   </data>
   <data name="No Juegos" xml:space="preserve">
-    <value>No se han cargado las categorías en la aplicación</value>
+    <value>No se han cargado las categorías en la aplicación, ve a Configuración</value>
   </data>
   <data name="RSS" xml:space="preserve">
     <value>Últimas Noticias</value>

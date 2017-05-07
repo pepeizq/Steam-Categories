@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.Toolkit.Uwp
 Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Windows.ApplicationModel.Core
 Imports Windows.ApplicationModel.DataTransfer
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
@@ -11,37 +12,29 @@ Public NotInheritable Class MainPage
 
     Private Async Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
 
-        Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
+        'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
+        'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        barra.BackgroundColor = Colors.DarkBlue
-        barra.ForegroundColor = Colors.White
-        barra.InactiveForegroundColor = Colors.White
-        barra.ButtonBackgroundColor = Colors.DarkBlue
+        Acrilico.Generar(gridTopAcrilico)
+        Acrilico.Generar(gridMenuAcrilico)
+
+        Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
+        barra.ButtonBackgroundColor = Colors.Transparent
         barra.ButtonForegroundColor = Colors.White
-        barra.ButtonInactiveForegroundColor = Colors.White
+        barra.ButtonPressedBackgroundColor = Colors.DarkBlue
+        barra.ButtonInactiveBackgroundColor = Colors.Transparent
+        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
+        coreBarra.ExtendViewIntoTitleBar = True
 
         '--------------------------------------------------------
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
-        botonInicioTexto.Text = recursos.GetString("Boton Inicio")
         botonCategoriasTexto.Text = recursos.GetString("Categorias")
         botonConfigTexto.Text = recursos.GetString("Boton Config")
+        botonVotarTexto.Text = recursos.GetString("Boton Votar")
+        botonMasAppsTexto.Text = recursos.GetString("Boton Web")
 
-        commadBarTop.DefaultLabelPosition = CommandBarDefaultLabelPosition.Right
-
-        botonInicioVotarTexto.Text = recursos.GetString("Boton Votar")
-        botonInicioCompartirTexto.Text = recursos.GetString("Boton Compartir")
-        botonInicioContactoTexto.Text = recursos.GetString("Boton Contactar")
-        botonInicioMasAppsTexto.Text = recursos.GetString("Boton Web")
-
-        tbRSS.Text = recursos.GetString("RSS")
-
-        tbJuegosCuentaMensaje.Text = recursos.GetString("Texto Juegos Cuenta")
-        tbJuegosAppMensaje.Text = recursos.GetString("Texto Juegos App")
-
-        buttonCargaCategoriasTexto.Text = recursos.GetString("Boton Carga Categorias")
-        buttonCargaCategoriasTooltip.Text = recursos.GetString("Aviso Carga")
         buttonEscribirCategoriasTexto.Text = recursos.GetString("Boton Escribir Categorias")
         buttonBorrarCategoriasTexto.Text = recursos.GetString("Boton Borrar Categorias")
         tbAvisoSteamCerrado.Text = recursos.GetString("Aviso Steam")
@@ -64,52 +57,23 @@ Public NotInheritable Class MainPage
 
         tbNoJuegos.Text = recursos.GetString("No Juegos")
 
-        tbConfig.Text = recursos.GetString("Boton Config")
+        botonConfigCategoriasTexto.Text = recursos.GetString("Categorias")
         tbSteamConfigInstruccionesCliente.Text = recursos.GetString("Texto Steam Config Cliente")
         buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
         tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
         tbSteamConfigInstruccionesCuenta.Text = recursos.GetString("Texto Steam Config Cuenta")
+        buttonCargaCategoriasTexto.Text = recursos.GetString("Boton Carga Categorias")
+        tbCargaCategoriasAviso.Text = recursos.GetString("Aviso Carga")
+        tbJuegosCuentaMensaje.Text = recursos.GetString("Texto Juegos Cuenta")
+        tbJuegosAppMensaje.Text = recursos.GetString("Texto Juegos App")
+        tbBorrarCategoriasAppTexto.Text = recursos.GetString("Boton Borrar Categorias App")
 
         '----------------------------------------------
 
-        tbConsejoConfig.Text = recursos.GetString("Consejo Config")
-        tbInicioGrid.Text = recursos.GetString("Grid Arranque")
-
-        cbItemArranqueInicio.Content = recursos.GetString("Boton Inicio")
-        cbItemArranqueCategorias.Content = recursos.GetString("Categorias")
-        cbItemArranqueConfig.Content = recursos.GetString("Boton Config")
-
-        If ApplicationData.Current.LocalSettings.Values("cbarranque") = Nothing Then
-            cbArranque.SelectedIndex = 0
-            ApplicationData.Current.LocalSettings.Values("cbarranque") = "0"
-        Else
-            cbArranque.SelectedIndex = ApplicationData.Current.LocalSettings.Values("cbarranque")
-
-            If cbArranque.SelectedIndex = 0 Then
-                GridVisibilidad(gridInicio, botonInicio, Nothing)
-            ElseIf cbArranque.SelectedIndex = 1 Then
-                GridVisibilidad(gridCategorias, botonCategorias, Nothing)
-                GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
-            ElseIf cbArranque.SelectedIndex = 2 Then
-                GridVisibilidad(Nothing, botonConfig, gridConfig)
-            Else
-                GridVisibilidad(gridInicio, botonInicio, Nothing)
-            End If
-        End If
-
-        tbVersionApp.Text = "App " + SystemInformation.ApplicationVersion.Major.ToString + "." + SystemInformation.ApplicationVersion.Minor.ToString + "." + SystemInformation.ApplicationVersion.Build.ToString + "." + SystemInformation.ApplicationVersion.Revision.ToString
-        tbVersionWindows.Text = "Windows " + SystemInformation.OperatingSystemVersion.Major.ToString + "." + SystemInformation.OperatingSystemVersion.Minor.ToString + "." + SystemInformation.OperatingSystemVersion.Build.ToString + "." + SystemInformation.OperatingSystemVersion.Revision.ToString
-
-        '--------------------------------------------------------
-
-        Try
-            RSS.Generar()
-        Catch ex As Exception
-
-        End Try
-
         Steam.ArranqueCliente(False)
         Steam.ArranqueCuenta(tbSteamConfigCuenta, prSteamConfigCuenta)
+        GridVisibilidad(gridCategorias, botonCategorias, recursos.GetString("Categorias"))
+        GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
 
         '--------------------------------------------------------
 
@@ -153,15 +117,17 @@ Public NotInheritable Class MainPage
         If Await helper.FileExistsAsync("lista") = True Then
             listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("lista")
 
-            If listaJuegos.Count > 0 Then
-                GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
+            If Not listaJuegos Is Nothing Then
+                If listaJuegos.Count > 0 Then
+                    GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
 
-                gridSeleccionCategorias.Children.Add(Listado.GenerarCategorias(listaJuegos))
-                gridSeleccionGeneros.Children.Add(Listado.GenerarGeneros(listaJuegos))
-                gridSeleccionTags.Children.Add(Listado.GenerarTags(listaJuegos))
-                gridSeleccionIdiomas.Children.Add(Listado.GenerarIdiomas(listaJuegos))
+                    gridSeleccionCategorias.Children.Add(Listado.GenerarCategorias(listaJuegos))
+                    gridSeleccionGeneros.Children.Add(Listado.GenerarGeneros(listaJuegos))
+                    gridSeleccionTags.Children.Add(Listado.GenerarTags(listaJuegos))
+                    gridSeleccionIdiomas.Children.Add(Listado.GenerarIdiomas(listaJuegos))
 
-                tbJuegosApp.Text = listaJuegos.Count.ToString
+                    tbJuegosApp.Text = listaJuegos.Count.ToString
+                End If
             End If
         End If
 
@@ -175,87 +141,54 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub GridVisibilidad(grid As Grid, boton As AppBarButton, sp As StackPanel)
+    Private Sub GridVisibilidad(grid As Grid, boton As Button, seccion As String)
 
-        gridInicio.Visibility = Visibility.Collapsed
+        tbTitulo.Text = "Steam Categories (" + SystemInformation.ApplicationVersion.Major.ToString + "." + SystemInformation.ApplicationVersion.Minor.ToString + "." + SystemInformation.ApplicationVersion.Build.ToString + "." + SystemInformation.ApplicationVersion.Revision.ToString + ") - " + seccion
+
         gridCategorias.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
-        gridWeb.Visibility = Visibility.Collapsed
 
-        If Not sp Is Nothing Then
-            sp.Visibility = Visibility.Visible
-        Else
-            grid.Visibility = Visibility.Visible
-        End If
+        grid.Visibility = Visibility.Visible
 
-        botonInicio.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonInicio.BorderThickness = New Thickness(0, 0, 0, 0)
-        botonCategorias.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonCategorias.BorderThickness = New Thickness(0, 0, 0, 0)
-        botonConfig.BorderBrush = New SolidColorBrush(Colors.Transparent)
-        botonConfig.BorderThickness = New Thickness(0, 0, 0, 0)
+        botonCategorias.Background = New SolidColorBrush(Colors.Transparent)
+        botonConfig.Background = New SolidColorBrush(Colors.Transparent)
 
         If Not boton Is Nothing Then
-            boton.BorderBrush = New SolidColorBrush(Colors.White)
-            boton.BorderThickness = New Thickness(0, 2, 0, 0)
+            boton.Background = New SolidColorBrush(Colors.SteelBlue)
         End If
 
     End Sub
 
-    Private Sub BotonInicio_Click(sender As Object, e As RoutedEventArgs) Handles botonInicio.Click
+    Private Sub BotonCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonCategorias.Click
 
-        GridVisibilidad(gridInicio, botonInicio, Nothing)
-
-    End Sub
-
-    Private Sub BotonTilesSteam_Click(sender As Object, e As RoutedEventArgs) Handles botonCategorias.Click
-
-        GridVisibilidad(gridCategorias, botonCategorias, Nothing)
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        GridVisibilidad(gridCategorias, botonCategorias, recursos.GetString("Categorias"))
         GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
 
     End Sub
 
     Private Sub BotonConfig_Click(sender As Object, e As RoutedEventArgs) Handles botonConfig.Click
 
-        GridVisibilidad(Nothing, botonConfig, gridConfig)
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        GridVisibilidad(gridConfig, botonConfig, recursos.GetString("Boton Config"))
+        GridVisibilidadConfig(gridConfigCategorias, botonConfigCategorias)
 
     End Sub
 
-    Private Async Sub BotonInicioVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonInicioVotar.Click
+    Private Async Sub BotonVotar_Click(sender As Object, e As RoutedEventArgs) Handles botonVotar.Click
 
         Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
 
     End Sub
 
-    Private Sub BotonInicioCompartir_Click(sender As Object, e As RoutedEventArgs) Handles botonInicioCompartir.Click
+    Private Sub BotonMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonMasApps.Click
 
-        Dim datos As DataTransferManager = DataTransferManager.GetForCurrentView()
-        AddHandler datos.DataRequested, AddressOf MainPage_DataRequested
-        DataTransferManager.ShowShareUI()
-
-    End Sub
-
-    Private Sub MainPage_DataRequested(sender As DataTransferManager, e As DataRequestedEventArgs)
-
-        Dim request As DataRequest = e.Request
-        request.Data.SetText("Download: https://www.microsoft.com/store/apps/9p54scg1n6bm")
-        request.Data.Properties.Title = "Steam Categories"
-        request.Data.Properties.Description = "Add categories for your Steam games"
-
-    End Sub
-
-    Private Sub BotonInicioContacto_Click(sender As Object, e As RoutedEventArgs) Handles botonInicioContacto.Click
-
-        GridVisibilidad(gridWeb, Nothing, Nothing)
-
-    End Sub
-
-    Private Sub BotonInicioMasApps_Click(sender As Object, e As RoutedEventArgs) Handles botonInicioMasApps.Click
-
-        If spMasApps.Visibility = Visibility.Visible Then
-            spMasApps.Visibility = Visibility.Collapsed
+        If popupMasApps.IsOpen = True Then
+            botonMasApps.Background = New SolidColorBrush(Colors.Transparent)
+            popupMasApps.IsOpen = False
         Else
-            spMasApps.Visibility = Visibility.Visible
+            botonMasApps.Background = New SolidColorBrush(Colors.SteelBlue)
+            popupMasApps.IsOpen = True
         End If
 
     End Sub
@@ -284,38 +217,258 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub LvRSSUpdates_ItemClick(sender As Object, e As ItemClickEventArgs) Handles lvRSSUpdates.ItemClick
+    'CATEGORIAS--------------------------------------------------------------
 
-        Dim feed As FeedRSS = e.ClickedItem
-        Await Launcher.LaunchUriAsync(feed.Enlace)
+    Private Sub ButtonEscribirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonEscribirCategorias.Click
 
-    End Sub
-
-    Private Sub CbArranque_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles cbArranque.SelectionChanged
-
-        ApplicationData.Current.LocalSettings.Values("cbarranque") = cbArranque.SelectedIndex
+        Steam.EscribirCategorias(listaJuegos, buttonEscribirCategorias)
 
     End Sub
 
-    Private Async Sub BotonSocialTwitter_Click(sender As Object, e As RoutedEventArgs) Handles botonSocialTwitter.Click
+    Private Sub ButtonEscribirCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles buttonEscribirCategorias.PointerEntered
 
-        Await Launcher.LaunchUriAsync(New Uri("https://twitter.com/pepeizqapps"))
-
-    End Sub
-
-    Private Async Sub BotonSocialGitHub_Click(sender As Object, e As RoutedEventArgs) Handles botonSocialGitHub.Click
-
-        Await Launcher.LaunchUriAsync(New Uri("https://github.com/pepeizq"))
+        panelAviso.HorizontalAlignment = HorizontalAlignment.Left
+        panelAviso.Visibility = Visibility.Visible
 
     End Sub
 
-    Private Async Sub BotonSocialPaypal_Click(sender As Object, e As RoutedEventArgs) Handles botonSocialPaypal.Click
+    Private Sub ButtonEscribirCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles buttonEscribirCategorias.PointerExited
 
-        Await Launcher.LaunchUriAsync(New Uri("https://paypal.me/pepeizq/1"))
+        panelAviso.Visibility = Visibility.Collapsed
+
+    End Sub
+
+    Private Sub ButtonBorrarCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonBorrarCategorias.Click
+
+        Steam.BorrarCategorias(buttonBorrarCategorias)
+
+    End Sub
+
+    Private Sub ButtonBorrarCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles buttonBorrarCategorias.PointerEntered
+
+        panelAviso.HorizontalAlignment = HorizontalAlignment.Right
+        panelAviso.Visibility = Visibility.Visible
+
+    End Sub
+
+    Private Sub ButtonBorrarCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles buttonBorrarCategorias.PointerExited
+
+        panelAviso.Visibility = Visibility.Collapsed
 
     End Sub
 
     '--------------------------------------------------------------
+
+    Private Async Sub GridSeleccionVisibilidad(grid As Grid, boton As Button)
+
+        If Not boton Is Nothing Then
+            buttonSeleccionUserscore.Background = New SolidColorBrush(Colors.Transparent)
+            buttonSeleccionMetascore.Background = New SolidColorBrush(Colors.Transparent)
+            buttonSeleccionAños.Background = New SolidColorBrush(Colors.Transparent)
+            buttonSeleccionCategorias.Background = New SolidColorBrush(Colors.Transparent)
+            buttonSeleccionGeneros.Background = New SolidColorBrush(Colors.Transparent)
+            buttonSeleccionTags.Background = New SolidColorBrush(Colors.Transparent)
+            buttonSeleccionIdiomas.Background = New SolidColorBrush(Colors.Transparent)
+
+            boton.Background = New SolidColorBrush(Colors.DarkBlue)
+        End If
+
+        gridSeleccionUserscore.Visibility = Visibility.Collapsed
+        gridSeleccionMetascore.Visibility = Visibility.Collapsed
+        gridSeleccionAños.Visibility = Visibility.Collapsed
+        gridSeleccionCategorias.Visibility = Visibility.Collapsed
+        gridSeleccionGeneros.Visibility = Visibility.Collapsed
+        gridSeleccionTags.Visibility = Visibility.Collapsed
+        gridSeleccionIdiomas.Visibility = Visibility.Collapsed
+        gridNoJuegosCargados.Visibility = Visibility.Collapsed
+
+        Dim noCategorias As Boolean = False
+        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+
+        If Await helper.FileExistsAsync("lista") = True Then
+            listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("lista")
+
+            If Not listaJuegos Is Nothing Then
+                If listaJuegos.Count = 0 Then
+                    noCategorias = True
+                End If
+            Else
+                noCategorias = True
+            End If
+        Else
+            noCategorias = True
+        End If
+
+        If noCategorias = False Then
+            grid.Visibility = Visibility.Visible
+        Else
+            gridNoJuegosCargados.Visibility = Visibility.Visible
+        End If
+
+    End Sub
+
+    Private Sub ButtonSeleccionUserscore_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionUserscore.Click
+
+        GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
+
+    End Sub
+
+    Private Sub ButtonSeleccionMetascore_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionMetascore.Click
+
+        GridSeleccionVisibilidad(gridSeleccionMetascore, buttonSeleccionMetascore)
+
+    End Sub
+
+    Private Sub ButtonSeleccionAños_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionAños.Click
+
+        GridSeleccionVisibilidad(gridSeleccionAños, buttonSeleccionAños)
+
+    End Sub
+
+    Private Sub ButtonSeleccionCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionCategorias.Click
+
+        GridSeleccionVisibilidad(gridSeleccionCategorias, buttonSeleccionCategorias)
+
+    End Sub
+
+    Private Sub ButtonSeleccionGeneros_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionGeneros.Click
+
+        GridSeleccionVisibilidad(gridSeleccionGeneros, buttonSeleccionGeneros)
+
+    End Sub
+
+    Private Sub ButtonSeleccionTags_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionTags.Click
+
+        GridSeleccionVisibilidad(gridSeleccionTags, buttonSeleccionTags)
+
+    End Sub
+
+    Private Sub ButtonSeleccionIdiomas_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionIdiomas.Click
+
+        GridSeleccionVisibilidad(gridSeleccionIdiomas, buttonSeleccionIdiomas)
+
+    End Sub
+
+    '--------------------------------------------------------------
+
+    Private Sub CbSeleccionUserscore_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionUserscore.Checked
+
+        CbSeleccionChecked("/*/userscore/*/")
+
+    End Sub
+
+    Private Sub CbSeleccionUserscore_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionUserscore.Unchecked
+
+        CbSeleccionUnChecked("/*/userscore/*/")
+
+    End Sub
+
+    Private Sub CbSeleccionMetascore_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionMetascore.Checked
+
+        CbSeleccionChecked("/*/metascore/*/")
+
+    End Sub
+
+    Private Sub CbSeleccionMetascore_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionMetascore.Unchecked
+
+        CbSeleccionUnChecked("/*/metascore/*/")
+
+    End Sub
+
+    Private Sub CbSeleccionAños_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionAños.Checked
+
+        CbSeleccionChecked("/*/años/*/")
+
+    End Sub
+
+    Private Sub CbSeleccionAños_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionAños.Unchecked
+
+        CbSeleccionUnChecked("/*/años/*/")
+
+    End Sub
+
+    Private Async Sub CbSeleccionChecked(categoria As String)
+
+        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Dim listaCategorias As List(Of String)
+
+        If Await helper.FileExistsAsync("listaCategorias") = True Then
+            listaCategorias = Await helper.ReadFileAsync(Of List(Of String))("listaCategorias")
+        Else
+            listaCategorias = New List(Of String)
+        End If
+
+        listaCategorias.Add(categoria)
+
+        If listaCategorias.Count > 0 Then
+            buttonEscribirCategorias.IsEnabled = True
+        End If
+
+        Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
+
+    End Sub
+
+    Private Async Sub CbSeleccionUnChecked(categoria As String)
+
+        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+
+        If Await helper.FileExistsAsync("listaCategorias") = True Then
+            Dim listaCategorias As List(Of String) = Await helper.ReadFileAsync(Of List(Of String))("listaCategorias")
+
+            listaCategorias.Remove(categoria)
+
+            If listaCategorias.Count = 0 Then
+                buttonEscribirCategorias.IsEnabled = False
+            End If
+
+            Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
+        End If
+
+    End Sub
+
+    Private Sub ExpanderUserscore_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles expanderUserscore.SizeChanged
+
+        If expanderUserscore.IsExpanded = True Then
+            ApplicationData.Current.LocalSettings.Values("expanderUserscore") = "on"
+        Else
+            ApplicationData.Current.LocalSettings.Values("expanderUserscore") = "off"
+        End If
+
+    End Sub
+
+    Private Sub ExpanderMetascore_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles expanderMetascore.SizeChanged
+
+        If expanderMetascore.IsExpanded = True Then
+            ApplicationData.Current.LocalSettings.Values("expanderMetascore") = "on"
+        Else
+            ApplicationData.Current.LocalSettings.Values("expanderMetascore") = "off"
+        End If
+
+    End Sub
+
+    Private Sub ExpanderAños_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles expanderAños.SizeChanged
+
+        If expanderAños.IsExpanded = True Then
+            ApplicationData.Current.LocalSettings.Values("expanderAños") = "on"
+        Else
+            ApplicationData.Current.LocalSettings.Values("expanderAños") = "off"
+        End If
+
+    End Sub
+
+    'CONFIG--------------------------------------------------------------
+
+    Private Sub GridVisibilidadConfig(grid As Grid, boton As Button)
+
+        gridConfigCategorias.Visibility = Visibility.Collapsed
+
+        grid.Visibility = Visibility.Visible
+
+        botonConfigCategorias.Background = New SolidColorBrush(Colors.Transparent)
+
+        boton.Background = New SolidColorBrush(Colors.DarkBlue)
+
+    End Sub
 
     Private Sub ButtonSteamConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonSteamConfigPath.Click
 
@@ -329,7 +482,17 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    '--------------------------------------------------------------
+    Private Sub ButtonCargaCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles buttonCargaCategorias.PointerEntered
+
+        panelAvisoCargaCategorias.Visibility = Visibility.Visible
+
+    End Sub
+
+    Private Sub ButtonCargaCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles buttonCargaCategorias.PointerExited
+
+        panelAvisoCargaCategorias.Visibility = Visibility.Collapsed
+
+    End Sub
 
     Dim listaJuegos As List(Of Juego)
 
@@ -339,6 +502,7 @@ Public NotInheritable Class MainPage
         prProgreso.IsIndeterminate = False
         buttonCargaCategorias.IsEnabled = False
         buttonBorrarCategorias.IsEnabled = False
+        buttonBorrarCategoriasApp.IsEnabled = False
         buttonSteamConfigPath.IsEnabled = False
         tbSteamConfigCuenta.IsEnabled = False
 
@@ -800,225 +964,25 @@ Public NotInheritable Class MainPage
         gridProgreso.Visibility = Visibility.Collapsed
         buttonCargaCategorias.IsEnabled = True
         buttonBorrarCategorias.IsEnabled = True
+        buttonBorrarCategoriasApp.IsEnabled = True
         buttonSteamConfigPath.IsEnabled = True
         tbSteamConfigCuenta.IsEnabled = True
 
     End Sub
 
-    Private Sub ButtonEscribirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonEscribirCategorias.Click
-
-        Steam.EscribirCategorias(listaJuegos, buttonEscribirCategorias)
-
-    End Sub
-
-    Private Sub ButtonBorrarCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonBorrarCategorias.Click
-
-        Steam.BorrarCategorias(buttonBorrarCategorias)
-
-    End Sub
-
-    '--------------------------------------------------------------
-
-    Private Async Sub GridSeleccionVisibilidad(grid As Grid, boton As Button)
-
-        If Not boton Is Nothing Then
-            buttonSeleccionUserscore.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionUserscore.BorderBrush = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionMetascore.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionMetascore.BorderBrush = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionAños.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionAños.BorderBrush = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionCategorias.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionCategorias.BorderBrush = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionGeneros.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionGeneros.BorderBrush = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionTags.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionTags.BorderBrush = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionIdiomas.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionIdiomas.BorderBrush = New SolidColorBrush(Colors.Transparent)
-
-            boton.Background = New SolidColorBrush(Colors.DarkBlue)
-            boton.BorderBrush = New SolidColorBrush(Colors.White)
-        End If
-
-        gridSeleccionUserscore.Visibility = Visibility.Collapsed
-        gridSeleccionMetascore.Visibility = Visibility.Collapsed
-        gridSeleccionAños.Visibility = Visibility.Collapsed
-        gridSeleccionCategorias.Visibility = Visibility.Collapsed
-        gridSeleccionGeneros.Visibility = Visibility.Collapsed
-        gridSeleccionTags.Visibility = Visibility.Collapsed
-        gridSeleccionIdiomas.Visibility = Visibility.Collapsed
-        gridNoJuegosCargados.Visibility = Visibility.Collapsed
-
-        Dim noCategorias As Boolean = False
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-
-        If Await helper.FileExistsAsync("lista") = True Then
-            listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("lista")
-
-            If listaJuegos.Count = 0 Then
-                noCategorias = True
-            End If
-        Else
-            noCategorias = True
-        End If
-
-        If noCategorias = False Then
-            grid.Visibility = Visibility.Visible
-        Else
-            gridNoJuegosCargados.Visibility = Visibility.Visible
-        End If
-
-    End Sub
-
-    Private Sub ButtonSeleccionUserscore_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionUserscore.Click
-
-        GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
-
-    End Sub
-
-    Private Sub ButtonSeleccionMetascore_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionMetascore.Click
-
-        GridSeleccionVisibilidad(gridSeleccionMetascore, buttonSeleccionMetascore)
-
-    End Sub
-
-    Private Sub ButtonSeleccionAños_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionAños.Click
-
-        GridSeleccionVisibilidad(gridSeleccionAños, buttonSeleccionAños)
-
-    End Sub
-
-    Private Sub ButtonSeleccionCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionCategorias.Click
-
-        GridSeleccionVisibilidad(gridSeleccionCategorias, buttonSeleccionCategorias)
-
-    End Sub
-
-    Private Sub ButtonSeleccionGeneros_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionGeneros.Click
-
-        GridSeleccionVisibilidad(gridSeleccionGeneros, buttonSeleccionGeneros)
-
-    End Sub
-
-    Private Sub ButtonSeleccionTags_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionTags.Click
-
-        GridSeleccionVisibilidad(gridSeleccionTags, buttonSeleccionTags)
-
-    End Sub
-
-    Private Sub ButtonSeleccionIdiomas_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionIdiomas.Click
-
-        GridSeleccionVisibilidad(gridSeleccionIdiomas, buttonSeleccionIdiomas)
-
-    End Sub
-
-    '--------------------------------------------------------------
-
-    Private Sub CbSeleccionUserscore_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionUserscore.Checked
-
-        cbSeleccionChecked("/*/userscore/*/")
-
-    End Sub
-
-    Private Sub CbSeleccionUserscore_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionUserscore.Unchecked
-
-        cbSeleccionUnChecked("/*/userscore/*/")
-
-    End Sub
-
-    Private Sub CbSeleccionMetascore_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionMetascore.Checked
-
-        cbSeleccionChecked("/*/metascore/*/")
-
-    End Sub
-
-    Private Sub CbSeleccionMetascore_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionMetascore.Unchecked
-
-        cbSeleccionUnChecked("/*/metascore/*/")
-
-    End Sub
-
-    Private Sub CbSeleccionAños_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionAños.Checked
-
-        cbSeleccionChecked("/*/años/*/")
-
-    End Sub
-
-    Private Sub CbSeleccionAños_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionAños.Unchecked
-
-        cbSeleccionUnChecked("/*/años/*/")
-
-    End Sub
-
-    Private Async Sub CbSeleccionChecked(categoria As String)
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        Dim listaCategorias As List(Of String)
-
-        If Await helper.FileExistsAsync("listaCategorias") = True Then
-            listaCategorias = Await helper.ReadFileAsync(Of List(Of String))("listaCategorias")
-        Else
-            listaCategorias = New List(Of String)
-        End If
-
-        listaCategorias.Add(categoria)
-
-        If listaCategorias.Count > 0 Then
-            buttonEscribirCategorias.IsEnabled = True
-        End If
-
-        Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
-
-    End Sub
-
-    Private Async Sub CbSeleccionUnChecked(categoria As String)
+    Private Async Sub ButtonBorrarCategoriasApp_Click(sender As Object, e As RoutedEventArgs) Handles buttonBorrarCategoriasApp.Click
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
 
-        If Await helper.FileExistsAsync("listaCategorias") = True Then
-            Dim listaCategorias As List(Of String) = Await helper.ReadFileAsync(Of List(Of String))("listaCategorias")
+        Dim lista As New List(Of Juego)
+        Await helper.SaveFileAsync(Of List(Of Juego))("lista", lista)
 
-            listaCategorias.Remove(categoria)
+        gridSeleccionCategorias.Children.Clear()
+        gridSeleccionGeneros.Children.Clear()
+        gridSeleccionTags.Children.Clear()
+        gridSeleccionIdiomas.Children.Clear()
 
-            If listaCategorias.Count = 0 Then
-                buttonEscribirCategorias.IsEnabled = False
-            End If
-
-            Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
-        End If
+        tbJuegosApp.Text = 0
 
     End Sub
-
-    Private Sub ExpanderUserscore_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles expanderUserscore.SizeChanged
-
-        If expanderUserscore.IsExpanded = True Then
-            ApplicationData.Current.LocalSettings.Values("expanderUserscore") = "on"
-        Else
-            ApplicationData.Current.LocalSettings.Values("expanderUserscore") = "off"
-        End If
-
-    End Sub
-
-    Private Sub ExpanderMetascore_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles expanderMetascore.SizeChanged
-
-        If expanderMetascore.IsExpanded = True Then
-            ApplicationData.Current.LocalSettings.Values("expanderMetascore") = "on"
-        Else
-            ApplicationData.Current.LocalSettings.Values("expanderMetascore") = "off"
-        End If
-
-    End Sub
-
-    Private Sub ExpanderAños_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles expanderAños.SizeChanged
-
-        If expanderAños.IsExpanded = True Then
-            ApplicationData.Current.LocalSettings.Values("expanderAños") = "on"
-        Else
-            ApplicationData.Current.LocalSettings.Values("expanderAños") = "off"
-        End If
-
-    End Sub
-
-
 End Class
