@@ -238,6 +238,6 @@
     <value>Añade la carpeta donde Steam está instalado, ejemplo: C:\Steam</value>
   </data>
   <data name="Texto Steam Config Cuenta" xml:space="preserve">
-    <value>Añade tu cuenta de Steam Community:</value>
+    <value>Añade tu cuenta de Steam Community, ejemplo: http://steamcommunity.com/id/pepeizq/</value>
   </data>
 </root>
