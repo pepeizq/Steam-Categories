@@ -61,20 +61,26 @@ Module Steam
 
     Public Sub ArranqueCuenta(tb As TextBox, pr As ProgressRing)
 
-        tb.IsEnabled = False
         tb_ = tb
-
-        pr.Visibility = Visibility.Visible
         pr_ = pr
-
-        If tb.Text = Nothing Then
-            tb.Text = "http://steamcommunity.com/id/pepeizq/"
-        End If
-
         cuenta = tb.Text
 
         wb = New WebView
-        wb.Navigate(New Uri(cuenta))
+
+        If Not cuenta = Nothing Then
+            If cuenta.Contains("steamcommunity.com/id/") Then
+                tb_.IsEnabled = False
+                pr_.Visibility = Visibility.Visible
+
+                wb.Navigate(New Uri(cuenta))
+            Else
+                tb_.IsEnabled = True
+                pr_.Visibility = Visibility.Collapsed
+            End If
+        Else
+            tb_.IsEnabled = True
+            pr_.Visibility = Visibility.Collapsed
+        End If
 
     End Sub
 
