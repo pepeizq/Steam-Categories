@@ -38,11 +38,12 @@ Module Listado
 
                 For Each categoria In listaCategorias
                     If categoria.Length > 0 Then
-                        Dim cb As New CheckBox
-                        cb.Content = categoria
-                        cb.Margin = New Thickness(5, 5, 5, 5)
-                        cb.Width = 200
-                        cb.FontSize = 14
+                        Dim cb As New CheckBox With {
+                            .Content = categoria,
+                            .Margin = New Thickness(5, 5, 5, 5),
+                            .Width = 200,
+                            .FontSize = 14
+                        }
 
                         AddHandler cb.Checked, AddressOf cbChecked
                         AddHandler cb.Unchecked, AddressOf cbUnChecked
@@ -93,11 +94,12 @@ Module Listado
 
                 For Each genero In listaGeneros
                     If genero.Length > 0 Then
-                        Dim cb As New CheckBox
-                        cb.Content = genero
-                        cb.Margin = New Thickness(5, 5, 5, 5)
-                        cb.Width = 200
-                        cb.FontSize = 14
+                        Dim cb As New CheckBox With {
+                            .Content = genero,
+                            .Margin = New Thickness(5, 5, 5, 5),
+                            .Width = 200,
+                            .FontSize = 14
+                        }
 
                         AddHandler cb.Checked, AddressOf cbChecked
                         AddHandler cb.Unchecked, AddressOf cbUnChecked
@@ -148,11 +150,12 @@ Module Listado
 
                 For Each tag In listaTags
                     If tag.Length > 0 Then
-                        Dim cb As New CheckBox
-                        cb.Content = tag
-                        cb.Margin = New Thickness(5, 5, 5, 5)
-                        cb.Width = 200
-                        cb.FontSize = 14
+                        Dim cb As New CheckBox With {
+                            .Content = tag,
+                            .Margin = New Thickness(5, 5, 5, 5),
+                            .Width = 200,
+                            .FontSize = 14
+                        }
 
                         AddHandler cb.Checked, AddressOf cbChecked
                         AddHandler cb.Unchecked, AddressOf cbUnChecked
