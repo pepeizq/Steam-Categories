@@ -75,7 +75,7 @@ Public NotInheritable Class MainPage
         '----------------------------------------------
 
         Steam.ArranqueCliente(False)
-        Steam.ArranqueCuenta(tbSteamConfigCuenta, prSteamConfigCuenta)
+        Steam.ArranqueCuenta()
         GridVisibilidad(gridCategorias, botonCategorias, recursos.GetString("Categorias"))
         GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
 
@@ -493,7 +493,7 @@ Public NotInheritable Class MainPage
 
     Private Sub TbSteamConfigCuenta_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbSteamConfigCuenta.TextChanged
 
-        Steam.ArranqueCuenta(tbSteamConfigCuenta, prSteamConfigCuenta)
+        Steam.ArranqueCuenta()
 
     End Sub
 

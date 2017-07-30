@@ -109,7 +109,7 @@
     <Compile Include="App.xaml.vb">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Clases\FeedRSS.vb" />
+    <Compile Include="Clases\Cuenta.vb" />
     <Compile Include="Clases\Juego.vb" />
     <Compile Include="Clases\JuegoFinal.vb" />
     <Compile Include="MainPage.xaml.vb">
@@ -119,7 +119,6 @@
     <Compile Include="Modulos\Decompiladores.vb" />
     <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
-    <Compile Include="Modulos\RSS.vb" />
     <Compile Include="Modulos\Steam.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>

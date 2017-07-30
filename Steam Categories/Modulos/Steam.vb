@@ -53,182 +53,154 @@ Module Steam
 
     End Sub
 
-    Dim WithEvents wb As WebView
-    Dim tb_ As TextBox
-    Dim pr_ As ProgressRing
-    Dim cuenta As String
-    Dim steamID As String
+    Public Async Sub ArranqueCuenta()
 
-    Public Sub ArranqueCuenta(tb As TextBox, pr As ProgressRing)
+        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Dim cuenta As Cuenta = Nothing
 
-        tb_ = tb
-        pr_ = pr
-        cuenta = tb.Text
+        If Await helper.FileExistsAsync("cuenta") = True Then
+            cuenta = Await helper.ReadFileAsync(Of Cuenta)("cuenta")
+        End If
 
-        wb = New WebView
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
 
-        If Not cuenta = Nothing Then
-            If cuenta.Contains("steamcommunity.com/id/") Then
-                tb_.IsEnabled = False
-                pr_.Visibility = Visibility.Visible
+        Dim tb As TextBox = pagina.FindName("tbSteamConfigCuenta")
+        Dim usuario As String = tb.Text
 
-                wb.Navigate(New Uri(cuenta))
-            Else
-                tb_.IsEnabled = True
-                pr_.Visibility = Visibility.Collapsed
+        Dim pr As ProgressRing = pagina.FindName("prSteamConfigCuenta")
+        pr.Visibility = Visibility.Visible
+
+        Dim busquedaID As Boolean = False
+
+        If cuenta Is Nothing Then
+            If Not usuario = Nothing Then
+                busquedaID = True
             End If
         Else
-            tb_.IsEnabled = True
-            pr_.Visibility = Visibility.Collapsed
-        End If
+            If Not usuario = Nothing Then
+                usuario = usuario.Replace("http://steamcommunity.com/id/", Nothing)
+                usuario = usuario.Replace("https://steamcommunity.com/id/", Nothing)
 
-    End Sub
+                If usuario.LastIndexOf("/") = (usuario.Length - 1) Then
+                    usuario = usuario.Remove(usuario.Length - 1, 1)
+                End If
 
-    Private Async Sub wb_NavigationCompleted() Handles wb.NavigationCompleted
-
-        Dim lista As New List(Of String)
-        lista.Add("document.documentElement.outerHTML;")
-        Dim argumentos As IEnumerable(Of String) = lista
-        Dim html As String = Nothing
-
-        Try
-            html = Await wb.InvokeScriptAsync("eval", argumentos)
-        Catch ex As Exception
-
-        End Try
-
-        If Not html = Nothing Then
-            If html.Contains(ChrW(34) + "steamid" + ChrW(34)) Then
-                Dim temp, temp2 As String
-                Dim int, int2 As Integer
-
-                int = html.IndexOf(ChrW(34) + "steamid" + ChrW(34))
-                temp = html.Remove(0, int)
-
-                int2 = temp.IndexOf(",")
-                temp2 = temp.Remove(int2, temp.Length - int2)
-
-                temp2 = temp2.Replace("steamid", "")
-                temp2 = temp2.Replace(":", "")
-                temp2 = temp2.Replace(ChrW(34), "")
-
-                steamID = temp2.Trim
-            End If
-
-            'If html.Contains("image_src") Then
-            '    Dim temp, temp2, temp3 As String
-            '    Dim int, int2, int3 As Integer
-
-            '    int = html.IndexOf("image_src")
-            '    temp = html.Remove(0, int + 10)
-
-            '    int2 = temp.IndexOf(ChrW(34))
-            '    temp2 = temp.Remove(0, int2 + 1)
-
-            '    int3 = temp2.IndexOf(ChrW(34))
-            '    temp3 = temp2.Remove(int3, temp2.Length - int3)
-
-            '    Dim frame As Frame = Window.Current.Content
-            '    Dim pagina As Page = frame.Content
-            '    Dim imagen As ImageEx = pagina.FindName("imageCuenta")
-
-            '    imagen.Source = New BitmapImage(New Uri(temp3, UriKind.Absolute))
-            'End If
-
-            'If html.Contains(ChrW(34) + "personaname" + ChrW(34)) Then
-            '    Dim temp, temp2 As String
-            '    Dim int, int2 As Integer
-
-            '    int = html.IndexOf(ChrW(34) + "personaname" + ChrW(34))
-            '    temp = html.Remove(0, int)
-
-            '    int2 = temp.IndexOf(",")
-            '    temp2 = temp.Remove(int2, temp.Length - int2)
-
-            '    temp2 = temp2.Replace("personaname", "")
-            '    temp2 = temp2.Replace(":", "")
-            '    temp2 = temp2.Replace(ChrW(34), "")
-
-            '    Dim frame As Frame = Window.Current.Content
-            '    Dim pagina As Page = frame.Content
-            '    Dim tbNombre As TextBlock = pagina.FindName("tbCuentaNombre")
-
-            '    tbNombre.Text = temp2.Trim
-            'End If
-        End If
-
-        html = Await Decompiladores.HttpClient(New Uri("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=488AE837ADDDA0201B51693B28F1B389&steamid=" + steamID + "&format=json"))
-
-        If Not html = Nothing Then
-            If html.Contains("game_count") Then
-                Dim temp, temp2 As String
-                Dim int, int2 As Integer
-
-                int = html.IndexOf("game_count")
-                temp = html.Remove(0, int)
-
-                int2 = temp.IndexOf(",")
-                temp2 = temp.Remove(int2, temp.Length - int2)
-
-                temp2 = temp2.Replace("game_count", Nothing)
-                temp2 = temp2.Replace(ChrW(34), Nothing)
-                temp2 = temp2.Replace(":", Nothing)
-                temp2 = temp2.Replace(vbNullChar, Nothing)
-                temp2 = temp2.Trim
-
-                Dim frame As Frame = Window.Current.Content
-                Dim pagina As Page = frame.Content
-                Dim tb As TextBlock = pagina.FindName("tbJuegosCuenta")
-
-                tb.Text = temp2
-
-                Dim button As Button = pagina.FindName("buttonCargaCategorias")
-
-                If tb.Text.Length > 0 Then
-                    button.IsEnabled = True
-
-                    Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-
-                    Dim listaJuegosID As New List(Of String)
-
-                    Dim i As Integer = 0
-
-                    While i < temp2
-                        If html.Contains(ChrW(34) + "appid" + ChrW(34)) Then
-                            Dim temp3, temp4 As String
-                            Dim int3, int4 As Integer
-
-                            int3 = html.IndexOf(ChrW(34) + "appid" + ChrW(34))
-                            temp3 = html.Remove(0, int3 + 7)
-
-                            html = temp3
-
-                            int4 = temp3.IndexOf(",")
-                            temp4 = temp3.Remove(int4, temp3.Length - int4)
-
-                            temp4 = temp4.Replace(":", Nothing)
-                            temp4 = temp4.Trim
-
-                            listaJuegosID.Add(temp4)
-                        End If
-                        i += 1
-                    End While
-
-                    Await helper.SaveFileAsync(Of List(Of String))("listaJuegosID", listaJuegosID)
-                Else
-                    button.IsEnabled = False
+                If Not cuenta.Usuario = usuario Then
+                    busquedaID = True
                 End If
             End If
         End If
 
-        If Not steamID = Nothing Then
-            Dim opciones As ApplicationDataContainer = ApplicationData.Current.LocalSettings
+        If busquedaID = True Then
+            usuario = usuario.Replace("http://steamcommunity.com/id/", Nothing)
+            usuario = usuario.Replace("https://steamcommunity.com/id/", Nothing)
 
-            opciones.Values("steamID") = steamID
+            If usuario.LastIndexOf("/") = (usuario.Length - 1) Then
+                usuario = usuario.Remove(usuario.Length - 1, 1)
+            End If
+
+            Dim id64 As String = Nothing
+            Dim htmlID As String = Await Decompiladores.HttpClient(New Uri("https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=488AE837ADDDA0201B51693B28F1B389&vanityurl=" + usuario))
+
+            If Not htmlID = Nothing Then
+                If htmlID.Contains("steamid") Then
+                    Dim temp, temp2 As String
+                    Dim int, int2 As Integer
+
+                    int = htmlID.IndexOf("steamid" + ChrW(34))
+                    temp = htmlID.Remove(0, int)
+
+                    int2 = temp.IndexOf(":")
+                    temp2 = temp.Remove(0, int2 + 1)
+
+                    int2 = temp2.IndexOf(ChrW(34))
+                    temp2 = temp2.Remove(0, int2 + 1)
+
+                    int2 = temp2.IndexOf(ChrW(34))
+                    temp2 = temp2.Remove(int2, temp2.Length - int2)
+
+                    id64 = temp2.Trim
+                End If
+
+                If id64 = Nothing Then
+                    id64 = usuario
+                End If
+
+                cuenta = New Cuenta(usuario, id64)
+                Await helper.SaveFileAsync(Of Cuenta)("cuenta", cuenta)
+            End If
         End If
 
-        tb_.IsEnabled = True
-        pr_.Visibility = Visibility.Collapsed
+        If Not cuenta Is Nothing Then
+            tb.Text = cuenta.Usuario
+
+            Dim htmlJuegos As String = Await Decompiladores.HttpClient(New Uri("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=488AE837ADDDA0201B51693B28F1B389&steamid=" + cuenta.ID64 + "&format=json"))
+
+            If Not htmlJuegos = Nothing Then
+                If htmlJuegos.Contains("game_count") Then
+                    Dim temp, temp2 As String
+                    Dim int, int2 As Integer
+
+                    int = htmlJuegos.IndexOf("game_count")
+                    temp = htmlJuegos.Remove(0, int)
+
+                    int2 = temp.IndexOf(",")
+                    temp2 = temp.Remove(int2, temp.Length - int2)
+
+                    temp2 = temp2.Replace("game_count", Nothing)
+                    temp2 = temp2.Replace(ChrW(34), Nothing)
+                    temp2 = temp2.Replace(":", Nothing)
+                    temp2 = temp2.Replace(vbNullChar, Nothing)
+                    temp2 = temp2.Trim
+
+                    Dim tbCuenta As TextBlock = pagina.FindName("tbJuegosCuenta")
+
+                    tbCuenta.Text = temp2
+
+                    Dim boton As Button = pagina.FindName("buttonCargaCategorias")
+
+                    If tbCuenta.Text.Length > 0 Then
+                        boton.IsEnabled = True
+
+                        Dim listaJuegosID As New List(Of String)
+
+                        Dim i As Integer = 0
+
+                        While i < temp2
+                            If htmlJuegos.Contains(ChrW(34) + "appid" + ChrW(34)) Then
+                                Dim temp3, temp4 As String
+                                Dim int3, int4 As Integer
+
+                                int3 = htmlJuegos.IndexOf(ChrW(34) + "appid" + ChrW(34))
+                                temp3 = htmlJuegos.Remove(0, int3 + 7)
+
+                                htmlJuegos = temp3
+
+                                int4 = temp3.IndexOf(",")
+                                temp4 = temp3.Remove(int4, temp3.Length - int4)
+
+                                temp4 = temp4.Replace(":", Nothing)
+                                temp4 = temp4.Trim
+
+                                listaJuegosID.Add(temp4)
+                            End If
+                            i += 1
+                        End While
+
+                        Try
+                            Await helper.SaveFileAsync(Of List(Of String))("listaJuegosID", listaJuegosID)
+                        Catch ex As Exception
+
+                        End Try
+                    Else
+                        boton.IsEnabled = False
+                    End If
+                End If
+            End If
+        End If
+
+        pr.Visibility = Visibility.Collapsed
 
     End Sub
 
