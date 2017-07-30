@@ -39,8 +39,8 @@ Public NotInheritable Class MainPage
         botonReportarTexto.Text = recursos.GetString("Boton Reportar")
         botonCodigoFuenteTexto.Text = recursos.GetString("Boton Codigo Fuente")
 
-        buttonEscribirCategoriasTexto.Text = recursos.GetString("Boton Escribir Categorias")
-        buttonBorrarCategoriasTexto.Text = recursos.GetString("Boton Borrar Categorias")
+        botonEscribirCategoriasTexto.Text = recursos.GetString("Boton Escribir Categorias")
+        botonBorrarCategoriasTexto.Text = recursos.GetString("Boton Borrar Categorias")
         tbAvisoSteamCerrado.Text = recursos.GetString("Aviso Steam")
 
         expanderUserscore.Header = recursos.GetString("Como Funciona")
@@ -50,23 +50,24 @@ Public NotInheritable Class MainPage
         tbSeleccionMetascoreInfo.Text = recursos.GetString("Texto Seleccion Metascore")
 
         expanderAños.Header = recursos.GetString("Como Funciona")
-        buttonSeleccionAños.Content = recursos.GetString("Año Lanzamiento")
+        botonSeleccionAños.Content = recursos.GetString("Año Lanzamiento")
         cbSeleccionAños.Content = recursos.GetString("Año Lanzamiento")
         tbSeleccionAñosInfo.Text = recursos.GetString("Texto Seleccion Años")
 
-        buttonSeleccionCategorias.Content = recursos.GetString("Categorias")
-        buttonSeleccionGeneros.Content = recursos.GetString("Generos")
-        buttonSeleccionTags.Content = recursos.GetString("Tags")
-        buttonSeleccionIdiomas.Content = recursos.GetString("Idiomas")
+        botonSeleccionCategorias.Content = recursos.GetString("Categorias")
+        botonSeleccionGeneros.Content = recursos.GetString("Generos")
+        botonSeleccionTags.Content = recursos.GetString("Tags")
+        botonSeleccionIdiomas.Content = recursos.GetString("Idiomas")
 
         tbNoJuegos.Text = recursos.GetString("No Juegos")
 
         botonConfigCategoriasTexto.Text = recursos.GetString("Categorias")
         tbSteamConfigInstruccionesCliente.Text = recursos.GetString("Texto Steam Config Cliente")
-        buttonSteamConfigPathTexto.Text = recursos.GetString("Boton Añadir")
-        tbSteamConfigPath.Text = recursos.GetString("Texto Carpeta")
+        botonSteamRutaTexto.Text = recursos.GetString("Boton Añadir")
+        tbSteamRuta.Text = recursos.GetString("Texto Carpeta")
+        botonSteamCuentaTexto.Text = recursos.GetString("Boton Añadir")
         tbSteamConfigInstruccionesCuenta.Text = recursos.GetString("Texto Steam Config Cuenta")
-        buttonCargaCategoriasTexto.Text = recursos.GetString("Boton Carga Categorias")
+        botonCargaCategoriasTexto.Text = recursos.GetString("Boton Carga Categorias")
         tbCargaCategoriasAviso.Text = recursos.GetString("Aviso Carga")
         tbJuegosCuentaMensaje.Text = recursos.GetString("Texto Juegos Cuenta")
         tbJuegosAppMensaje.Text = recursos.GetString("Texto Juegos App")
@@ -74,10 +75,10 @@ Public NotInheritable Class MainPage
 
         '----------------------------------------------
 
-        Steam.ArranqueCliente(False)
-        Steam.ArranqueCuenta()
+        Cliente.Detectar(False)
+        Cuentas.Detectar()
         GridVisibilidad(gridCategorias, botonCategorias, recursos.GetString("Categorias"))
-        GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
+        GridSeleccionVisibilidad(gridSeleccionUserscore, botonSeleccionUserscore)
 
         '--------------------------------------------------------
 
@@ -118,17 +119,17 @@ Public NotInheritable Class MainPage
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
 
-        If Await helper.FileExistsAsync("lista") = True Then
-            listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("lista")
+        If Await helper.FileExistsAsync("listaJuegos") = True Then
+            Dim listaJuegos As List(Of Juego) = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
 
             If Not listaJuegos Is Nothing Then
                 If listaJuegos.Count > 0 Then
-                    GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
+                    GridSeleccionVisibilidad(gridSeleccionUserscore, botonSeleccionUserscore)
 
-                    gridSeleccionCategorias.Children.Add(Listado.GenerarCategorias(listaJuegos))
-                    gridSeleccionGeneros.Children.Add(Listado.GenerarGeneros(listaJuegos))
-                    gridSeleccionTags.Children.Add(Listado.GenerarTags(listaJuegos))
-                    gridSeleccionIdiomas.Children.Add(Listado.GenerarIdiomas(listaJuegos))
+                    Categorias.GenerarCategorias(listaJuegos)
+                    Categorias.GenerarGeneros(listaJuegos)
+                    Categorias.GenerarTags(listaJuegos)
+                    Categorias.GenerarIdiomas(listaJuegos)
 
                     tbJuegosApp.Text = listaJuegos.Count.ToString
                 End If
@@ -141,6 +142,11 @@ Public NotInheritable Class MainPage
             listaCategorias.RemoveRange(0, listaCategorias.Count)
 
             Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
+        End If
+
+        If Await helper.FileExistsAsync("actualizar") = True Then
+            Dim actualizar As Boolean = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+            cbActualizarListaJuegos.IsChecked = actualizar
         End If
 
     End Sub
@@ -167,7 +173,7 @@ Public NotInheritable Class MainPage
 
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         GridVisibilidad(gridCategorias, botonCategorias, recursos.GetString("Categorias"))
-        GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
+        GridSeleccionVisibilidad(gridSeleccionUserscore, botonSeleccionUserscore)
 
     End Sub
 
@@ -234,39 +240,39 @@ Public NotInheritable Class MainPage
 
     'CATEGORIAS--------------------------------------------------------------
 
-    Private Sub ButtonEscribirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonEscribirCategorias.Click
+    Private Sub BotonEscribirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonEscribirCategorias.Click
 
-        Steam.EscribirCategorias(listaJuegos, buttonEscribirCategorias)
+        Cliente.EscribirCategorias(botonEscribirCategorias)
 
     End Sub
 
-    Private Sub ButtonEscribirCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles buttonEscribirCategorias.PointerEntered
+    Private Sub BotonEscribirCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles botonEscribirCategorias.PointerEntered
 
         panelAviso.HorizontalAlignment = HorizontalAlignment.Left
         panelAviso.Visibility = Visibility.Visible
 
     End Sub
 
-    Private Sub ButtonEscribirCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles buttonEscribirCategorias.PointerExited
+    Private Sub BotonEscribirCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles botonEscribirCategorias.PointerExited
 
         panelAviso.Visibility = Visibility.Collapsed
 
     End Sub
 
-    Private Sub ButtonBorrarCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonBorrarCategorias.Click
+    Private Sub BotonBorrarCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonBorrarCategorias.Click
 
-        Steam.BorrarCategorias(buttonBorrarCategorias)
+        Cliente.BorrarCategorias(botonBorrarCategorias)
 
     End Sub
 
-    Private Sub ButtonBorrarCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles buttonBorrarCategorias.PointerEntered
+    Private Sub BotonBorrarCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles botonBorrarCategorias.PointerEntered
 
         panelAviso.HorizontalAlignment = HorizontalAlignment.Right
         panelAviso.Visibility = Visibility.Visible
 
     End Sub
 
-    Private Sub ButtonBorrarCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles buttonBorrarCategorias.PointerExited
+    Private Sub BotonBorrarCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles botonBorrarCategorias.PointerExited
 
         panelAviso.Visibility = Visibility.Collapsed
 
@@ -277,13 +283,13 @@ Public NotInheritable Class MainPage
     Private Async Sub GridSeleccionVisibilidad(grid As Grid, boton As Button)
 
         If Not boton Is Nothing Then
-            buttonSeleccionUserscore.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionMetascore.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionAños.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionCategorias.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionGeneros.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionTags.Background = New SolidColorBrush(Colors.Transparent)
-            buttonSeleccionIdiomas.Background = New SolidColorBrush(Colors.Transparent)
+            botonSeleccionUserscore.Background = New SolidColorBrush(Colors.Transparent)
+            botonSeleccionMetascore.Background = New SolidColorBrush(Colors.Transparent)
+            botonSeleccionAños.Background = New SolidColorBrush(Colors.Transparent)
+            botonSeleccionCategorias.Background = New SolidColorBrush(Colors.Transparent)
+            botonSeleccionGeneros.Background = New SolidColorBrush(Colors.Transparent)
+            botonSeleccionTags.Background = New SolidColorBrush(Colors.Transparent)
+            botonSeleccionIdiomas.Background = New SolidColorBrush(Colors.Transparent)
 
             boton.Background = New SolidColorBrush(Colors.DarkBlue)
         End If
@@ -300,8 +306,8 @@ Public NotInheritable Class MainPage
         Dim noCategorias As Boolean = False
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
 
-        If Await helper.FileExistsAsync("lista") = True Then
-            listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("lista")
+        If Await helper.FileExistsAsync("listaJuegos") = True Then
+            Dim listaJuegos As List(Of Juego) = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
 
             If Not listaJuegos Is Nothing Then
                 If listaJuegos.Count = 0 Then
@@ -322,45 +328,45 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub ButtonSeleccionUserscore_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionUserscore.Click
+    Private Sub BotonSeleccionUserscore_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionUserscore.Click
 
-        GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
-
-    End Sub
-
-    Private Sub ButtonSeleccionMetascore_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionMetascore.Click
-
-        GridSeleccionVisibilidad(gridSeleccionMetascore, buttonSeleccionMetascore)
+        GridSeleccionVisibilidad(gridSeleccionUserscore, botonSeleccionUserscore)
 
     End Sub
 
-    Private Sub ButtonSeleccionAños_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionAños.Click
+    Private Sub BotonSeleccionMetascore_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionMetascore.Click
 
-        GridSeleccionVisibilidad(gridSeleccionAños, buttonSeleccionAños)
-
-    End Sub
-
-    Private Sub ButtonSeleccionCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionCategorias.Click
-
-        GridSeleccionVisibilidad(gridSeleccionCategorias, buttonSeleccionCategorias)
+        GridSeleccionVisibilidad(gridSeleccionMetascore, botonSeleccionMetascore)
 
     End Sub
 
-    Private Sub ButtonSeleccionGeneros_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionGeneros.Click
+    Private Sub BotonSeleccionAños_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionAños.Click
 
-        GridSeleccionVisibilidad(gridSeleccionGeneros, buttonSeleccionGeneros)
-
-    End Sub
-
-    Private Sub ButtonSeleccionTags_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionTags.Click
-
-        GridSeleccionVisibilidad(gridSeleccionTags, buttonSeleccionTags)
+        GridSeleccionVisibilidad(gridSeleccionAños, botonSeleccionAños)
 
     End Sub
 
-    Private Sub ButtonSeleccionIdiomas_Click(sender As Object, e As RoutedEventArgs) Handles buttonSeleccionIdiomas.Click
+    Private Sub BotonSeleccionCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionCategorias.Click
 
-        GridSeleccionVisibilidad(gridSeleccionIdiomas, buttonSeleccionIdiomas)
+        GridSeleccionVisibilidad(gridSeleccionCategorias, botonSeleccionCategorias)
+
+    End Sub
+
+    Private Sub BotonSeleccionGeneros_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionGeneros.Click
+
+        GridSeleccionVisibilidad(gridSeleccionGeneros, botonSeleccionGeneros)
+
+    End Sub
+
+    Private Sub BotonSeleccionTags_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionTags.Click
+
+        GridSeleccionVisibilidad(gridSeleccionTags, botonSeleccionTags)
+
+    End Sub
+
+    Private Sub BotonSeleccionIdiomas_Click(sender As Object, e As RoutedEventArgs) Handles botonSeleccionIdiomas.Click
+
+        GridSeleccionVisibilidad(gridSeleccionIdiomas, botonSeleccionIdiomas)
 
     End Sub
 
@@ -416,7 +422,7 @@ Public NotInheritable Class MainPage
         listaCategorias.Add(categoria)
 
         If listaCategorias.Count > 0 Then
-            buttonEscribirCategorias.IsEnabled = True
+            botonEscribirCategorias.IsEnabled = True
         End If
 
         Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
@@ -433,7 +439,7 @@ Public NotInheritable Class MainPage
             listaCategorias.Remove(categoria)
 
             If listaCategorias.Count = 0 Then
-                buttonEscribirCategorias.IsEnabled = False
+                botonEscribirCategorias.IsEnabled = False
             End If
 
             Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
@@ -485,519 +491,64 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub ButtonSteamConfigPath_Click(sender As Object, e As RoutedEventArgs) Handles buttonSteamConfigPath.Click
+    Private Sub BotonSteamRuta_Click(sender As Object, e As RoutedEventArgs) Handles botonSteamRuta.Click
 
-        Steam.ArranqueCliente(True)
-
-    End Sub
-
-    Private Sub TbSteamConfigCuenta_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbSteamConfigCuenta.TextChanged
-
-        Steam.ArranqueCuenta()
+        Cliente.Detectar(True)
 
     End Sub
 
-    Private Sub ButtonCargaCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles buttonCargaCategorias.PointerEntered
+    Private Sub BotonSteamCuenta_Click(sender As Object, e As RoutedEventArgs) Handles botonSteamCuenta.Click
+
+        Cuentas.Detectar()
+
+    End Sub
+
+    Private Sub BotonCargaCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles botonCargaCategorias.PointerEntered
 
         panelAvisoCargaCategorias.Visibility = Visibility.Visible
 
     End Sub
 
-    Private Sub ButtonCargaCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles buttonCargaCategorias.PointerExited
+    Private Sub BotonCargaCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles botonCargaCategorias.PointerExited
 
         panelAvisoCargaCategorias.Visibility = Visibility.Collapsed
 
     End Sub
 
-    Dim listaJuegos As List(Of Juego)
+    Private Sub BotonCargaCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonCargaCategorias.Click
 
-    Private Async Sub ButtonCargaCategorias_Click(sender As Object, e As RoutedEventArgs) Handles buttonCargaCategorias.Click
-
-        gridProgreso.Visibility = Visibility.Visible
-        prProgreso.IsIndeterminate = False
-        buttonCargaCategorias.IsEnabled = False
-        buttonBorrarCategorias.IsEnabled = False
-        buttonBorrarCategoriasApp.IsEnabled = False
-        buttonSteamConfigPath.IsEnabled = False
-        tbSteamConfigCuenta.IsEnabled = False
-
-        Dim listaJuegosID As List(Of String)
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-
-        If Await helper.FileExistsAsync("listaJuegosID") = True Then
-            listaJuegosID = Await helper.ReadFileAsync(Of List(Of String))("listaJuegosID")
-        Else
-            listaJuegosID = Nothing
-        End If
-
-        If Not listaJuegosID Is Nothing Then
-            Dim tope As Integer = listaJuegosID.Count
-
-            listaJuegos = New List(Of Juego)
-
-            Dim i As Integer = 0
-            While i < tope
-                Dim html As String = Await Decompiladores.HttpClient(New Uri("http://steamspy.com/app/" + listaJuegosID(i)))
-
-                If Not html = Nothing Then
-                    Dim titulo As String = Nothing
-                    Dim userscore As String = Nothing
-                    Dim metascore As String = Nothing
-                    Dim año As String = Nothing
-                    Dim categorias As New List(Of String)
-                    Dim generos As New List(Of String)
-                    Dim tags As New List(Of String)
-                    Dim idiomas As New List(Of String)
-
-                    Dim temp, temp2, temp3 As String
-                    Dim int, int2, int3 As Integer
-
-                    int = html.IndexOf("<div class=" + ChrW(34) + "p-r-30")
-                    temp = html.Remove(0, int)
-
-                    int2 = temp.IndexOf("<div>")
-                    temp2 = temp.Remove(0, int2 + 5)
-
-                    int3 = temp2.IndexOf("</div>")
-                    temp3 = temp2.Remove(int3, temp2.Length - int3)
-
-                    temp3 = temp3.Replace("<h3>", Nothing)
-                    temp3 = temp3.Replace("</h3>", Nothing)
-                    temp3 = temp3.Trim
-
-                    titulo = temp3
-
-                    If html.Contains("<strong>Userscore:</strong>") Then
-                        Dim temp4, temp5 As String
-                        Dim int4, int5 As Integer
-
-                        int4 = html.IndexOf("<strong>Userscore:</strong>")
-                        temp4 = html.Remove(0, int4)
-
-                        int5 = temp4.IndexOf("%")
-                        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        temp5 = temp5.Replace("<strong>", Nothing)
-                        temp5 = temp5.Replace("</strong>", Nothing)
-                        temp5 = temp5.Replace("Userscore:", Nothing)
-                        temp5 = temp5.Trim
-
-                        userscore = temp5
-                    End If
-
-                    If html.Contains("<strong>Metascore:</strong>") Then
-                        Dim temp4, temp5 As String
-                        Dim int4, int5 As Integer
-
-                        int4 = html.IndexOf("<strong>Metascore:</strong>")
-                        temp4 = html.Remove(0, int4)
-
-                        int5 = temp4.IndexOf("%")
-                        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        temp5 = temp5.Replace("<strong>", Nothing)
-                        temp5 = temp5.Replace("</strong>", Nothing)
-                        temp5 = temp5.Replace("Metascore:", Nothing)
-                        temp5 = temp5.Trim
-
-                        metascore = temp5
-                    End If
-
-                    If html.Contains("<strong>Release date</strong>") Then
-                        Dim temp4, temp5 As String
-                        Dim int4, int5 As Integer
-
-                        int4 = html.IndexOf("<strong>Release date</strong>")
-                        temp4 = html.Remove(0, int4)
-
-                        int5 = temp4.IndexOf("<br>")
-                        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        temp5 = temp5.Replace("<strong>", Nothing)
-                        temp5 = temp5.Replace("</strong>", Nothing)
-                        temp5 = temp5.Replace("Release date", Nothing)
-                        temp5 = temp5.Replace(":", Nothing)
-
-                        If temp5.Contains(",") Then
-                            Dim int6 As Integer
-
-                            int6 = temp5.IndexOf(",")
-                            temp5 = temp5.Remove(0, int6 + 1)
-                        End If
-
-                        If temp5.Contains("19") Then
-                            Dim int6 As Integer
-
-                            int6 = temp5.IndexOf("19")
-                            temp5 = temp5.Remove(0, int6)
-
-                            If (temp5.Length - (int6 + 4)) > 0 Then
-                                temp5 = temp5.Remove(int6 + 4, temp5.Length - (int6 + 4))
-                            End If
-                        End If
-
-                        If temp5.Contains("20") Then
-                            Dim int6 As Integer
-
-                            int6 = temp5.IndexOf("20")
-                            temp5 = temp5.Remove(0, int6)
-
-                            If (temp5.Length - (int6 + 4)) > 0 Then
-                                temp5 = temp5.Remove(int6 + 4, temp5.Length - (int6 + 4))
-                            End If
-                        End If
-
-                        temp5 = temp5.Trim
-
-                        año = temp5
-                    End If
-
-                    If html.Contains("<strong>Category:</strong>") Then
-                        Dim temp4, temp5 As String
-                        Dim int4, int5 As Integer
-
-                        int4 = html.IndexOf("<strong>Category:</strong>")
-                        temp4 = html.Remove(0, int4)
-
-                        int5 = temp4.IndexOf("<br>")
-                        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        temp5 = temp5.Replace("<strong>", Nothing)
-                        temp5 = temp5.Replace("</strong>", Nothing)
-                        temp5 = temp5.Replace("Category:", Nothing)
-                        temp5 = temp5.Trim
-
-                        If Not temp5.Contains(",") Then
-                            categorias.Add(temp5)
-                        Else
-                            Dim j As Integer = 0
-                            While j < 100
-                                Dim temp6 As String
-                                Dim int6 As Integer
-
-                                If temp5.Contains(",") Then
-                                    int6 = temp5.IndexOf(",")
-                                    temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                                    categorias.Add(temp6.Trim)
-
-                                    temp5 = temp5.Remove(0, int6 + 1)
-                                Else
-                                    categorias.Add(temp5.Trim)
-                                    Exit While
-                                End If
-                                j += 1
-                            End While
-                        End If
-                    End If
-
-                    If html.Contains("<strong>Genre:</strong>") Then
-                        Dim temp4, temp5 As String
-                        Dim int4, int5 As Integer
-
-                        int4 = html.IndexOf("<strong>Genre:</strong>")
-                        temp4 = html.Remove(0, int4)
-
-                        int5 = temp4.IndexOf("<br>")
-                        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        temp5 = temp5.Replace("<strong>", Nothing)
-                        temp5 = temp5.Replace("</strong>", Nothing)
-                        temp5 = temp5.Replace("Genre:", Nothing)
-                        temp5 = temp5.Trim
-
-                        If Not temp5.Contains(",") Then
-                            If temp5.Contains("<") Then
-                                Dim int7, int8 As Integer
-
-                                int7 = temp5.IndexOf("<")
-                                int8 = temp5.IndexOf(">")
-                                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                                temp5 = temp5.Replace("</a>", Nothing)
-                            End If
-
-                            generos.Add(temp5)
-                        Else
-                            Dim j As Integer = 0
-                            While j < 100
-                                Dim temp6 As String
-                                Dim int6 As Integer
-
-                                If temp5.Contains(",") Then
-                                    int6 = temp5.IndexOf(",")
-                                    temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                                    If temp6.Contains("<") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp6.IndexOf("<")
-                                        int8 = temp6.IndexOf(">")
-                                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                                        temp6 = temp6.Replace("</a>", Nothing)
-                                    End If
-
-                                    generos.Add(temp6.Trim)
-
-                                    temp5 = temp5.Remove(0, int6 + 1)
-                                Else
-                                    If temp5.Contains("<") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp5.IndexOf("<")
-                                        int8 = temp5.IndexOf(">")
-                                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                                        temp5 = temp5.Replace("</a>", Nothing)
-                                    End If
-
-                                    generos.Add(temp5.Trim)
-                                    Exit While
-                                End If
-                                j += 1
-                            End While
-                        End If
-                    End If
-
-                    If html.Contains("<strong>Tags:</strong>") Then
-                        Dim temp4, temp5 As String
-                        Dim int4, int5 As Integer
-
-                        int4 = html.IndexOf("<strong>Tags:</strong>")
-                        temp4 = html.Remove(0, int4)
-
-                        int5 = temp4.IndexOf("<br>")
-                        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        temp5 = temp5.Replace("<strong>", Nothing)
-                        temp5 = temp5.Replace("</strong>", Nothing)
-                        temp5 = temp5.Replace("Tags:", Nothing)
-                        temp5 = temp5.Trim
-
-                        If Not temp5.Contains(",") Then
-                            If temp5.Contains("<") Then
-                                Dim int7, int8 As Integer
-
-                                int7 = temp5.IndexOf("<")
-                                int8 = temp5.IndexOf(">")
-                                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                                temp5 = temp5.Replace("</a>", Nothing)
-                            End If
-
-                            If temp5.Contains("(") Then
-                                Dim int7, int8 As Integer
-
-                                int7 = temp5.IndexOf("(")
-                                int8 = temp5.IndexOf(")")
-                                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                            End If
-
-                            tags.Add(temp5)
-                        Else
-                            Dim j As Integer = 0
-                            While j < 100
-                                Dim temp6 As String
-                                Dim int6 As Integer
-
-                                If temp5.Contains(",") Then
-                                    int6 = temp5.IndexOf(",")
-                                    temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                                    If temp6.Contains("<") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp6.IndexOf("<")
-                                        int8 = temp6.IndexOf(">")
-                                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                                        temp6 = temp6.Replace("</a>", Nothing)
-                                    End If
-
-                                    If temp6.Contains("(") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp6.IndexOf("(")
-                                        int8 = temp6.IndexOf(")")
-                                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                                    End If
-
-                                    tags.Add(temp6.Trim)
-
-                                    temp5 = temp5.Remove(0, int6 + 1)
-                                Else
-                                    If temp5.Contains("<") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp5.IndexOf("<")
-                                        int8 = temp5.IndexOf(">")
-                                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                                        temp5 = temp5.Replace("</a>", Nothing)
-                                    End If
-
-                                    If temp5.Contains("(") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp5.IndexOf("(")
-                                        int8 = temp5.IndexOf(")")
-                                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                                    End If
-
-                                    tags.Add(temp5.Trim)
-                                    Exit While
-                                End If
-                                j += 1
-                            End While
-                        End If
-                    End If
-
-                    If html.Contains("<strong>Languages:</strong>") Then
-                        Dim temp4, temp5 As String
-                        Dim int4, int5 As Integer
-
-                        int4 = html.IndexOf("<strong>Languages:</strong>")
-                        temp4 = html.Remove(0, int4)
-
-                        int5 = temp4.IndexOf("<br>")
-                        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        temp5 = temp5.Replace("<strong>", Nothing)
-                        temp5 = temp5.Replace("</strong>", Nothing)
-                        temp5 = temp5.Replace("Languages:", Nothing)
-                        temp5 = temp5.Replace("[b]*[/b]", Nothing)
-                        temp5 = temp5.Replace(";", Nothing)
-                        temp5 = temp5.Trim
-
-                        If Not temp5.Contains(",") Then
-                            If temp5.Contains("<") Then
-                                Dim int7, int8 As Integer
-
-                                int7 = temp5.IndexOf("<")
-                                int8 = temp5.IndexOf(">")
-                                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                                temp5 = temp5.Replace("</a>", Nothing)
-                            End If
-
-                            If temp5.Contains("(") Then
-                                Dim int7, int8 As Integer
-
-                                int7 = temp5.IndexOf("(")
-                                int8 = temp5.IndexOf(")")
-                                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                            End If
-
-                            idiomas.Add(temp5.Trim)
-                        Else
-                            Dim j As Integer = 0
-                            While j < 100
-                                Dim temp6 As String
-                                Dim int6 As Integer
-
-                                If temp5.Contains(",") Then
-                                    int6 = temp5.IndexOf(",")
-                                    temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                                    If temp6.Contains("<") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp6.IndexOf("<")
-                                        int8 = temp6.IndexOf(">")
-                                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                                        temp6 = temp6.Replace("</a>", Nothing)
-                                    End If
-
-                                    If temp6.Contains("(") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp6.IndexOf("(")
-                                        int8 = temp6.IndexOf(")")
-                                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                                    End If
-
-                                    idiomas.Add(temp6.Trim)
-
-                                    temp5 = temp5.Remove(0, int6 + 1)
-                                Else
-                                    If temp5.Contains("<") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp5.IndexOf("<")
-                                        int8 = temp5.IndexOf(">")
-                                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                                        temp5 = temp5.Replace("</a>", Nothing)
-                                    End If
-
-                                    If temp5.Contains("(") Then
-                                        Dim int7, int8 As Integer
-
-                                        int7 = temp5.IndexOf("(")
-                                        int8 = temp5.IndexOf(")")
-                                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                                    End If
-
-                                    idiomas.Add(temp5.Trim)
-                                    Exit While
-                                End If
-                                j += 1
-                            End While
-                        End If
-                    End If
-
-                    Dim juego As New Juego(titulo, listaJuegosID(i), userscore, metascore, año, categorias, generos, tags, idiomas)
-
-                    listaJuegos.Add(juego)
-                End If
-
-                prProgreso.Value = (i / tope) * 100
-                tbProgreso.Text = "(" + i.ToString + "/" + tope.ToString + ")"
-
-                i += 1
-            End While
-        End If
-
-        tbJuegosApp.Text = listaJuegos.Count.ToString
-
-        Await helper.SaveFileAsync(Of List(Of Juego))("lista", listaJuegos)
-
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-
-        If listaJuegos.Count > 0 Then
-            GridSeleccionVisibilidad(gridSeleccionUserscore, buttonSeleccionUserscore)
-
-            gridSeleccionCategorias.Children.Clear()
-            gridSeleccionGeneros.Children.Clear()
-            gridSeleccionTags.Children.Clear()
-            gridSeleccionIdiomas.Children.Clear()
-
-            gridSeleccionCategorias.Children.Add(Listado.GenerarCategorias(listaJuegos))
-            gridSeleccionGeneros.Children.Add(Listado.GenerarGeneros(listaJuegos))
-            gridSeleccionTags.Children.Add(Listado.GenerarTags(listaJuegos))
-            gridSeleccionIdiomas.Children.Add(Listado.GenerarIdiomas(listaJuegos))
-
-            Toast("Steam Categories", recursos.GetString("Cargado Si"))
-        Else
-            Toast("Steam Categories", recursos.GetString("Cargado No"))
-        End If
-
-        gridProgreso.Visibility = Visibility.Collapsed
-        buttonCargaCategorias.IsEnabled = True
-        buttonBorrarCategorias.IsEnabled = True
-        buttonBorrarCategoriasApp.IsEnabled = True
-        buttonSteamConfigPath.IsEnabled = True
-        tbSteamConfigCuenta.IsEnabled = True
+        Categorias.Cargar()
 
     End Sub
 
-    Private Async Sub ButtonBorrarCategoriasApp_Click(sender As Object, e As RoutedEventArgs) Handles buttonBorrarCategoriasApp.Click
+    Private Async Sub CbActualizarListaJuegos_Checked(sender As Object, e As RoutedEventArgs) Handles cbActualizarListaJuegos.Checked
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Await helper.SaveFileAsync(Of Boolean)("actualizar", True)
+        cbActualizarListaJuegos.IsChecked = True
 
-        Dim lista As New List(Of Juego)
-        Await helper.SaveFileAsync(Of List(Of Juego))("lista", lista)
+    End Sub
 
-        gridSeleccionCategorias.Children.Clear()
-        gridSeleccionGeneros.Children.Clear()
-        gridSeleccionTags.Children.Clear()
-        gridSeleccionIdiomas.Children.Clear()
+    Private Async Sub CbActualizarListaJuegos_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbActualizarListaJuegos.Unchecked
+
+        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Await helper.SaveFileAsync(Of Boolean)("actualizar", False)
+        cbActualizarListaJuegos.IsChecked = False
+
+    End Sub
+
+    Private Async Sub BotonBorrarCategoriasApp_Click(sender As Object, e As RoutedEventArgs) Handles botonBorrarCategoriasApp.Click
+
+        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Await helper.SaveFileAsync(Of List(Of Juego))("listaJuegos", New List(Of Juego))
+
+        gvCategorias.Items.Clear()
+        gvGeneros.Items.Clear()
+        gvTags.Items.Clear()
+        gvIdiomas.Items.Clear()
 
         tbJuegosApp.Text = 0
 
     End Sub
+
 End Class

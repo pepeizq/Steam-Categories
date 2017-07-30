@@ -45,7 +45,7 @@
                         </ToolTipService.ToolTip>
 
                         <Button.Content>
-                            <Image Source="Assets\steam_logo.png" Width="26" Height="26" HorizontalAlignment="Center"/>
+                            <controls:ImageEx Source="Assets\steam_logo.png" Width="26" Height="26" HorizontalAlignment="Center" IsCacheEnabled="True"/>
                         </Button.Content>
                     </Button>
                     <Button x:Name="botonConfig" Foreground="White" Background="Transparent" Padding="15">
@@ -97,13 +97,13 @@
                                                   BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Background="SteelBlue">
-                            <Button x:Name="buttonSeleccionUserscore" Content="Userscore" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
-                            <Button x:Name="buttonSeleccionMetascore" Content="Metascore" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
-                            <Button x:Name="buttonSeleccionAños" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
-                            <Button x:Name="buttonSeleccionCategorias" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
-                            <Button x:Name="buttonSeleccionGeneros" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
-                            <Button x:Name="buttonSeleccionTags" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
-                            <Button x:Name="buttonSeleccionIdiomas" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
+                            <Button x:Name="botonSeleccionUserscore" Content="Userscore" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
+                            <Button x:Name="botonSeleccionMetascore" Content="Metascore" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
+                            <Button x:Name="botonSeleccionAños" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
+                            <Button x:Name="botonSeleccionCategorias" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
+                            <Button x:Name="botonSeleccionGeneros" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
+                            <Button x:Name="botonSeleccionTags" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
+                            <Button x:Name="botonSeleccionIdiomas" Width="200" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Foreground="White"/>
                         </StackPanel>
                     </ScrollViewer>
                 </controls:DropShadowPanel>
@@ -214,10 +214,51 @@
                                 </controls:Expander>
                             </ScrollViewer>
                         </Grid>
-                        <Grid x:Name="gridSeleccionCategorias" Visibility="Collapsed" />
-                        <Grid x:Name="gridSeleccionGeneros" Visibility="Collapsed" />
-                        <Grid x:Name="gridSeleccionTags" Visibility="Collapsed" />
-                        <Grid x:Name="gridSeleccionIdiomas" Visibility="Collapsed" />
+                        
+                        <Grid x:Name="gridSeleccionCategorias" Visibility="Collapsed">
+                            <GridView x:Name="gvCategorias" IsItemClickEnabled="True">
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                            </GridView>
+                        </Grid> 
+                        
+                        <Grid x:Name="gridSeleccionGeneros" Visibility="Collapsed">
+                            <GridView x:Name="gvGeneros" IsItemClickEnabled="True">
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                            </GridView>
+                        </Grid>
+                        
+                        <Grid x:Name="gridSeleccionTags" Visibility="Collapsed">
+                            <GridView x:Name="gvTags" IsItemClickEnabled="True">
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                            </GridView>
+                        </Grid> 
+                        
+                        <Grid x:Name="gridSeleccionIdiomas" Visibility="Collapsed">
+                            <GridView x:Name="gvIdiomas" IsItemClickEnabled="True">
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                            </GridView>
+                        </Grid> 
+                        
                         <Grid x:Name="gridNoJuegosCargados" Visibility="Collapsed">
                             <controls:DropShadowPanel Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -227,6 +268,7 @@
                             </controls:DropShadowPanel>
                         </Grid>
                     </Grid>
+                    
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -236,10 +278,10 @@
 
                         <controls:DropShadowPanel Grid.Column="0" Margin="10" Color="Black"
                                                   BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                            <Button x:Name="buttonEscribirCategorias" Padding="10,15" HorizontalAlignment="Center" IsEnabled="False" Background="SteelBlue">
+                            <Button x:Name="botonEscribirCategorias" Padding="10,15" HorizontalAlignment="Center" IsEnabled="False" Background="SteelBlue">
                                 <StackPanel Orientation="Horizontal" >
                                     <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock x:Name="buttonEscribirCategoriasTexto" Foreground="White"/>
+                                    <TextBlock x:Name="botonEscribirCategoriasTexto" Foreground="White"/>
                                 </StackPanel>
                             </Button>
                         </controls:DropShadowPanel>
@@ -259,10 +301,10 @@
 
                         <controls:DropShadowPanel Grid.Column="2" Margin="10" Color="Black"
                                                   BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                            <Button x:Name="buttonBorrarCategorias" Padding="10,15" HorizontalAlignment="Center" IsEnabled="False" Background="SteelBlue">
+                            <Button x:Name="botonBorrarCategorias" Padding="10,15" HorizontalAlignment="Center" IsEnabled="False" Background="SteelBlue">
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock x:Name="buttonBorrarCategoriasTexto" Foreground="White"/>
+                                    <TextBlock x:Name="botonBorrarCategoriasTexto" Foreground="White"/>
                                 </StackPanel>
                             </Button>
                         </controls:DropShadowPanel>
@@ -301,6 +343,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock x:Name="tbSteamConfigInstruccionesCliente" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
@@ -313,29 +356,42 @@
 
                         <controls:DropShadowPanel Grid.Column="0" Margin="5,10" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
                                                   OffsetZ="5">
-                            <Button x:Name="buttonSteamConfigPath" Padding="15,10" Background="SteelBlue">
+                            <Button x:Name="botonSteamRuta" Padding="15,10" Background="SteelBlue">
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Add" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock x:Name="buttonSteamConfigPathTexto" Foreground="White"/>
+                                    <TextBlock x:Name="botonSteamRutaTexto" Foreground="White"/>
                                 </StackPanel>
                             </Button>
                         </controls:DropShadowPanel> 
                         
                         <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
-                        <TextBlock x:Name="tbSteamConfigPath" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="tbSteamRuta" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
                     </Grid>
                     <TextBlock x:Name="tbSteamConfigInstruccionesCuenta" Grid.Row="2" Margin="5" TextWrapping="Wrap" />
-                    <Grid Grid.Row="3" Margin="5,5,5,15">
+                    <Grid Grid.Row="3">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <ProgressRing x:Name="prSteamConfigCuenta" IsActive="True" Grid.Column="0" Visibility="Collapsed" Margin="0,0,15,0" />
-                        <TextBox x:Name="tbSteamConfigCuenta" Grid.Column="1"/>
+                        <controls:DropShadowPanel Grid.Column="0" Margin="5,10" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
+                                                  OffsetZ="5">
+                            <Button x:Name="botonSteamCuenta" Padding="15,10" Background="SteelBlue">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Add" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock x:Name="botonSteamCuentaTexto" Foreground="White"/>
+                                </StackPanel>
+                            </Button>
+                        </controls:DropShadowPanel>
+
+                        <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" />
+                        <ProgressRing x:Name="prSteamCuenta" IsActive="True" Grid.Column="2" Visibility="Collapsed" Margin="0,0,15,0" />
+                        <TextBox x:Name="tbSteamCuenta" Grid.Column="3" Margin="10,0" VerticalAlignment="Center"/>
                     </Grid>
 
-                    <Grid Grid.Row="4">
+                    <Grid Grid.Row="4" Margin="0,30,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -344,10 +400,10 @@
 
                         <controls:DropShadowPanel Grid.Column="0" Margin="5,10" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
                                                   OffsetZ="5">
-                            <Button x:Name="buttonCargaCategorias" Padding="15,10" Background="SteelBlue" IsEnabled="False">
+                            <Button x:Name="botonCargaCategorias" Padding="15,10" Background="SteelBlue" IsEnabled="False">
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon Glyph="&#xE898;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock x:Name="buttonCargaCategoriasTexto" Foreground="White"/>
+                                    <TextBlock x:Name="botonCargaCategoriasTexto" Foreground="White"/>
                                 </StackPanel>
                             </Button>
                         </controls:DropShadowPanel>
@@ -403,10 +459,14 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Grid.Row="6">
+                    <Grid Grid.Row="6" Margin="5">
+                        <CheckBox x:Name="cbActualizarListaJuegos" />
+                    </Grid>
+
+                    <Grid Grid.Row="7">
                         <controls:DropShadowPanel Grid.Column="0" Margin="5,10" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
                                                   OffsetZ="5">
-                            <Button x:Name="buttonBorrarCategoriasApp" Padding="15,10" Background="SteelBlue">
+                            <Button x:Name="botonBorrarCategoriasApp" Padding="15,10" Background="SteelBlue">
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                     <TextBlock x:Name="tbBorrarCategoriasAppTexto" Foreground="White"/>

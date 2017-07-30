@@ -1,4 +1,4 @@
-﻿Public Class JuegoFinal
+﻿Public Class Categoria
 
     Public Property ID As Integer
     Public Property Categorias As List(Of String)

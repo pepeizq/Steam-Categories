@@ -111,15 +111,16 @@
     </Compile>
     <Compile Include="Clases\Cuenta.vb" />
     <Compile Include="Clases\Juego.vb" />
-    <Compile Include="Clases\JuegoFinal.vb" />
+    <Compile Include="Clases\Categoria.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modulos\Acrilico.vb" />
     <Compile Include="Modulos\Decompiladores.vb" />
-    <Compile Include="Modulos\Listado.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
-    <Compile Include="Modulos\Steam.vb" />
+    <Compile Include="Modulos\Steam\Categorias.vb" />
+    <Compile Include="Modulos\Steam\Cliente.vb" />
+    <Compile Include="Modulos\Steam\Cuentas.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <ItemGroup>
