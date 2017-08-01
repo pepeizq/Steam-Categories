@@ -272,6 +272,7 @@
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
@@ -299,7 +300,9 @@
                             </Grid>
                         </controls:DropShadowPanel>
 
-                        <controls:DropShadowPanel Grid.Column="2" Margin="10" Color="Black"
+                        <TextBlock x:Name="tbNumeroCategorias" Grid.Column="2" VerticalAlignment="Center" Margin="5"/>
+
+                        <controls:DropShadowPanel Grid.Column="3" Margin="10" Color="Black"
                                                   BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
                             <Button x:Name="botonBorrarCategorias" Padding="10,15" HorizontalAlignment="Center" IsEnabled="False" Background="SteelBlue">
                                 <StackPanel Orientation="Horizontal">

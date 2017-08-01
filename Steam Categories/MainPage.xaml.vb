@@ -422,12 +422,10 @@ Public NotInheritable Class MainPage
     Private Async Sub CbSeleccionChecked(categoria As String)
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        Dim listaCategorias As List(Of Categoria)
+        Dim listaCategorias As List(Of Categoria) = Nothing
 
         If Await helper.FileExistsAsync("listaCategorias") = True Then
             listaCategorias = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
-        Else
-            listaCategorias = New List(Of Categoria)
         End If
 
         If listaCategorias Is Nothing Then
@@ -439,6 +437,7 @@ Public NotInheritable Class MainPage
         Dim j As Integer = 0
         While j < listaCategorias.Count
             If categoria = listaCategorias(j).Nombre Then
+                listaCategorias(j).Estado = True
                 boolCategoria = True
             End If
             j += 1
@@ -448,8 +447,26 @@ Public NotInheritable Class MainPage
             listaCategorias.Add(New Categoria(categoria, True, "principal"))
         End If
 
-        If listaCategorias.Count > 0 Then
+        Dim boolBoton As Boolean = False
+        Dim contadorTrue As Integer = 0
+
+        For Each item In listaCategorias
+            If item.Estado = True Then
+                boolBoton = True
+                contadorTrue += 1
+            End If
+        Next
+
+        If boolBoton = True Then
             botonEscribirCategorias.IsEnabled = True
+        Else
+            botonEscribirCategorias.IsEnabled = False
+        End If
+
+        If Not contadorTrue = 0 Then
+            tbNumeroCategorias.Text = contadorTrue.ToString
+        Else
+            tbNumeroCategorias.Text = String.Empty
         End If
 
         Try
@@ -467,25 +484,43 @@ Public NotInheritable Class MainPage
         If Await helper.FileExistsAsync("listaCategorias") = True Then
             Dim listaCategorias As List(Of Categoria) = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
 
+            If listaCategorias Is Nothing Then
+                listaCategorias = New List(Of Categoria)
+            End If
+
             For Each categoria_ In listaCategorias
                 If categoria = categoria_.Nombre Then
                     categoria_.Estado = False
                 End If
             Next
 
-            Dim boolCategorias As Boolean = False
+            Dim boolBoton As Boolean = False
+            Dim contadorTrue As Integer = 0
 
-            For Each categoria_ In listaCategorias
-                If categoria_.Estado = True Then
-                    boolCategorias = True
+            For Each item In listaCategorias
+                If item.Estado = True Then
+                    boolBoton = True
+                    contadorTrue += 1
                 End If
             Next
 
-            If boolCategorias = False Then
+            If boolBoton = True Then
+                botonEscribirCategorias.IsEnabled = True
+            Else
                 botonEscribirCategorias.IsEnabled = False
             End If
 
-            Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", listaCategorias)
+            If Not contadorTrue = 0 Then
+                tbNumeroCategorias.Text = contadorTrue.ToString
+            Else
+                tbNumeroCategorias.Text = String.Empty
+            End If
+
+            Try
+                Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", listaCategorias)
+            Catch ex As Exception
+
+            End Try
         End If
 
     End Sub
@@ -637,6 +672,7 @@ Public NotInheritable Class MainPage
             cb.IsChecked = False
         Next
 
+        tbNumeroCategorias.Text = String.Empty
         botonEscribirCategorias.IsEnabled = False
 
     End Sub

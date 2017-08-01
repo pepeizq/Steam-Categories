@@ -193,10 +193,10 @@
     <value>Clickea en las cajas para seleccionar que categorías añadir en Steam</value>
   </data>
   <data name="Categorias No" xml:space="preserve">
-    <value>No se han añadido las categorías de Steam</value>
+    <value>No se han podido añadir las categorías, cierra Steam</value>
   </data>
   <data name="Categorias Si" xml:space="preserve">
-    <value>Se han añadido las categorías de Steam</value>
+    <value>Se han añadido las categorías en Steam</value>
   </data>
   <data name="Como Funciona" xml:space="preserve">
     <value>¿Como funciona?</value>

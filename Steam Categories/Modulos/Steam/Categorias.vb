@@ -21,6 +21,9 @@ Module Categorias
         Dim botonBorrarCategorias As Button = pagina.FindName("botonBorrarCategorias")
         botonBorrarCategorias.IsEnabled = False
 
+        Dim botonLimpiarCategorias As Button = pagina.FindName("botonLimpiarSeleccionCategorias")
+        botonLimpiarCategorias.IsEnabled = False
+
         Dim botonBorrarCategoriasApp As Button = pagina.FindName("botonBorrarCategoriasApp")
         botonBorrarCategoriasApp.IsEnabled = False
 
@@ -520,6 +523,7 @@ Module Categorias
         gridProgreso.Visibility = Visibility.Collapsed
         botonCargaCategorias.IsEnabled = True
         botonBorrarCategorias.IsEnabled = True
+        botonLimpiarCategorias.IsEnabled = True
         botonBorrarCategoriasApp.IsEnabled = True
         botonSteamRuta.IsEnabled = True
         botonCuenta.IsEnabled = True
@@ -894,19 +898,30 @@ Module Categorias
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim boton As Button = pagina.FindName("botonEscribirCategorias")
         Dim boolBoton As Boolean = False
+        Dim contadorTrue As Integer = 0
 
         For Each item In listaCategorias
             If item.Estado = True Then
                 boolBoton = True
+                contadorTrue += 1
             End If
         Next
+
+        Dim boton As Button = pagina.FindName("botonEscribirCategorias")
 
         If boolBoton = True Then
             boton.IsEnabled = True
         Else
             boton.IsEnabled = False
+        End If
+
+        Dim tb As TextBlock = pagina.FindName("tbNumeroCategorias")
+
+        If Not contadorTrue = 0 Then
+            tb.Text = contadorTrue.ToString
+        Else
+            tb.Text = String.Empty
         End If
 
         Try
@@ -936,14 +951,15 @@ Module Categorias
             Dim gvTags As GridView = pagina.FindName("gvTags")
             Dim gvIdiomas As GridView = pagina.FindName("gvIdiomas")
 
-            Dim botonEscribir As Button = pagina.FindName("botonEscribirCategorias")
             Dim boolBoton As Boolean = False
+            Dim contadorTrue As Integer = 0
 
             If Not listaCategorias Is Nothing Then
                 For Each categoria In listaCategorias
                     If categoria.Estado = True Then
 
                         boolBoton = True
+                        contadorTrue += 1
 
                         If categoria.Nombre = ("/*1/" + cbUserscore.Content) Then
                             cbUserscore.IsChecked = True
@@ -1005,9 +1021,21 @@ Module Categorias
                 Next
             End If
 
+            Dim botonEscribir As Button = pagina.FindName("botonEscribirCategorias")
+
             If boolBoton = True Then
                 Cliente.EscribirCategorias()
                 botonEscribir.IsEnabled = True
+            Else
+                botonEscribir.IsEnabled = False
+            End If
+
+            Dim tb As TextBlock = pagina.FindName("tbNumeroCategorias")
+
+            If Not contadorTrue = 0 Then
+                tb.Text = contadorTrue.ToString
+            Else
+                tb.Text = String.Empty
             End If
         End If
 

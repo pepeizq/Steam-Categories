@@ -193,10 +193,10 @@
     <value>Click in the boxes to select which categories add in Steam</value>
   </data>
   <data name="Categorias No" xml:space="preserve">
-    <value>Steam categories could not be added</value>
+    <value>Categories could not be added, close Steam</value>
   </data>
   <data name="Categorias Si" xml:space="preserve">
-    <value>Steam categories have been added</value>
+    <value>Categories have been added in Steam</value>
   </data>
   <data name="Como Funciona" xml:space="preserve">
     <value>How does it work?</value>
