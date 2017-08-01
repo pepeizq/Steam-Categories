@@ -71,6 +71,8 @@ Public NotInheritable Class MainPage
         tbCargaCategoriasAviso.Text = recursos.GetString("Aviso Carga")
         tbJuegosCuentaMensaje.Text = recursos.GetString("Texto Juegos Cuenta")
         tbJuegosAppMensaje.Text = recursos.GetString("Texto Juegos App")
+        cbActualizarListaJuegos.Content = recursos.GetString("Modo Actualizar")
+        tbActualizarListaJuegos.Text = recursos.GetString("Modo Actualizar Tooltip")
         tbBorrarCategoriasAppTexto.Text = recursos.GetString("Boton Borrar Categorias App")
 
         '----------------------------------------------
@@ -136,17 +138,23 @@ Public NotInheritable Class MainPage
             End If
         End If
 
-        If Await helper.FileExistsAsync("listaCategorias") = True Then
-            Dim listaCategorias As List(Of String) = Await helper.ReadFileAsync(Of List(Of String))("listaCategorias")
-
-            listaCategorias.RemoveRange(0, listaCategorias.Count)
-
-            Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
-        End If
+        Dim borrarCategorias As Boolean = True
 
         If Await helper.FileExistsAsync("actualizar") = True Then
             Dim actualizar As Boolean = Await helper.ReadFileAsync(Of Boolean)("actualizar")
             cbActualizarListaJuegos.IsChecked = actualizar
+
+            If actualizar = True Then
+                Categorias.Cargar()
+                'Categorias.Comprobar()
+                'borrarCategorias = False
+            End If
+        End If
+
+        If borrarCategorias = True Then
+            If Await helper.FileExistsAsync("listaCategorias") = True Then
+                Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
+            End If
         End If
 
     End Sub
@@ -307,7 +315,13 @@ Public NotInheritable Class MainPage
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
 
         If Await helper.FileExistsAsync("listaJuegos") = True Then
-            Dim listaJuegos As List(Of Juego) = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
+            Dim listaJuegos As List(Of Juego) = Nothing
+
+            Try
+                listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
+            Catch ex As Exception
+
+            End Try
 
             If Not listaJuegos Is Nothing Then
                 If listaJuegos.Count = 0 Then
@@ -374,58 +388,78 @@ Public NotInheritable Class MainPage
 
     Private Sub CbSeleccionUserscore_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionUserscore.Checked
 
-        CbSeleccionChecked("/*/userscore/*/")
+        CbSeleccionChecked("/*1/" + cbSeleccionUserscore.Content)
 
     End Sub
 
     Private Sub CbSeleccionUserscore_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionUserscore.Unchecked
 
-        CbSeleccionUnChecked("/*/userscore/*/")
+        CbSeleccionUnChecked("/*1/" + cbSeleccionUserscore.Content)
 
     End Sub
 
     Private Sub CbSeleccionMetascore_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionMetascore.Checked
 
-        CbSeleccionChecked("/*/metascore/*/")
+        CbSeleccionChecked("/*2/" + cbSeleccionMetascore.Content)
 
     End Sub
 
     Private Sub CbSeleccionMetascore_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionMetascore.Unchecked
 
-        CbSeleccionUnChecked("/*/metascore/*/")
+        CbSeleccionUnChecked("/*2/" + cbSeleccionMetascore.Content)
 
     End Sub
 
     Private Sub CbSeleccionAños_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionAños.Checked
 
-        CbSeleccionChecked("/*/años/*/")
+        CbSeleccionChecked("/*3/" + cbSeleccionAños.Content)
 
     End Sub
 
     Private Sub CbSeleccionAños_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionAños.Unchecked
 
-        CbSeleccionUnChecked("/*/años/*/")
+        CbSeleccionUnChecked("/*3/" + cbSeleccionAños.Content)
 
     End Sub
 
     Private Async Sub CbSeleccionChecked(categoria As String)
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        Dim listaCategorias As List(Of String)
+        Dim listaCategorias As List(Of Categoria)
 
         If Await helper.FileExistsAsync("listaCategorias") = True Then
-            listaCategorias = Await helper.ReadFileAsync(Of List(Of String))("listaCategorias")
+            listaCategorias = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
         Else
-            listaCategorias = New List(Of String)
+            listaCategorias = New List(Of Categoria)
         End If
 
-        listaCategorias.Add(categoria)
+        If listaCategorias Is Nothing Then
+            listaCategorias = New List(Of Categoria)
+        End If
+
+        Dim boolCategoria As Boolean = False
+
+        Dim j As Integer = 0
+        While j < listaCategorias.Count
+            If categoria = listaCategorias(j).Nombre Then
+                boolCategoria = True
+            End If
+            j += 1
+        End While
+
+        If boolCategoria = False Then
+            listaCategorias.Add(New Categoria(categoria, True, "principal"))
+        End If
 
         If listaCategorias.Count > 0 Then
             botonEscribirCategorias.IsEnabled = True
         End If
 
-        Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
+        Try
+            Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", listaCategorias)
+        Catch ex As Exception
+
+        End Try
 
     End Sub
 
@@ -434,15 +468,27 @@ Public NotInheritable Class MainPage
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
 
         If Await helper.FileExistsAsync("listaCategorias") = True Then
-            Dim listaCategorias As List(Of String) = Await helper.ReadFileAsync(Of List(Of String))("listaCategorias")
+            Dim listaCategorias As List(Of Categoria) = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
 
-            listaCategorias.Remove(categoria)
+            For Each categoria_ In listaCategorias
+                If categoria = categoria_.Nombre Then
+                    categoria_.Estado = False
+                End If
+            Next
 
-            If listaCategorias.Count = 0 Then
+            Dim boolCategorias As Boolean = False
+
+            For Each categoria_ In listaCategorias
+                If categoria_.Estado = True Then
+                    boolCategorias = True
+                End If
+            Next
+
+            If boolCategorias = False Then
                 botonEscribirCategorias.IsEnabled = False
             End If
 
-            Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
+            Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", listaCategorias)
         End If
 
     End Sub
@@ -548,6 +594,34 @@ Public NotInheritable Class MainPage
         gvIdiomas.Items.Clear()
 
         tbJuegosApp.Text = 0
+
+    End Sub
+
+    Private Sub GvCategorias_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvCategorias.ItemClick
+
+        Dim sp As StackPanel = e.ClickedItem
+        Categorias.AñadirListaCategorias(sp)
+
+    End Sub
+
+    Private Sub GvGeneros_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvGeneros.ItemClick
+
+        Dim sp As StackPanel = e.ClickedItem
+        Categorias.AñadirListaCategorias(sp)
+
+    End Sub
+
+    Private Sub GvTags_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvTags.ItemClick
+
+        Dim sp As StackPanel = e.ClickedItem
+        Categorias.AñadirListaCategorias(sp)
+
+    End Sub
+
+    Private Sub GvIdiomas_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvIdiomas.ItemClick
+
+        Dim sp As StackPanel = e.ClickedItem
+        Categorias.AñadirListaCategorias(sp)
 
     End Sub
 

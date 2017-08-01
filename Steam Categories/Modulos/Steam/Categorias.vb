@@ -508,7 +508,19 @@ Module Categorias
             GenerarTags(listaJuegos)
             GenerarIdiomas(listaJuegos)
 
-            Toast("Steam Categories", recursos.GetString("Cargado Si"))
+            Dim mostrarAviso As Boolean = True
+
+            If Await helper.FileExistsAsync("actualizar") = True Then
+                Dim actualizarModo As Boolean = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+
+                If actualizarModo = True Then
+                    mostrarAviso = False
+                End If
+            End If
+
+            If mostrarAviso = True Then
+                Toast("Steam Categories", recursos.GetString("Cargado Si"))
+            End If
         Else
             Toast("Steam Categories", recursos.GetString("Cargado No"))
         End If
@@ -532,41 +544,40 @@ Module Categorias
         Dim gv As GridView = pagina.FindName("gvCategorias")
         gv.Items.Clear()
 
-        AddHandler gv.ItemClick, AddressOf GvItemClick
-
-        Dim listaCategorias As New List(Of String)
+        Dim listaCategorias As New List(Of Categoria)
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
                 Dim i As Integer = 0
                 While i < listaJuegos.Count
-
                     For Each categoria_ In listaJuegos(i).Categorias
-                        If listaCategorias.Count > 0 Then
-                            Dim boolCategoria As Boolean = False
+                        If Not categoria_ = Nothing Then
+                            If listaCategorias.Count > 0 Then
+                                Dim boolCategoria As Boolean = False
 
-                            Dim j As Integer = 0
-                            While j < listaCategorias.Count
-                                If categoria_ = listaCategorias(j) Then
-                                    boolCategoria = True
+                                Dim j As Integer = 0
+                                While j < listaCategorias.Count
+                                    If categoria_ = listaCategorias(j).Nombre Then
+                                        boolCategoria = True
+                                    End If
+                                    j += 1
+                                End While
+
+                                If boolCategoria = False Then
+                                    listaCategorias.Add(New Categoria(categoria_, False, "categoria"))
                                 End If
-                                j += 1
-                            End While
-
-                            If boolCategoria = False Then
-                                listaCategorias.Add(categoria_)
+                            Else
+                                listaCategorias.Add(New Categoria(categoria_, False, "categoria"))
                             End If
-                        Else
-                            listaCategorias.Add(categoria_)
                         End If
                     Next
                     i += 1
                 End While
 
-                listaCategorias.Sort()
+                listaCategorias.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
                 For Each categoria In listaCategorias
-                    If categoria.Length > 0 Then
+                    If categoria.Nombre.Length > 0 Then
                         Dim sp As New StackPanel With {
                             .Padding = New Thickness(5, 5, 5, 5),
                             .Orientation = Orientation.Horizontal,
@@ -575,14 +586,16 @@ Module Categorias
                         }
 
                         Dim cb As New CheckBox With {
+                            .IsChecked = categoria.Estado,
                             .MinWidth = 30,
-                            .VerticalAlignment = VerticalAlignment.Center
+                            .VerticalAlignment = VerticalAlignment.Center,
+                            .IsHitTestVisible = False
                         }
 
                         sp.Children.Add(cb)
 
                         Dim tb As New TextBlock With {
-                            .Text = categoria,
+                            .Text = categoria.Nombre,
                             .TextWrapping = TextWrapping.Wrap,
                             .FontSize = 14,
                             .VerticalAlignment = VerticalAlignment.Center,
@@ -594,6 +607,7 @@ Module Categorias
                         gv.Items.Add(sp)
                     End If
                 Next
+
             End If
         End If
 
@@ -607,57 +621,58 @@ Module Categorias
         Dim gv As GridView = pagina.FindName("gvGeneros")
         gv.Items.Clear()
 
-        AddHandler gv.ItemClick, AddressOf GvItemClick
-
-        Dim listaGeneros As New List(Of String)
+        Dim listaGeneros As New List(Of Categoria)
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
                 Dim i As Integer = 0
                 While i < listaJuegos.Count
-
                     For Each genero_ In listaJuegos(i).Generos
-                        If listaGeneros.Count > 0 Then
-                            Dim boolGenero As Boolean = False
+                        If Not genero_ = Nothing Then
+                            If listaGeneros.Count > 0 Then
+                                Dim boolGenero As Boolean = False
 
-                            Dim j As Integer = 0
-                            While j < listaGeneros.Count
-                                If genero_ = listaGeneros(j) Then
-                                    boolGenero = True
+                                Dim j As Integer = 0
+                                While j < listaGeneros.Count
+                                    If genero_ = listaGeneros(j).Nombre Then
+                                        boolGenero = True
+                                    End If
+                                    j += 1
+                                End While
+
+                                If boolGenero = False Then
+                                    listaGeneros.Add(New Categoria(genero_, False, "genero"))
                                 End If
-                                j += 1
-                            End While
-
-                            If boolGenero = False Then
-                                listaGeneros.Add(genero_)
+                            Else
+                                listaGeneros.Add(New Categoria(genero_, False, "genero"))
                             End If
-                        Else
-                            listaGeneros.Add(genero_)
                         End If
                     Next
                     i += 1
                 End While
 
-                listaGeneros.Sort()
+                listaGeneros.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
-                For Each genero In listaGeneros
-                    If genero.Length > 0 Then
+                For Each categoria In listaGeneros
+                    If categoria.Nombre.Length > 0 Then
                         Dim sp As New StackPanel With {
                             .Padding = New Thickness(5, 5, 5, 5),
                             .Orientation = Orientation.Horizontal,
                             .Width = 200,
-                            .Tag = genero
+                            .Tag = categoria
                         }
 
                         Dim cb As New CheckBox With {
+                            .IsChecked = categoria.Estado,
                             .MinWidth = 30,
-                            .VerticalAlignment = VerticalAlignment.Center
+                            .VerticalAlignment = VerticalAlignment.Center,
+                            .IsHitTestVisible = False
                         }
 
                         sp.Children.Add(cb)
 
                         Dim tb As New TextBlock With {
-                            .Text = genero,
+                            .Text = categoria.Nombre,
                             .TextWrapping = TextWrapping.Wrap,
                             .FontSize = 14,
                             .VerticalAlignment = VerticalAlignment.Center,
@@ -669,6 +684,7 @@ Module Categorias
                         gv.Items.Add(sp)
                     End If
                 Next
+
             End If
         End If
 
@@ -682,57 +698,58 @@ Module Categorias
         Dim gv As GridView = pagina.FindName("gvTags")
         gv.Items.Clear()
 
-        AddHandler gv.ItemClick, AddressOf GvItemClick
-
-        Dim listaTags As New List(Of String)
+        Dim listaTags As New List(Of Categoria)
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
                 Dim i As Integer = 0
                 While i < listaJuegos.Count
-
                     For Each tag_ In listaJuegos(i).Tags
-                        If listaTags.Count > 0 Then
-                            Dim boolTag As Boolean = False
+                        If Not tag_ = Nothing Then
+                            If listaTags.Count > 0 Then
+                                Dim boolTag As Boolean = False
 
-                            Dim j As Integer = 0
-                            While j < listaTags.Count
-                                If tag_ = listaTags(j) Then
-                                    boolTag = True
+                                Dim j As Integer = 0
+                                While j < listaTags.Count
+                                    If tag_ = listaTags(j).Nombre Then
+                                        boolTag = True
+                                    End If
+                                    j += 1
+                                End While
+
+                                If boolTag = False Then
+                                    listaTags.Add(New Categoria(tag_, False, "tag"))
                                 End If
-                                j += 1
-                            End While
-
-                            If boolTag = False Then
-                                listaTags.Add(tag_)
+                            Else
+                                listaTags.Add(New Categoria(tag_, False, "tag"))
                             End If
-                        Else
-                            listaTags.Add(tag_)
                         End If
                     Next
                     i += 1
                 End While
 
-                listaTags.Sort()
+                listaTags.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
-                For Each tag In listaTags
-                    If tag.Length > 0 Then
+                For Each categoria In listaTags
+                    If categoria.Nombre.Length > 0 Then
                         Dim sp As New StackPanel With {
                             .Padding = New Thickness(5, 5, 5, 5),
                             .Orientation = Orientation.Horizontal,
                             .Width = 200,
-                            .Tag = tag
+                            .Tag = categoria
                         }
 
                         Dim cb As New CheckBox With {
+                            .IsChecked = categoria.Estado,
                             .MinWidth = 30,
-                            .VerticalAlignment = VerticalAlignment.Center
+                            .VerticalAlignment = VerticalAlignment.Center,
+                            .IsHitTestVisible = False
                         }
 
                         sp.Children.Add(cb)
 
                         Dim tb As New TextBlock With {
-                            .Text = tag,
+                            .Text = categoria.Nombre,
                             .TextWrapping = TextWrapping.Wrap,
                             .FontSize = 14,
                             .VerticalAlignment = VerticalAlignment.Center,
@@ -744,6 +761,7 @@ Module Categorias
                         gv.Items.Add(sp)
                     End If
                 Next
+
             End If
         End If
 
@@ -757,57 +775,58 @@ Module Categorias
         Dim gv As GridView = pagina.FindName("gvIdiomas")
         gv.Items.Clear()
 
-        AddHandler gv.ItemClick, AddressOf GvItemClick
-
-        Dim listaIdiomas As New List(Of String)
+        Dim listaIdiomas As New List(Of Categoria)
 
         If Not listaJuegos Is Nothing Then
             If listaJuegos.Count > 0 Then
                 Dim i As Integer = 0
                 While i < listaJuegos.Count
-
                     For Each idioma_ In listaJuegos(i).Idiomas
-                        If listaIdiomas.Count > 0 Then
-                            Dim boolIdioma As Boolean = False
+                        If Not idioma_ = Nothing Then
+                            If listaIdiomas.Count > 0 Then
+                                Dim boolIdioma As Boolean = False
 
-                            Dim j As Integer = 0
-                            While j < listaIdiomas.Count
-                                If idioma_ = listaIdiomas(j) Then
-                                    boolIdioma = True
+                                Dim j As Integer = 0
+                                While j < listaIdiomas.Count
+                                    If idioma_ = listaIdiomas(j).Nombre Then
+                                        boolIdioma = True
+                                    End If
+                                    j += 1
+                                End While
+
+                                If boolIdioma = False Then
+                                    listaIdiomas.Add(New Categoria(idioma_, False, "idioma"))
                                 End If
-                                j += 1
-                            End While
-
-                            If boolIdioma = False Then
-                                listaIdiomas.Add(idioma_)
+                            Else
+                                listaIdiomas.Add(New Categoria(idioma_, False, "idioma"))
                             End If
-                        Else
-                            listaIdiomas.Add(idioma_)
                         End If
                     Next
                     i += 1
                 End While
 
-                listaIdiomas.Sort()
+                listaIdiomas.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
 
-                For Each idioma In listaIdiomas
-                    If idioma.Length > 0 Then
+                For Each categoria In listaIdiomas
+                    If categoria.Nombre.Length > 0 Then
                         Dim sp As New StackPanel With {
                             .Padding = New Thickness(5, 5, 5, 5),
                             .Orientation = Orientation.Horizontal,
                             .Width = 200,
-                            .Tag = idioma
+                            .Tag = categoria
                         }
 
                         Dim cb As New CheckBox With {
+                            .IsChecked = categoria.Estado,
                             .MinWidth = 30,
-                            .VerticalAlignment = VerticalAlignment.Center
+                            .VerticalAlignment = VerticalAlignment.Center,
+                            .IsHitTestVisible = False
                         }
 
                         sp.Children.Add(cb)
 
                         Dim tb As New TextBlock With {
-                            .Text = idioma,
+                            .Text = categoria.Nombre,
                             .TextWrapping = TextWrapping.Wrap,
                             .FontSize = 14,
                             .VerticalAlignment = VerticalAlignment.Center,
@@ -819,35 +838,41 @@ Module Categorias
                         gv.Items.Add(sp)
                     End If
                 Next
+
             End If
         End If
 
     End Sub
 
-    Private Async Sub GvItemClick(sender As Object, e As ItemClickEventArgs)
+    Public Async Sub AñadirListaCategorias(sp As StackPanel)
 
-        Dim sp As StackPanel = e.ClickedItem
-        Dim categoria As String = sp.Tag
-
-        Dim cb As CheckBox = sp.Children.Item(0)
+        Dim listaCategorias As List(Of Categoria) = Nothing
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        Dim listaCategorias As List(Of String)
-
         If Await helper.FileExistsAsync("listaCategorias") = True Then
-            listaCategorias = Await helper.ReadFileAsync(Of List(Of String))("listaCategorias")
-        Else
-            listaCategorias = New List(Of String)
+            listaCategorias = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
         End If
 
-        If cb.IsChecked = False Then
+        If listaCategorias Is Nothing Then
+            listaCategorias = New List(Of Categoria)
+        End If
+
+        Dim categoria As Categoria = sp.Tag
+        Dim cb As CheckBox = sp.Children.Item(0)
+
+        If categoria.Estado = False Then
+            categoria.Estado = True
+
             If listaCategorias.Count > 0 Then
                 Dim boolCategoria As Boolean = False
 
                 Dim j As Integer = 0
                 While j < listaCategorias.Count
-                    If categoria = listaCategorias(j) Then
-                        boolCategoria = True
+                    If categoria.Seccion = listaCategorias(j).Seccion Then
+                        If categoria.Nombre = listaCategorias(j).Nombre Then
+                            listaCategorias(j).Estado = True
+                            boolCategoria = True
+                        End If
                     End If
                     j += 1
                 End While
@@ -858,25 +883,110 @@ Module Categorias
             Else
                 listaCategorias.Add(categoria)
             End If
-
-            cb.IsChecked = True
         Else
-            listaCategorias.Remove(categoria)
-            cb.IsChecked = False
+            categoria.Estado = False
+
+            Dim j As Integer = 0
+            While j < listaCategorias.Count
+                If categoria.Seccion = listaCategorias(j).Seccion Then
+                    If categoria.Nombre = listaCategorias(j).Nombre Then
+                        listaCategorias(j).Estado = False
+                    End If
+                End If
+                j += 1
+            End While
         End If
+
+        cb.IsChecked = categoria.Estado
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
         Dim boton As Button = pagina.FindName("botonEscribirCategorias")
+        Dim boolBoton As Boolean = False
 
-        If listaCategorias.Count > 0 Then
+        For Each item In listaCategorias
+            If item.Estado = True Then
+                boolBoton = True
+            End If
+        Next
+
+        If boolBoton = True Then
             boton.IsEnabled = True
         Else
             boton.IsEnabled = False
         End If
 
-        Await helper.SaveFileAsync(Of List(Of String))("listaCategorias", listaCategorias)
+        Try
+            Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", listaCategorias)
+        Catch ex As Exception
+
+        End Try
+
+
+    End Sub
+
+    Public Async Sub Comprobar()
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+
+        If Await helper.FileExistsAsync("listaCategorias") = True Then
+            Dim listaCategorias As List(Of Categoria) = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
+
+            If Not listaCategorias Is Nothing Then
+                For Each categoria In listaCategorias
+                    If categoria.Estado = True Then
+                        Dim cbUserscore As CheckBox = pagina.FindName("cbSeleccionUserscore")
+
+                        If categoria.Nombre = ("/*1/" + cbUserscore.Content) Then
+                            cbUserscore.IsChecked = True
+                        End If
+
+                        Dim cbMetascore As CheckBox = pagina.FindName("cbSeleccionMetascore")
+
+                        If categoria.Nombre = ("/*2/" + cbMetascore.Content) Then
+                            cbMetascore.IsChecked = True
+                        End If
+
+                        Dim cbAños As CheckBox = pagina.FindName("cbSeleccionAños")
+
+                        If categoria.Nombre = ("/*3/" + cbAños.Content) Then
+                            cbAños.IsChecked = True
+                        End If
+
+                        Dim gvCategorias As GridView = pagina.FindName("gvCategorias")
+
+                        For Each sp As StackPanel In gvCategorias.Items
+                            Dim categoria_ As Categoria = sp.Tag
+
+                            If categoria_.Seccion = categoria.Seccion Then
+                                If categoria_.Nombre = categoria.Nombre Then
+                                    Dim cb As CheckBox = sp.Children.Item(0)
+                                    cb.IsChecked = True
+                                    MessageBox(cb.IsChecked.ToString)
+                                End If
+                            End If
+                        Next
+
+                        gvCategorias.UpdateLayout()
+
+                        'Dim lista As List(Of Categoria) = gvCategorias.ItemsSource
+                        'gvCategorias.ItemsSource = Nothing
+                        'For Each item In lista
+                        '    If item.Seccion = categoria.Seccion Then
+                        '        If item.Nombre = categoria.Nombre Then
+                        '            item.Estado = categoria.Estado
+                        '        End If
+                        '    End If
+                        'Next
+                        'gvCategorias.ItemsSource = lista
+                    End If
+                Next
+            End If
+        End If
 
     End Sub
 

@@ -1,11 +1,13 @@
 ﻿Public Class Categoria
 
-    Public Property ID As Integer
-    Public Property Categorias As List(Of String)
+    Public Property Nombre As String
+    Public Property Estado As Boolean
+    Public Property Seccion As String
 
-    Public Sub New(ByVal id As Integer, ByVal categorias As List(Of String))
-        Me.ID = id
-        Me.Categorias = categorias
+    Public Sub New(ByVal nombre As String, ByVal estado As Boolean, ByVal seccion As String)
+        Me.Nombre = nombre
+        Me.Estado = estado
+        Me.Seccion = seccion
     End Sub
 
 End Class

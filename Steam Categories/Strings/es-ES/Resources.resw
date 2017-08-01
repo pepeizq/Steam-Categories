@@ -207,6 +207,12 @@
   <data name="Idiomas" xml:space="preserve">
     <value>Idiomas</value>
   </data>
+  <data name="Modo Actualizar" xml:space="preserve">
+    <value>Modo Actualizar</value>
+  </data>
+  <data name="Modo Actualizar Tooltip" xml:space="preserve">
+    <value>Si activas este modo la app cada vez que sea iniciada actualizará los nuevos juegos</value>
+  </data>
   <data name="No Juegos" xml:space="preserve">
     <value>No se han cargado las categorías en la aplicación, ve a Configuración</value>
   </data>

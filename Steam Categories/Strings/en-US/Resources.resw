@@ -207,6 +207,12 @@
   <data name="Idiomas" xml:space="preserve">
     <value>Languages</value>
   </data>
+  <data name="Modo Actualizar" xml:space="preserve">
+    <value>Refresh Mode</value>
+  </data>
+  <data name="Modo Actualizar Tooltip" xml:space="preserve">
+    <value>If you activate this mode the app every time it is started will update the new games</value>
+  </data>
   <data name="No Juegos" xml:space="preserve">
     <value>Categories have not been loaded in the app, go to Configuration</value>
   </data>

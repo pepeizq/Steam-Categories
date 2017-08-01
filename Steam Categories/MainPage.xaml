@@ -140,9 +140,9 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat1.png"/>
+                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat1.png" IsCacheEnabled="True"/>
                                             <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat2.png"/>
+                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat2.png" IsCacheEnabled="True"/>
                                         </Grid>
                                     </Grid>
                                 </controls:Expander>
@@ -173,9 +173,9 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat3.png"/>
+                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat3.png" IsCacheEnabled="True"/>
                                             <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat4.png"/>
+                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat4.png" IsCacheEnabled="True"/>
                                         </Grid>
                                     </Grid>
                                 </controls:Expander>
@@ -206,9 +206,9 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat5.png"/>
+                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat5.png" IsCacheEnabled="True"/>
                                             <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat6.png"/>
+                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat6.png" IsCacheEnabled="True"/>
                                         </Grid>
                                     </Grid>
                                 </controls:Expander>
@@ -459,8 +459,14 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Grid.Row="6" Margin="5">
-                        <CheckBox x:Name="cbActualizarListaJuegos" />
+                    <Grid Grid.Row="6" Margin="5,5,5,15">
+                        <CheckBox x:Name="cbActualizarListaJuegos">
+                            <ToolTipService.ToolTip>
+                                <Grid>
+                                    <TextBlock x:Name="tbActualizarListaJuegos" FontSize="16" TextWrapping="Wrap" Padding="5"/>
+                                </Grid>
+                            </ToolTipService.ToolTip>
+                        </CheckBox> 
                     </Grid>
 
                     <Grid Grid.Row="7">

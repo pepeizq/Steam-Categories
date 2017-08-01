@@ -25,7 +25,11 @@ Module Cliente
 
             carpeta = Await carpetapicker.PickSingleFolderAsync()
         Else
-            carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
+            Try
+                carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
+            Catch ex As Exception
+                carpeta = Nothing
+            End Try
         End If
 
         If Not carpeta Is Nothing Then
@@ -129,8 +133,8 @@ Module Cliente
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
 
         If Await helper.FileExistsAsync("listaCategorias") = True Then
-            Dim listaCategorias As List(Of String) = Await helper.ReadFileAsync(Of List(Of String))("listaCategorias")
-            Dim listaFinal As New List(Of Categoria)
+            Dim listaCategorias As List(Of Categoria) = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
+            Dim listaFinal As New List(Of CategoriaCliente)
 
             If Await helper.FileExistsAsync("listaJuegos") = True Then
                 Dim listaJuegos As List(Of Juego) = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
@@ -139,109 +143,111 @@ Module Cliente
                     Dim listaCategoriasJuego As New List(Of String)
 
                     For Each categoria In listaCategorias
-                        If categoria = "/*/userscore/*/" Then
-                            listaCategoriasJuego.Add(GenerarScore(juego.Userscore, 0))
-                        End If
+                        If categoria.Estado = True Then
+                            If categoria.Nombre.Contains("/*1/") Then
+                                listaCategoriasJuego.Add(GenerarScore(juego.Userscore, 0))
+                            End If
 
-                        If categoria = "/*/metascore/*/" Then
-                            listaCategoriasJuego.Add(GenerarScore(juego.Metascore, 1))
-                        End If
+                            If categoria.Nombre.Contains("/*2/") Then
+                                listaCategoriasJuego.Add(GenerarScore(juego.Metascore, 1))
+                            End If
 
-                        If categoria = "/*/años/*/" Then
-                            listaCategoriasJuego.Add(juego.Año)
-                        End If
+                            If categoria.Nombre.Contains("/*3/") Then
+                                listaCategoriasJuego.Add(juego.Año)
+                            End If
 
-                        For Each genero In juego.Generos
-                            If categoria = genero Then
-                                If listaCategoriasJuego.Count > 0 Then
-                                    Dim boolAñadir As Boolean = False
+                            For Each genero In juego.Generos
+                                If categoria.Nombre = genero Then
+                                    If listaCategoriasJuego.Count > 0 Then
+                                        Dim boolAñadir As Boolean = False
 
-                                    Dim i As Integer = 0
-                                    While i < listaCategoriasJuego.Count
-                                        If categoria = listaCategoriasJuego(i) Then
-                                            boolAñadir = True
+                                        Dim i As Integer = 0
+                                        While i < listaCategoriasJuego.Count
+                                            If categoria.Nombre = listaCategoriasJuego(i) Then
+                                                boolAñadir = True
+                                            End If
+                                            i += 1
+                                        End While
+
+                                        If boolAñadir = False Then
+                                            listaCategoriasJuego.Add(genero)
                                         End If
-                                        i += 1
-                                    End While
-
-                                    If boolAñadir = False Then
+                                    Else
                                         listaCategoriasJuego.Add(genero)
                                     End If
-                                Else
-                                    listaCategoriasJuego.Add(genero)
                                 End If
-                            End If
-                        Next
+                            Next
 
-                        For Each categoria_ In juego.Categorias
-                            If categoria = categoria_ Then
-                                If listaCategoriasJuego.Count > 0 Then
-                                    Dim boolAñadir As Boolean = False
+                            For Each categoria_ In juego.Categorias
+                                If categoria.Nombre = categoria_ Then
+                                    If listaCategoriasJuego.Count > 0 Then
+                                        Dim boolAñadir As Boolean = False
 
-                                    Dim i As Integer = 0
-                                    While i < listaCategoriasJuego.Count
-                                        If categoria = listaCategoriasJuego(i) Then
-                                            boolAñadir = True
+                                        Dim i As Integer = 0
+                                        While i < listaCategoriasJuego.Count
+                                            If categoria.Nombre = listaCategoriasJuego(i) Then
+                                                boolAñadir = True
+                                            End If
+                                            i += 1
+                                        End While
+
+                                        If boolAñadir = False Then
+                                            listaCategoriasJuego.Add(categoria.Nombre)
                                         End If
-                                        i += 1
-                                    End While
-
-                                    If boolAñadir = False Then
-                                        listaCategoriasJuego.Add(categoria)
+                                    Else
+                                        listaCategoriasJuego.Add(categoria.Nombre)
                                     End If
-                                Else
-                                    listaCategoriasJuego.Add(categoria)
                                 End If
-                            End If
-                        Next
+                            Next
 
-                        For Each tag In juego.Tags
-                            If categoria = tag Then
-                                If listaCategoriasJuego.Count > 0 Then
-                                    Dim boolAñadir As Boolean = False
+                            For Each tag In juego.Tags
+                                If categoria.Nombre = tag Then
+                                    If listaCategoriasJuego.Count > 0 Then
+                                        Dim boolAñadir As Boolean = False
 
-                                    Dim i As Integer = 0
-                                    While i < listaCategoriasJuego.Count
-                                        If categoria = listaCategoriasJuego(i) Then
-                                            boolAñadir = True
+                                        Dim i As Integer = 0
+                                        While i < listaCategoriasJuego.Count
+                                            If categoria.Nombre = listaCategoriasJuego(i) Then
+                                                boolAñadir = True
+                                            End If
+                                            i += 1
+                                        End While
+
+                                        If boolAñadir = False Then
+                                            listaCategoriasJuego.Add(tag)
                                         End If
-                                        i += 1
-                                    End While
-
-                                    If boolAñadir = False Then
+                                    Else
                                         listaCategoriasJuego.Add(tag)
                                     End If
-                                Else
-                                    listaCategoriasJuego.Add(tag)
                                 End If
-                            End If
-                        Next
+                            Next
 
-                        For Each idioma In juego.Idiomas
-                            If categoria = idioma Then
-                                If listaCategoriasJuego.Count > 0 Then
-                                    Dim boolAñadir As Boolean = False
+                            For Each idioma In juego.Idiomas
+                                If categoria.Nombre = idioma Then
+                                    If listaCategoriasJuego.Count > 0 Then
+                                        Dim boolAñadir As Boolean = False
 
-                                    Dim i As Integer = 0
-                                    While i < listaCategoriasJuego.Count
-                                        If categoria = listaCategoriasJuego(i) Then
-                                            boolAñadir = True
+                                        Dim i As Integer = 0
+                                        While i < listaCategoriasJuego.Count
+                                            If categoria.Nombre = listaCategoriasJuego(i) Then
+                                                boolAñadir = True
+                                            End If
+                                            i += 1
+                                        End While
+
+                                        If boolAñadir = False Then
+                                            listaCategoriasJuego.Add(idioma)
                                         End If
-                                        i += 1
-                                    End While
-
-                                    If boolAñadir = False Then
+                                    Else
                                         listaCategoriasJuego.Add(idioma)
                                     End If
-                                Else
-                                    listaCategoriasJuego.Add(idioma)
                                 End If
-                            End If
-                        Next
+                            Next
+                        End If
                     Next
 
                     If listaCategoriasJuego.Count > 0 Then
-                        listaFinal.Add(New Categoria(juego.ID, listaCategoriasJuego))
+                        listaFinal.Add(New CategoriaCliente(juego.ID, listaCategoriasJuego))
                     End If
                 Next
             End If
