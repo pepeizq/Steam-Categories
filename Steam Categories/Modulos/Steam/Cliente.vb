@@ -125,8 +125,12 @@ Module Cliente
         Return usuarioID
     End Function
 
-    Public Async Sub EscribirCategorias(boton As Button)
+    Public Async Sub EscribirCategorias()
 
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim boton As Button = pagina.FindName("botonEscribirCategorias")
         boton.IsEnabled = False
 
         Dim boolFinal As Boolean = False
@@ -339,7 +343,10 @@ Module Cliente
                             Next
 
                             Await FileIO.WriteTextAsync(sharedconfig, lineas)
-                            boolFinal = True
+
+                            If listaFinal.Count > 0 Then
+                                boolFinal = True
+                            End If
                         End If
                     End If
                 End If
@@ -349,7 +356,17 @@ Module Cliente
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
         If boolFinal = True Then
-            Toast("Steam Categories", recursos.GetString("Categorias Si"))
+            If Await helper.FileExistsAsync("actualizar") = True Then
+                Dim actualizar As Boolean = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+
+                If actualizar = True Then
+                    Toast("Steam Categories", recursos.GetString("Actualizar"))
+                Else
+                    Toast("Steam Categories", recursos.GetString("Categorias Si"))
+                End If
+            Else
+                Toast("Steam Categories", recursos.GetString("Categorias Si"))
+            End If
         Else
             Toast("Steam Categories", recursos.GetString("Categorias No"))
         End If

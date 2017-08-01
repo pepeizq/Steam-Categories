@@ -508,18 +508,10 @@ Module Categorias
             GenerarTags(listaJuegos)
             GenerarIdiomas(listaJuegos)
 
-            Dim mostrarAviso As Boolean = True
-
-            If Await helper.FileExistsAsync("actualizar") = True Then
-                Dim actualizarModo As Boolean = Await helper.ReadFileAsync(Of Boolean)("actualizar")
-
-                If actualizarModo = True Then
-                    mostrarAviso = False
-                End If
-            End If
-
-            If mostrarAviso = True Then
+            If actualizar = False Then
                 Toast("Steam Categories", recursos.GetString("Cargado Si"))
+            Else
+                Comprobar()
             End If
         Else
             Toast("Steam Categories", recursos.GetString("Cargado No"))
@@ -923,7 +915,6 @@ Module Categorias
 
         End Try
 
-
     End Sub
 
     Public Async Sub Comprobar()
@@ -936,55 +927,87 @@ Module Categorias
         If Await helper.FileExistsAsync("listaCategorias") = True Then
             Dim listaCategorias As List(Of Categoria) = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
 
+            Dim cbUserscore As CheckBox = pagina.FindName("cbSeleccionUserscore")
+            Dim cbMetascore As CheckBox = pagina.FindName("cbSeleccionMetascore")
+            Dim cbAños As CheckBox = pagina.FindName("cbSeleccionAños")
+
+            Dim gvCategorias As GridView = pagina.FindName("gvCategorias")
+            Dim gvGeneros As GridView = pagina.FindName("gvGeneros")
+            Dim gvTags As GridView = pagina.FindName("gvTags")
+            Dim gvIdiomas As GridView = pagina.FindName("gvIdiomas")
+
+            Dim botonEscribir As Button = pagina.FindName("botonEscribirCategorias")
+            Dim boolBoton As Boolean = False
+
             If Not listaCategorias Is Nothing Then
                 For Each categoria In listaCategorias
                     If categoria.Estado = True Then
-                        Dim cbUserscore As CheckBox = pagina.FindName("cbSeleccionUserscore")
+
+                        boolBoton = True
 
                         If categoria.Nombre = ("/*1/" + cbUserscore.Content) Then
                             cbUserscore.IsChecked = True
                         End If
 
-                        Dim cbMetascore As CheckBox = pagina.FindName("cbSeleccionMetascore")
-
                         If categoria.Nombre = ("/*2/" + cbMetascore.Content) Then
                             cbMetascore.IsChecked = True
                         End If
-
-                        Dim cbAños As CheckBox = pagina.FindName("cbSeleccionAños")
 
                         If categoria.Nombre = ("/*3/" + cbAños.Content) Then
                             cbAños.IsChecked = True
                         End If
 
-                        Dim gvCategorias As GridView = pagina.FindName("gvCategorias")
-
-                        For Each sp As StackPanel In gvCategorias.Items
+                        For Each sp In gvCategorias.Items
                             Dim categoria_ As Categoria = sp.Tag
 
                             If categoria_.Seccion = categoria.Seccion Then
                                 If categoria_.Nombre = categoria.Nombre Then
                                     Dim cb As CheckBox = sp.Children.Item(0)
                                     cb.IsChecked = True
-                                    MessageBox(cb.IsChecked.ToString)
                                 End If
                             End If
                         Next
 
-                        gvCategorias.UpdateLayout()
+                        For Each sp In gvGeneros.Items
+                            Dim categoria_ As Categoria = sp.Tag
 
-                        'Dim lista As List(Of Categoria) = gvCategorias.ItemsSource
-                        'gvCategorias.ItemsSource = Nothing
-                        'For Each item In lista
-                        '    If item.Seccion = categoria.Seccion Then
-                        '        If item.Nombre = categoria.Nombre Then
-                        '            item.Estado = categoria.Estado
-                        '        End If
-                        '    End If
-                        'Next
-                        'gvCategorias.ItemsSource = lista
+                            If categoria_.Seccion = categoria.Seccion Then
+                                If categoria_.Nombre = categoria.Nombre Then
+                                    Dim cb As CheckBox = sp.Children.Item(0)
+                                    cb.IsChecked = True
+                                End If
+                            End If
+                        Next
+
+                        For Each sp In gvTags.Items
+                            Dim categoria_ As Categoria = sp.Tag
+
+                            If categoria_.Seccion = categoria.Seccion Then
+                                If categoria_.Nombre = categoria.Nombre Then
+                                    Dim cb As CheckBox = sp.Children.Item(0)
+                                    cb.IsChecked = True
+                                End If
+                            End If
+                        Next
+
+                        For Each sp In gvIdiomas.Items
+                            Dim categoria_ As Categoria = sp.Tag
+
+                            If categoria_.Seccion = categoria.Seccion Then
+                                If categoria_.Nombre = categoria.Nombre Then
+                                    Dim cb As CheckBox = sp.Children.Item(0)
+                                    cb.IsChecked = True
+                                End If
+                            End If
+                        Next
+
                     End If
                 Next
+            End If
+
+            If boolBoton = True Then
+                Cliente.EscribirCategorias()
+                botonEscribir.IsEnabled = True
             End If
         End If
 

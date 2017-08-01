@@ -470,7 +470,22 @@
                     </Grid>
 
                     <Grid Grid.Row="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
                         <controls:DropShadowPanel Grid.Column="0" Margin="5,10" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
+                                                  OffsetZ="5">
+                            <Button x:Name="botonLimpiarSeleccionCategorias" Padding="15,10" Background="SteelBlue">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock x:Name="tbLimpiarSeleccionCategoriasTexto" Foreground="White"/>
+                                </StackPanel>
+                            </Button>
+                        </controls:DropShadowPanel>
+
+                        <controls:DropShadowPanel Grid.Column="1" Margin="5,10" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
                                                   OffsetZ="5">
                             <Button x:Name="botonBorrarCategoriasApp" Padding="15,10" Background="SteelBlue">
                                 <StackPanel Orientation="Horizontal">

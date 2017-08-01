@@ -2,7 +2,7 @@
 
 Module Cuentas
 
-    Public Async Sub Detectar()
+    Public Async Sub Detectar(actualizar As Boolean)
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
         Dim cuenta As Cuenta = Nothing
@@ -125,7 +125,9 @@ Module Cuentas
                         Dim botonCategorias As Button = pagina.FindName("botonCargaCategorias")
 
                         If tbCuenta.Text.Length > 0 Then
-                            botonCategorias.IsEnabled = True
+                            If actualizar = False Then
+                                botonCategorias.IsEnabled = True
+                            End If
 
                             Dim listaJuegosID As New List(Of String)
 
@@ -168,8 +170,11 @@ Module Cuentas
             End If
         End If
 
-        botonCuenta.IsEnabled = True
-        tb.IsEnabled = True
+        If actualizar = False Then
+            botonCuenta.IsEnabled = True
+            tb.IsEnabled = True
+        End If
+
         pr.Visibility = Visibility.Collapsed
 
     End Sub

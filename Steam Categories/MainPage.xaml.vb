@@ -73,14 +73,8 @@ Public NotInheritable Class MainPage
         tbJuegosAppMensaje.Text = recursos.GetString("Texto Juegos App")
         cbActualizarListaJuegos.Content = recursos.GetString("Modo Actualizar")
         tbActualizarListaJuegos.Text = recursos.GetString("Modo Actualizar Tooltip")
+        tbLimpiarSeleccionCategoriasTexto.Text = recursos.GetString("Boton Limpiar Seleccion")
         tbBorrarCategoriasAppTexto.Text = recursos.GetString("Boton Borrar Categorias App")
-
-        '----------------------------------------------
-
-        Cliente.Detectar(False)
-        Cuentas.Detectar()
-        GridVisibilidad(gridCategorias, botonCategorias, recursos.GetString("Categorias"))
-        GridSeleccionVisibilidad(gridSeleccionUserscore, botonSeleccionUserscore)
 
         '--------------------------------------------------------
 
@@ -120,42 +114,45 @@ Public NotInheritable Class MainPage
         '--------------------------------------------------------
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Dim listaJuegos As List(Of Juego) = Nothing
 
         If Await helper.FileExistsAsync("listaJuegos") = True Then
-            Dim listaJuegos As List(Of Juego) = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
+            listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
 
             If Not listaJuegos Is Nothing Then
                 If listaJuegos.Count > 0 Then
                     GridSeleccionVisibilidad(gridSeleccionUserscore, botonSeleccionUserscore)
-
-                    Categorias.GenerarCategorias(listaJuegos)
-                    Categorias.GenerarGeneros(listaJuegos)
-                    Categorias.GenerarTags(listaJuegos)
-                    Categorias.GenerarIdiomas(listaJuegos)
-
                     tbJuegosApp.Text = listaJuegos.Count.ToString
                 End If
             End If
         End If
 
-        Dim borrarCategorias As Boolean = True
+        Dim actualizar As Boolean = False
 
         If Await helper.FileExistsAsync("actualizar") = True Then
-            Dim actualizar As Boolean = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+            actualizar = Await helper.ReadFileAsync(Of Boolean)("actualizar")
             cbActualizarListaJuegos.IsChecked = actualizar
-
-            If actualizar = True Then
-                Categorias.Cargar()
-                'Categorias.Comprobar()
-                'borrarCategorias = False
-            End If
         End If
 
-        If borrarCategorias = True Then
+        If actualizar = False Then
             If Await helper.FileExistsAsync("listaCategorias") = True Then
                 Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
             End If
+
+            Categorias.GenerarCategorias(listaJuegos)
+            Categorias.GenerarGeneros(listaJuegos)
+            Categorias.GenerarTags(listaJuegos)
+            Categorias.GenerarIdiomas(listaJuegos)
+        Else
+            Categorias.Cargar()
+
         End If
+
+        Cuentas.Detectar(actualizar)
+        Cliente.Detectar(False)
+
+        GridVisibilidad(gridCategorias, botonCategorias, recursos.GetString("Categorias"))
+        GridSeleccionVisibilidad(gridSeleccionUserscore, botonSeleccionUserscore)
 
     End Sub
 
@@ -250,7 +247,7 @@ Public NotInheritable Class MainPage
 
     Private Sub BotonEscribirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonEscribirCategorias.Click
 
-        Cliente.EscribirCategorias(botonEscribirCategorias)
+        Cliente.EscribirCategorias()
 
     End Sub
 
@@ -523,6 +520,34 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Sub GvCategorias_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvCategorias.ItemClick
+
+        Dim sp As StackPanel = e.ClickedItem
+        Categorias.AñadirListaCategorias(sp)
+
+    End Sub
+
+    Private Sub GvGeneros_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvGeneros.ItemClick
+
+        Dim sp As StackPanel = e.ClickedItem
+        Categorias.AñadirListaCategorias(sp)
+
+    End Sub
+
+    Private Sub GvTags_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvTags.ItemClick
+
+        Dim sp As StackPanel = e.ClickedItem
+        Categorias.AñadirListaCategorias(sp)
+
+    End Sub
+
+    Private Sub GvIdiomas_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvIdiomas.ItemClick
+
+        Dim sp As StackPanel = e.ClickedItem
+        Categorias.AñadirListaCategorias(sp)
+
+    End Sub
+
     'CONFIG--------------------------------------------------------------
 
     Private Sub GridVisibilidadConfig(grid As Grid, boton As Button)
@@ -545,7 +570,7 @@ Public NotInheritable Class MainPage
 
     Private Sub BotonSteamCuenta_Click(sender As Object, e As RoutedEventArgs) Handles botonSteamCuenta.Click
 
-        Cuentas.Detectar()
+        Cuentas.Detectar(False)
 
     End Sub
 
@@ -583,6 +608,39 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Async Sub BotonLimpiarSeleccionCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonLimpiarSeleccionCategorias.Click
+
+        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
+
+        cbSeleccionUserscore.IsChecked = False
+        cbSeleccionMetascore.IsChecked = False
+        cbSeleccionAños.IsChecked = False
+
+        For Each sp In gvCategorias.Items
+            Dim cb As CheckBox = sp.Children.Item(0)
+            cb.IsChecked = False
+        Next
+
+        For Each sp In gvGeneros.Items
+            Dim cb As CheckBox = sp.Children.Item(0)
+            cb.IsChecked = False
+        Next
+
+        For Each sp In gvTags.Items
+            Dim cb As CheckBox = sp.Children.Item(0)
+            cb.IsChecked = False
+        Next
+
+        For Each sp In gvIdiomas.Items
+            Dim cb As CheckBox = sp.Children.Item(0)
+            cb.IsChecked = False
+        Next
+
+        botonEscribirCategorias.IsEnabled = False
+
+    End Sub
+
     Private Async Sub BotonBorrarCategoriasApp_Click(sender As Object, e As RoutedEventArgs) Handles botonBorrarCategoriasApp.Click
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
@@ -594,34 +652,6 @@ Public NotInheritable Class MainPage
         gvIdiomas.Items.Clear()
 
         tbJuegosApp.Text = 0
-
-    End Sub
-
-    Private Sub GvCategorias_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvCategorias.ItemClick
-
-        Dim sp As StackPanel = e.ClickedItem
-        Categorias.AñadirListaCategorias(sp)
-
-    End Sub
-
-    Private Sub GvGeneros_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvGeneros.ItemClick
-
-        Dim sp As StackPanel = e.ClickedItem
-        Categorias.AñadirListaCategorias(sp)
-
-    End Sub
-
-    Private Sub GvTags_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvTags.ItemClick
-
-        Dim sp As StackPanel = e.ClickedItem
-        Categorias.AñadirListaCategorias(sp)
-
-    End Sub
-
-    Private Sub GvIdiomas_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvIdiomas.ItemClick
-
-        Dim sp As StackPanel = e.ClickedItem
-        Categorias.AñadirListaCategorias(sp)
 
     End Sub
 

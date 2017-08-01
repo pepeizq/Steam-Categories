@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actualizar" xml:space="preserve">
+    <value>Categorías actualizadas, reinicia Steam</value>
+  </data>
   <data name="Aviso Carga" xml:space="preserve">
     <value>Si tienes cientos o miles de juegos la carga tardara minutos</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="Boton Inicio" xml:space="preserve">
     <value>Inicio</value>
+  </data>
+  <data name="Boton Limpiar Seleccion" xml:space="preserve">
+    <value>Limpiar Categorías Seleccionadas</value>
   </data>
   <data name="Boton Reportar" xml:space="preserve">
     <value>Informa de un Fallo</value>
