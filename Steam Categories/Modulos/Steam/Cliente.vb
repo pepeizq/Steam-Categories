@@ -143,17 +143,28 @@ Module Cliente
             If Await helper.FileExistsAsync("listaJuegos") = True Then
                 Dim listaJuegos As List(Of Juego) = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
 
+                Dim userscore As List(Of Categoria) = Await helper.ReadFileAsync(Of List(Of Categoria))("userscore")
+                Dim metascore As List(Of Categoria) = Await helper.ReadFileAsync(Of List(Of Categoria))("metascore")
+
                 For Each juego In listaJuegos
                     Dim listaCategoriasJuego As New List(Of String)
 
                     For Each categoria In listaCategorias
                         If categoria.Estado = True Then
                             If categoria.Nombre.Contains("/*1/") Then
-                                listaCategoriasJuego.Add(GenerarScore(juego.Userscore, 0))
+                                Dim puntuacion As String = GenerarPuntuacion(userscore, juego.Userscore, 0)
+
+                                If Not puntuacion = Nothing Then
+                                    listaCategoriasJuego.Add(puntuacion)
+                                End If
                             End If
 
                             If categoria.Nombre.Contains("/*2/") Then
-                                listaCategoriasJuego.Add(GenerarScore(juego.Metascore, 1))
+                                Dim puntuacion As String = GenerarPuntuacion(metascore, juego.Metascore, 1)
+
+                                If Not puntuacion = Nothing Then
+                                    listaCategoriasJuego.Add(puntuacion)
+                                End If
                             End If
 
                             If categoria.Nombre.Contains("/*3/") Then
@@ -375,9 +386,9 @@ Module Cliente
 
     End Sub
 
-    Public Async Sub BorrarCategorias(button As Button)
+    Public Async Sub BorrarCategorias(boton As Button)
 
-        button.IsEnabled = False
+        boton.IsEnabled = False
 
         Dim boolFinal As Boolean = False
         Dim usuarioID As String = Await GenerarID()
@@ -440,43 +451,85 @@ Module Cliente
             Toast("Steam Categories", recursos.GetString("Borrado No"))
         End If
 
-        button.IsEnabled = True
+        boton.IsEnabled = True
 
     End Sub
 
-    Private Function GenerarScore(score As String, tipo As Integer)
+    Private Function GenerarPuntuacion(lista As List(Of Categoria), puntuacion As String, tipo As Integer)
 
-        If Not score = Nothing Then
-            Dim int As Integer = Integer.Parse(score)
+        If Not puntuacion = Nothing Then
+            Dim int As Integer = Integer.Parse(puntuacion)
 
-            If int > 90 Then
-                score = "> 90%"
-            ElseIf int > 80 And int < 91 Then
-                score = "> 80% & 91% <"
-            ElseIf int > 70 And int < 81 Then
-                score = "> 70% & 81% <"
-            ElseIf int > 60 And int < 71 Then
-                score = "> 60% & 71% <"
-            ElseIf int > 50 And int < 61 Then
-                score = "> 50% & 61% <"
-            ElseIf int > 40 And int < 51 Then
-                score = "> 40% & 51% <"
-            ElseIf int > 30 And int < 41 Then
-                score = "> 30% & 41% <"
-            ElseIf int > 20 And int < 31 Then
-                score = "> 20% & 31% <"
-            ElseIf int < 21 Then
-                score = "21% <"
-            End If
+            For Each item In lista
+                If int > 90 Then
+                    If item.Nombre = "9" Then
+                        If item.Estado = True Then
+                            puntuacion = "> 90%"
+                        End If
+                    End If
+                ElseIf int > 80 And int < 91 Then
+                    If item.Nombre = "8" Then
+                        If item.Estado = True Then
+                            puntuacion = "> 80% & 91% <"
+                        End If
+                    End If
+                ElseIf int > 70 And int < 81 Then
+                    If item.Nombre = "7" Then
+                        If item.Estado = True Then
+                            puntuacion = "> 70% & 81% <"
+                        End If
+                    End If
+                ElseIf int > 60 And int < 71 Then
+                    If item.Nombre = "6" Then
+                        If item.Estado = True Then
+                            puntuacion = "> 60% & 71% <"
+                        End If
+                    End If
+                ElseIf int > 50 And int < 61 Then
+                    If item.Nombre = "5" Then
+                        If item.Estado = True Then
+                            puntuacion = "> 50% & 61% <"
+                        End If
+                    End If
+                ElseIf int > 40 And int < 51 Then
+                    If item.Nombre = "4" Then
+                        If item.Estado = True Then
+                            puntuacion = "> 40% & 51% <"
+                        End If
+                    End If
+                ElseIf int > 30 And int < 41 Then
+                    If item.Nombre = "3" Then
+                        If item.Estado = True Then
+                            puntuacion = "> 30% & 41% <"
+                        End If
+                    End If
+                ElseIf int > 20 And int < 31 Then
+                    If item.Nombre = "2" Then
+                        If item.Estado = True Then
+                            puntuacion = "> 20% & 31% <"
+                        End If
+                    End If
+                ElseIf int < 21 Then
+                    If item.Estado = True Then
+                        puntuacion = "21% <"
+                    End If
+                End If
+            Next
 
-            If tipo = 0 Then
-                score = "Userscore " + score
-            ElseIf tipo = 1 Then
-                score = "Metascore " + score
+            If Not puntuacion = Nothing Then
+                If puntuacion.Contains("%") Then
+                    If tipo = 0 Then
+                        puntuacion = "Userscore " + puntuacion
+                    ElseIf tipo = 1 Then
+                        puntuacion = "Metascore " + puntuacion
+                    End If
+                Else
+                    puntuacion = Nothing
+                End If
             End If
         End If
 
-        Return score
+        Return puntuacion
     End Function
 
 End Module

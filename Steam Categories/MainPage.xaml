@@ -334,6 +334,9 @@
                         <Button x:Name="botonConfigCategorias" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Width="200">
                             <TextBlock x:Name="botonConfigCategoriasTexto" Foreground="White"/>
                         </Button>
+                        <Button x:Name="botonConfigCategoriasPersonalizar" Padding="10,15" Background="Transparent" HorizontalContentAlignment="Left" Width="200">
+                            <TextBlock x:Name="botonConfigCategoriasPersonalizarTexto" Foreground="White"/>
+                        </Button>
                     </StackPanel> 
                 </controls:DropShadowPanel>
 
@@ -349,7 +352,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock x:Name="tbSteamConfigInstruccionesCliente" Grid.Row="0" Margin="5" TextWrapping="Wrap" />
+                    <TextBlock x:Name="tbSteamConfigInstruccionesCliente" Grid.Row="0" Margin="5" TextWrapping="Wrap"/>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -498,7 +501,58 @@
                             </Button>
                         </controls:DropShadowPanel>
                     </Grid> 
-                </Grid>               
+                </Grid>
+
+                <Grid x:Name="gridConfigCategoriasPersonalizar" Grid.Column="1" Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" MinWidth="250">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Userscore" Margin="5"/>
+                        <GridView Grid.Row="1" Margin="5" Width="250">
+                            <GridView.Items>
+                                <CheckBox x:Name="cbPersonalizarUserscore9" Width="250" Content="+90%"/>
+                                <CheckBox x:Name="cbPersonalizarUserscore8" Width="250" Content="+80% and -91%"/>
+                                <CheckBox x:Name="cbPersonalizarUserscore7" Width="250" Content="+70% and -81%"/>
+                                <CheckBox x:Name="cbPersonalizarUserscore6" Width="250" Content="+60% and -71%"/>
+                                <CheckBox x:Name="cbPersonalizarUserscore5" Width="250" Content="+50% and -61%"/>
+                                <CheckBox x:Name="cbPersonalizarUserscore4" Width="250" Content="+40% and -51%"/>
+                                <CheckBox x:Name="cbPersonalizarUserscore3" Width="250" Content="+30% and -41%"/>
+                                <CheckBox x:Name="cbPersonalizarUserscore2" Width="250" Content="+20% and -31%"/>
+                                <CheckBox x:Name="cbPersonalizarUserscore1" Width="250" Content="-20%"/>
+                            </GridView.Items>
+                        </GridView>
+                    </Grid>
+
+                    <Grid Grid.Column="1" MinWidth="250">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Metascore" Margin="5"/>
+                        <GridView Grid.Row="1" Margin="5" Width="250">
+                            <GridView.Items>
+                                <CheckBox x:Name="cbPersonalizarMetascore9" Width="250" Content="+90%"/>
+                                <CheckBox x:Name="cbPersonalizarMetascore8" Width="250" Content="+80% and -91%"/>
+                                <CheckBox x:Name="cbPersonalizarMetascore7" Width="250" Content="+70% and -81%"/>
+                                <CheckBox x:Name="cbPersonalizarMetascore6" Width="250" Content="+60% and -71%"/>
+                                <CheckBox x:Name="cbPersonalizarMetascore5" Width="250" Content="+50% and -61%"/>
+                                <CheckBox x:Name="cbPersonalizarMetascore4" Width="250" Content="+40% and -51%"/>
+                                <CheckBox x:Name="cbPersonalizarMetascore3" Width="250" Content="+30% and -41%"/>
+                                <CheckBox x:Name="cbPersonalizarMetascore2" Width="250" Content="+20% and -31%"/>
+                                <CheckBox x:Name="cbPersonalizarMetascore1" Width="250" Content="-20%"/>
+                            </GridView.Items>
+                        </GridView>
+                    </Grid>
+                </Grid>
             </Grid>
 
             <Popup x:Name="popupMasCosas" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom">

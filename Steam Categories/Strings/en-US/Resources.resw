@@ -120,6 +120,9 @@
   <data name="Actualizar" xml:space="preserve">
     <value>Updated categories, restart Steam</value>
   </data>
+  <data name="App" xml:space="preserve">
+    <value>Application</value>
+  </data>
   <data name="Aviso Carga" xml:space="preserve">
     <value>If you have hundreds or thousands of games the load will take minutes</value>
   </data>
@@ -214,13 +217,16 @@
     <value>Languages</value>
   </data>
   <data name="Modo Actualizar" xml:space="preserve">
-    <value>Refresh Mode</value>
+    <value>Auto-Update</value>
   </data>
   <data name="Modo Actualizar Tooltip" xml:space="preserve">
-    <value>If you activate this mode the app every time it is started will update the new games</value>
+    <value>If you activate this option the app every time it is started it will look for new games and add the categories in Steam</value>
   </data>
   <data name="No Juegos" xml:space="preserve">
     <value>Categories have not been loaded in the app, go to Configuration</value>
+  </data>
+  <data name="Personalizar" xml:space="preserve">
+    <value>Customization</value>
   </data>
   <data name="RSS" xml:space="preserve">
     <value>Latest News</value>

@@ -120,6 +120,9 @@
   <data name="Actualizar" xml:space="preserve">
     <value>Categorías actualizadas, reinicia Steam</value>
   </data>
+  <data name="App" xml:space="preserve">
+    <value>Aplicación</value>
+  </data>
   <data name="Aviso Carga" xml:space="preserve">
     <value>Si tienes cientos o miles de juegos la carga tardara minutos</value>
   </data>
@@ -214,13 +217,16 @@
     <value>Idiomas</value>
   </data>
   <data name="Modo Actualizar" xml:space="preserve">
-    <value>Modo Actualizar</value>
+    <value>Auto-Actualización</value>
   </data>
   <data name="Modo Actualizar Tooltip" xml:space="preserve">
-    <value>Si activas este modo la app cada vez que sea iniciada actualizará los nuevos juegos</value>
+    <value>Si activas esta opción la app cada vez que sea iniciada buscara nuevos juegos y añadirá las categorias en Steam</value>
   </data>
   <data name="No Juegos" xml:space="preserve">
     <value>No se han cargado las categorías en la aplicación, ve a Configuración</value>
+  </data>
+  <data name="Personalizar" xml:space="preserve">
+    <value>Personalizar</value>
   </data>
   <data name="RSS" xml:space="preserve">
     <value>Últimas Noticias</value>

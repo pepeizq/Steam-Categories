@@ -53,7 +53,9 @@ Module Categorias
 
         If Await helper.FileExistsAsync("listaJuegos") = True Then
             listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
-        Else
+        End If
+
+        If listaJuegos Is Nothing Then
             listaJuegos = New List(Of Juego)
         End If
 
@@ -70,11 +72,13 @@ Module Categorias
                 Dim boolAñadir As Boolean = False
 
                 If actualizar = True Then
-                    For Each juego In listaJuegos
-                        If idJuego = juego.ID Then
-                            boolAñadir = True
-                        End If
-                    Next
+                    If Not listaJuegos Is Nothing Then
+                        For Each juego In listaJuegos
+                            If idJuego = juego.ID Then
+                                boolAñadir = True
+                            End If
+                        Next
+                    End If
                 End If
 
                 If boolAñadir = False Then
