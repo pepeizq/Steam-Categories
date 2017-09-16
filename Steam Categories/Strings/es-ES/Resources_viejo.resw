@@ -117,97 +117,145 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add.Text" xml:space="preserve">
-    <value>Add</value>
+  <data name="Actualizar" xml:space="preserve">
+    <value>Categorías actualizadas, reinicia Steam</value>
   </data>
-  <data name="Add2" xml:space="preserve">
-    <value>Add</value>
+  <data name="App" xml:space="preserve">
+    <value>Aplicación</value>
   </data>
-  <data name="Categories" xml:space="preserve">
-    <value>Categories</value>
+  <data name="Aviso Carga" xml:space="preserve">
+    <value>Si tienes cientos o miles de juegos la carga tardara minutos</value>
   </data>
-  <data name="Categories2.Text" xml:space="preserve">
-    <value>Categories</value>
+  <data name="Aviso Steam" xml:space="preserve">
+    <value>Steam debe estar cerrado</value>
   </data>
-  <data name="Change" xml:space="preserve">
-    <value>Change</value>
+  <data name="Año Lanzamiento" xml:space="preserve">
+    <value>Año de Lanzamiento</value>
   </data>
-  <data name="Config" xml:space="preserve">
-    <value>Configuration</value>
+  <data name="Borrado No" xml:space="preserve">
+    <value>No se han eliminado las categorías de Steam</value>
   </data>
-  <data name="ConfigAutoUpdate.Text" xml:space="preserve">
-    <value>Auto-Update</value>
+  <data name="Borrado Si" xml:space="preserve">
+    <value>Se han eliminado las categorías de Steam</value>
   </data>
-  <data name="ConfigAutoUpdateDescription.Text" xml:space="preserve">
-    <value>If you activate this option the app every time it is started it will look for new games and add the categories in Steam</value>
+  <data name="Boton Añadir" xml:space="preserve">
+    <value>Añadir</value>
   </data>
-  <data name="ConfigCategoriesLoad.Text" xml:space="preserve">
-    <value>To display all the available categories of your games, the application must load all the necessary information</value>
+  <data name="Boton Borrar Categorias" xml:space="preserve">
+    <value>Borrar Categorías en Steam</value>
   </data>
-  <data name="ConfigCategoriesLoadWarning.Text" xml:space="preserve">
-    <value>If you have hundreds or thousands of games the load will take minutes</value>
+  <data name="Boton Borrar Categorias App" xml:space="preserve">
+    <value>Borrar Categorías en la Aplicación</value>
   </data>
-  <data name="ConfigCategoriesMessage.Text" xml:space="preserve">
-    <value>To start working with the application, you must specify the folder where Steam is installed and a Steam Community account (example: http://steamcommunity.com/id/pepeizq/)</value>
+  <data name="Boton Cambiar" xml:space="preserve">
+    <value>Cambiar</value>
   </data>
-  <data name="ConfigCleanAll.Text" xml:space="preserve">
-    <value>Delete Categories in the App</value>
+  <data name="Boton Carga Categorias" xml:space="preserve">
+    <value>Cargar Categorías en la Aplicación</value>
   </data>
-  <data name="ConfigCleanSelection.Text" xml:space="preserve">
-    <value>Clean Selected Categories</value>
+  <data name="Boton Codigo Fuente" xml:space="preserve">
+    <value>Código Fuente</value>
   </data>
-  <data name="ConfigSteamAccount.Text" xml:space="preserve">
-    <value>Steam Community Account</value>
+  <data name="Boton Compartir" xml:space="preserve">
+    <value>Compartir</value>
   </data>
-  <data name="ConfigSteamFolder.Text" xml:space="preserve">
-    <value>Steam Folder</value>
+  <data name="Boton Config" xml:space="preserve">
+    <value>Configuración</value>
   </data>
-  <data name="Contact.Text" xml:space="preserve">
-    <value>Contact</value>
+  <data name="Boton Contacto" xml:space="preserve">
+    <value>Contactar</value>
   </data>
-  <data name="GamesAccount.Text" xml:space="preserve">
-    <value>Games detected in the account:</value>
+  <data name="Boton Cosas" xml:space="preserve">
+    <value>Más Cosas</value>
   </data>
-  <data name="GamesApp.Text" xml:space="preserve">
-    <value>Games loaded in the app:</value>
+  <data name="Boton Escribir Categorias" xml:space="preserve">
+    <value>Añadir Categorías en Steam</value>
   </data>
-  <data name="Genres.Text" xml:space="preserve">
-    <value>Genres</value>
+  <data name="Boton Inicio" xml:space="preserve">
+    <value>Inicio</value>
   </data>
-  <data name="HelpTranslate.Text" xml:space="preserve">
-    <value>Help to Translate</value>
+  <data name="Boton Limpiar Seleccion" xml:space="preserve">
+    <value>Limpiar Categorías Seleccionadas</value>
   </data>
-  <data name="Languages.Text" xml:space="preserve">
-    <value>Languages</value>
+  <data name="Boton Reportar" xml:space="preserve">
+    <value>Informa de un Fallo</value>
   </data>
-  <data name="Load.Text" xml:space="preserve">
-    <value>Load</value>
+  <data name="Boton Votar" xml:space="preserve">
+    <value>Vota la App</value>
   </data>
-  <data name="MessageCategories.Text" xml:space="preserve">
-    <value>You must go to Configuration before you can add categories</value>
+  <data name="Boton Web" xml:space="preserve">
+    <value>Más Apps</value>
   </data>
-  <data name="MessageCategories2" xml:space="preserve">
-    <value>Select an option to add categories</value>
+  <data name="Cargado Si" xml:space="preserve">
+    <value>Juegos cargados en la aplicación</value>
   </data>
-  <data name="MoreThings" xml:space="preserve">
-    <value>More Things</value>
+  <data name="Categorias" xml:space="preserve">
+    <value>Categorías</value>
   </data>
-  <data name="OtherApps.Text" xml:space="preserve">
-    <value>Other Apps</value>
+  <data name="Categorias Extra" xml:space="preserve">
+    <value>Clickea en las cajas para seleccionar que categorías añadir en Steam</value>
   </data>
-  <data name="ReportBug.Text" xml:space="preserve">
-    <value>Report a Bug</value>
+  <data name="Categorias No" xml:space="preserve">
+    <value>No se han podido añadir las categorías, cierra Steam</value>
   </data>
-  <data name="SourceCode.Text" xml:space="preserve">
-    <value>Source Code</value>
+  <data name="Categorias Si" xml:space="preserve">
+    <value>Se han añadido las categorías en Steam</value>
   </data>
-  <data name="Tags.Text" xml:space="preserve">
-    <value>Tags</value>
+  <data name="Como Funciona" xml:space="preserve">
+    <value>¿Como funciona?</value>
   </data>
-  <data name="VoteApp.Text" xml:space="preserve">
-    <value>Vote the App</value>
+  <data name="Consejo Config" xml:space="preserve">
+    <value>Antes de añadir categorías debes añadir tu cuenta de Steam, la ubicación y cargar las categorías en la aplicación</value>
   </data>
-  <data name="Years.Text" xml:space="preserve">
-    <value>Years</value>
+  <data name="Generos" xml:space="preserve">
+    <value>Géneros</value>
+  </data>
+  <data name="Grid Arranque" xml:space="preserve">
+    <value>Elige ventana donde arrancar</value>
+  </data>
+  <data name="Idiomas" xml:space="preserve">
+    <value>Idiomas</value>
+  </data>
+  <data name="Modo Actualizar" xml:space="preserve">
+    <value>Auto-Actualización</value>
+  </data>
+  <data name="Modo Actualizar Tooltip" xml:space="preserve">
+    <value>Si activas esta opción la app cada vez que sea iniciada buscara nuevos juegos y añadirá las categorias en Steam</value>
+  </data>
+  <data name="No Juegos" xml:space="preserve">
+    <value>No se han cargado las categorías en la aplicación, ve a Configuración</value>
+  </data>
+  <data name="Personalizar" xml:space="preserve">
+    <value>Personalizar</value>
+  </data>
+  <data name="RSS" xml:space="preserve">
+    <value>Últimas Noticias</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Etiquetas</value>
+  </data>
+  <data name="Texto Carpeta" xml:space="preserve">
+    <value>No has añadido una carpeta</value>
+  </data>
+  <data name="Texto Juegos App" xml:space="preserve">
+    <value>Juegos cargados en la app:</value>
+  </data>
+  <data name="Texto Juegos Cuenta" xml:space="preserve">
+    <value>Juegos detectados en la cuenta:</value>
+  </data>
+  <data name="Texto Seleccion Años" xml:space="preserve">
+    <value>La aplicación coge la fecha de lanzamiento Steam y después pone el año en categorías.</value>
+  </data>
+  <data name="Texto Seleccion Metascore" xml:space="preserve">
+    <value>La aplicación coge la nota de Steam y después la pone en categorías cada diez números.</value>
+  </data>
+  <data name="Texto Seleccion Userscore" xml:space="preserve">
+    <value>La aplicación coge la nota más reciente de Steam y después la pone en categorías cada diez números.</value>
+  </data>
+  <data name="Texto Steam Config Cliente" xml:space="preserve">
+    <value>Añade la carpeta donde Steam está instalado, ejemplo: C:\Steam</value>
+  </data>
+  <data name="Texto Steam Config Cuenta" xml:space="preserve">
+    <value>Añade tu cuenta de Steam Community, ejemplo: http://steamcommunity.com/id/pepeizq/</value>
   </data>
 </root>

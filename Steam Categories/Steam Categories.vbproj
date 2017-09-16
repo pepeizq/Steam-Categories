@@ -10,8 +10,8 @@
     <AssemblyName>Steam Categories</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.16278.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16278.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
@@ -20,6 +20,7 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -101,9 +102,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="project.json" />
-    <PRIResource Include="Strings\es-ES\Resources.resw" />
-    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\es-ES\Resources_viejo.resw" />
+    <PRIResource Include="Strings\en-US\Resources_viejo.resw" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.vb">
@@ -116,8 +116,8 @@
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modulos\Acrilico.vb" />
     <Compile Include="Modulos\Decompiladores.vb" />
+    <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Steam\Categorias.vb" />
     <Compile Include="Modulos\Steam\Cliente.vb" />
@@ -130,6 +130,8 @@
     </AppxManifest>
     <None Include="Steam Categories_StoreKey.pfx" />
     <None Include="Steam Categories_TemporaryKey.pfx" />
+    <PRIResource Include="Strings\es-ES\Resources.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Logos\AppList.altform-unplated_targetsize-16.png" />
@@ -182,19 +184,18 @@
     <Content Include="Assets\Logos\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logos\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\rss_logo.png" />
+    <Content Include="Assets\MasCosas\contacto.png" />
+    <Content Include="Assets\MasCosas\feedback.png" />
+    <Content Include="Assets\MasCosas\github.png" />
+    <Content Include="Assets\MasCosas\pepeizq.png" />
+    <Content Include="Assets\MasCosas\poeditor.png" />
     <Content Include="Assets\Screens\cat1.png" />
     <Content Include="Assets\Screens\cat2.png" />
     <Content Include="Assets\Screens\cat3.png" />
     <Content Include="Assets\Screens\cat4.png" />
     <Content Include="Assets\Screens\cat5.png" />
     <Content Include="Assets\Screens\cat6.png" />
-    <Content Include="Assets\social_contacto.png" />
-    <Content Include="Assets\social_feedback.png" />
-    <Content Include="Assets\social_github.png" />
-    <Content Include="Assets\social_pepeizq.png" />
     <Content Include="Assets\steam_logo.png" />
-    <Content Include="Assets\steam_logo.svg" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
@@ -245,6 +246,20 @@
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Services.Store.SDK">
+      <Version>10.1705.16001</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>2.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
