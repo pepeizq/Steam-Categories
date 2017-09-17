@@ -1,4 +1,4 @@
-﻿Imports Microsoft.Toolkit.Uwp
+﻿Imports Microsoft.Toolkit.Uwp.Helpers
 
 Module Cuentas
 
@@ -157,13 +157,13 @@ Module Cuentas
                             Try
                                 Await helper.SaveFileAsync(Of List(Of String))("listaJuegosID", listaJuegosID)
 
-                                botonCuentaTexto.Text = recursos.GetString("Boton Cambiar")
+                                botonCuentaTexto.Text = recursos.GetString("Change")
                             Catch ex As Exception
 
                             End Try
                         Else
                             botonCategorias.IsEnabled = False
-                            botonCuentaTexto.Text = recursos.GetString("Boton Añadir")
+                            botonCuentaTexto.Text = recursos.GetString("Add2")
                         End If
                     End If
                 End If

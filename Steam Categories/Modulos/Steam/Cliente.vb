@@ -1,4 +1,4 @@
-﻿Imports Microsoft.Toolkit.Uwp
+﻿Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.Storage.Pickers
@@ -45,12 +45,9 @@ Module Cliente
                 StorageApplicationPermissions.FutureAccessList.AddOrReplace("SteamPath", carpeta)
                 tbRuta.Text = carpeta.Path
 
-                botonRutaTexto.Text = recursos.GetString("Boton Cambiar")
-
-                Dim botonBorrarCategorias As Button = pagina.FindName("botonBorrarCategorias")
-                botonBorrarCategorias.IsEnabled = True
+                botonRutaTexto.Text = recursos.GetString("Change")
             Else
-                botonRutaTexto.Text = recursos.GetString("Boton Añadir")
+                botonRutaTexto.Text = recursos.GetString("Add2")
             End If
         End If
 
@@ -130,8 +127,8 @@ Module Cliente
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim boton As Button = pagina.FindName("botonEscribirCategorias")
-        boton.IsEnabled = False
+        Dim lvComandos As ListView = pagina.FindName("lvCategoriasComandos")
+        lvComandos.IsEnabled = False
 
         Dim boolFinal As Boolean = False
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
@@ -368,27 +365,37 @@ Module Cliente
 
         If boolFinal = True Then
             If Await helper.FileExistsAsync("actualizar") = True Then
-                Dim actualizar As Boolean = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+                Dim actualizar As Boolean = False
+
+                Try
+                    actualizar = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+                Catch ex As Exception
+
+                End Try
 
                 If actualizar = True Then
-                    Toast("Steam Categories", recursos.GetString("Actualizar"))
+                    Toast("Steam Categories", recursos.GetString("CategoriesUpdated"))
                 Else
-                    Toast("Steam Categories", recursos.GetString("Categorias Si"))
+                    Toast("Steam Categories", recursos.GetString("CategoriesAdded"))
                 End If
             Else
-                Toast("Steam Categories", recursos.GetString("Categorias Si"))
+                Toast("Steam Categories", recursos.GetString("CategoriesAdded"))
             End If
         Else
-            Toast("Steam Categories", recursos.GetString("Categorias No"))
+            Toast("Steam Categories", recursos.GetString("CategoriesNotAdded"))
         End If
 
-        boton.IsEnabled = True
+        lvComandos.IsEnabled = True
 
     End Sub
 
-    Public Async Sub BorrarCategorias(boton As Button)
+    Public Async Sub BorrarCategorias()
 
-        boton.IsEnabled = False
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim lvComandos As ListView = pagina.FindName("lvCategoriasComandos")
+        lvComandos.IsEnabled = False
 
         Dim boolFinal As Boolean = False
         Dim usuarioID As String = Await GenerarID()
@@ -446,12 +453,12 @@ Module Cliente
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
         If boolFinal = True Then
-            Toast("Steam Categories", recursos.GetString("Borrado Si"))
+            Toast("Steam Categories", recursos.GetString("DeleteCategoriesSteamYes"))
         Else
-            Toast("Steam Categories", recursos.GetString("Borrado No"))
+            Toast("Steam Categories", recursos.GetString("DeleteCategoriesSteamNo"))
         End If
 
-        boton.IsEnabled = True
+        lvComandos.IsEnabled = True
 
     End Sub
 

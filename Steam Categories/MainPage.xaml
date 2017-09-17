@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid Background="{StaticResource ColorGridPrincipal}">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
@@ -18,8 +18,7 @@
         </Grid>
 
         <NavigationView x:Name="nvPrincipal" Grid.Row="1" Loaded="Nv_Loaded" ItemInvoked="Nv_ItemInvoked"
-                        OpenPaneLength="200" AlwaysShowHeader="False" IsSettingsVisible="False" 
-                        PaneToggleButtonStyle="{StaticResource NvEstilo}">
+                        OpenPaneLength="200" AlwaysShowHeader="False" IsSettingsVisible="False">
 
             <Grid Padding="10">
                 <Grid.Transitions>
@@ -111,9 +110,9 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock x:Name="tbSeleccionUserscoreInfo" Grid.Row="0" TextWrapping="Wrap"/>
+                                    <TextBlock x:Uid="UserscoreInfo" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center"/>
 
-                                    <Grid Grid.Row="1">
+                                    <Grid Grid.Row="1" Margin="0,20">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
@@ -143,9 +142,9 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock x:Name="tbSeleccionMetascoreInfo" Grid.Row="0" TextWrapping="Wrap"/>
+                                    <TextBlock x:Uid="MetascoreInfo" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center"/>
 
-                                    <Grid Grid.Row="1">
+                                    <Grid Grid.Row="1" Margin="0,20">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
@@ -179,9 +178,9 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock x:Name="tbSeleccionAñosInfo" Grid.Row="0" TextWrapping="Wrap"/>
+                                    <TextBlock x:Uid="YearsInfo" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center"/>
 
-                                    <Grid Grid.Row="1">
+                                    <Grid Grid.Row="1" Margin="0,20">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
@@ -197,7 +196,14 @@
                         </Grid>
 
                         <Grid x:Name="gridCategoriasCategorias" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <GridView x:Name="gvCategorias" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Uid="CategoriesInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
+
+                            <GridView x:Name="gvCategorias" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -208,7 +214,14 @@
                         </Grid>
 
                         <Grid x:Name="gridCategoriasGeneros" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <GridView x:Name="gvGeneros" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Uid="GenresInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
+
+                            <GridView x:Name="gvGeneros" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -219,7 +232,14 @@
                         </Grid>
 
                         <Grid x:Name="gridCategoriasTags" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <GridView x:Name="gvTags" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Uid="TagsInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
+
+                            <GridView x:Name="gvTags" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -230,7 +250,14 @@
                         </Grid>
 
                         <Grid x:Name="gridCategoriasIdiomas" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <GridView x:Name="gvIdiomas" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Uid="LanguagesInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
+
+                            <GridView x:Name="gvIdiomas" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -243,7 +270,31 @@
 
                     <ListView x:Name="lvCategoriasComandos" Grid.Row="2" IsItemClickEnabled="True" IsEnabled="False"
                                   ItemClick="LvCategoriasComandosItemClick" HorizontalAlignment="Center">
-                        
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Background="Transparent" Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListViewItem Background="SteelBlue" Padding="15" MinWidth="0">
+                            <StackPanel Orientation="Horizontal" Tag="0">
+                                <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                <TextBlock x:Uid="AddCategoriesSteam" Foreground="White"/>
+                                <TextBlock x:Name="tbNumeroCategorias" Foreground="White"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Background="SteelBlue" Padding="15" MinWidth="0" Margin="40,0">
+                            <StackPanel Orientation="Horizontal" Tag="1">
+                                <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                <TextBlock x:Uid="CleanSelection" Foreground="White"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Background="SteelBlue" Padding="15" MinWidth="0">
+                            <StackPanel Orientation="Horizontal" Tag="2">
+                                <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                <TextBlock x:Uid="DeleteCategoriesSteam" Foreground="White"/>
+                            </StackPanel>
+                        </ListViewItem>
                     </ListView> 
                 </Grid>
 
@@ -373,32 +424,64 @@
                                 </CheckBox.Content>
                             </CheckBox>
 
-                            <Grid Margin="10,25,10,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <controls:DropShadowPanel Grid.Column="0" Margin="0,10" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
+                            <controls:DropShadowPanel Margin="10,25" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
                                                   OffsetZ="5">
-                                    <Button x:Name="botonLimpiarSeleccionCategorias" Padding="15,10" Background="SteelBlue">
-                                        <StackPanel Orientation="Horizontal">
-                                            <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                            <TextBlock x:Uid="ConfigCleanSelection" Foreground="White"/>
-                                        </StackPanel>
-                                    </Button>
-                                </controls:DropShadowPanel>
+                                <Button x:Name="botonLimpiarTodo" Padding="15,10" Background="SteelBlue">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                        <TextBlock x:Uid="ConfigCleanAll" Foreground="White"/>
+                                    </StackPanel>
+                                </Button>
+                            </controls:DropShadowPanel>
 
-                                <controls:DropShadowPanel Grid.Column="1" Margin="5,10" Color="Black" BlurRadius="4" ShadowOpacity="0.5" 
-                                                  OffsetZ="5">
-                                    <Button x:Name="botonBorrarCategoriasApp" Padding="15,10" Background="SteelBlue">
-                                        <StackPanel Orientation="Horizontal">
-                                            <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                            <TextBlock x:Uid="ConfigCleanAll" Foreground="White"/>
-                                        </StackPanel>
-                                    </Button>
-                                </controls:DropShadowPanel>
-                            </Grid>
+                            <TextBlock x:Uid="Personalization" Margin="10,35,10,5" FontSize="16"/>
+                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <Grid MinWidth="250">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Text="Userscore" Margin="5"/>
+                                    <GridView Grid.Row="1" Margin="5" Width="250">
+                                        <GridView.Items>
+                                            <CheckBox x:Name="cbPersonalizarUserscore9" Width="250" Content="+90%"/>
+                                            <CheckBox x:Name="cbPersonalizarUserscore8" Width="250" Content="+80% and -91%"/>
+                                            <CheckBox x:Name="cbPersonalizarUserscore7" Width="250" Content="+70% and -81%"/>
+                                            <CheckBox x:Name="cbPersonalizarUserscore6" Width="250" Content="+60% and -71%"/>
+                                            <CheckBox x:Name="cbPersonalizarUserscore5" Width="250" Content="+50% and -61%"/>
+                                            <CheckBox x:Name="cbPersonalizarUserscore4" Width="250" Content="+40% and -51%"/>
+                                            <CheckBox x:Name="cbPersonalizarUserscore3" Width="250" Content="+30% and -41%"/>
+                                            <CheckBox x:Name="cbPersonalizarUserscore2" Width="250" Content="+20% and -31%"/>
+                                            <CheckBox x:Name="cbPersonalizarUserscore1" Width="250" Content="-20%"/>
+                                        </GridView.Items>
+                                    </GridView>
+                                </Grid>
+
+                                <Grid MinWidth="250">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Text="Metascore" Margin="5"/>
+                                    <GridView Grid.Row="1" Margin="5" Width="250">
+                                        <GridView.Items>
+                                            <CheckBox x:Name="cbPersonalizarMetascore9" Width="250" Content="+90%"/>
+                                            <CheckBox x:Name="cbPersonalizarMetascore8" Width="250" Content="+80% and -91%"/>
+                                            <CheckBox x:Name="cbPersonalizarMetascore7" Width="250" Content="+70% and -81%"/>
+                                            <CheckBox x:Name="cbPersonalizarMetascore6" Width="250" Content="+60% and -71%"/>
+                                            <CheckBox x:Name="cbPersonalizarMetascore5" Width="250" Content="+50% and -61%"/>
+                                            <CheckBox x:Name="cbPersonalizarMetascore4" Width="250" Content="+40% and -51%"/>
+                                            <CheckBox x:Name="cbPersonalizarMetascore3" Width="250" Content="+30% and -41%"/>
+                                            <CheckBox x:Name="cbPersonalizarMetascore2" Width="250" Content="+20% and -31%"/>
+                                            <CheckBox x:Name="cbPersonalizarMetascore1" Width="250" Content="-20%"/>
+                                        </GridView.Items>
+                                    </GridView>
+                                </Grid>
+                            </StackPanel>
                         </StackPanel> 
                     </ScrollViewer>                                       
                 </Grid> 
@@ -448,6 +531,12 @@
                                         <TextBlock x:Uid="SourceCode" Foreground="White" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </ListViewItem>
+                                <ListViewItem Background="{StaticResource ColorSecundario}">
+                                    <StackPanel Orientation="Horizontal" Tag="6">
+                                        <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE76E;" Foreground="White" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                        <TextBlock x:Uid="ThanksTo" Foreground="White" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </ListViewItem>
                             </ListView>
 
                             <WebView x:Name="wvMasCosas" Grid.Column="1" Margin="10,0,0,0"/>
@@ -456,151 +545,5 @@
                 </Grid>
             </Grid> 
         </NavigationView> 
-
-
-            <Grid Grid.Row="1" Background="Transparent" Visibility="Collapsed">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-
-            <Grid Grid.Column="1">
-
-
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="0" Padding="20,15,10,5">
-
-                        
-                        
-                        <Grid x:Name="gridNoJuegosCargados" Visibility="Collapsed">
-                            <controls:DropShadowPanel Color="Black" BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5"
-                                                      HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Grid Padding="15,10" Background="IndianRed">
-                                    <TextBlock x:Name="tbNoJuegos" Foreground="White"/>
-                                </Grid>
-                            </controls:DropShadowPanel>
-                        </Grid>
-                    </Grid>
-                    
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <controls:DropShadowPanel Grid.Column="0" Margin="10" Color="Black"
-                                                  BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                            <Button x:Name="botonEscribirCategorias" Padding="10,15" HorizontalAlignment="Center" IsEnabled="False" Background="SteelBlue">
-                                <StackPanel Orientation="Horizontal" >
-                                    <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock x:Name="botonEscribirCategoriasTexto" Foreground="White"/>
-                                </StackPanel>
-                            </Button>
-                        </controls:DropShadowPanel>
-
-                        <controls:DropShadowPanel x:Name="panelAviso" Grid.Column="1" Margin="10" Color="Black"
-                                                  BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed">
-                            <Grid Padding="10,15" Background="IndianRed">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <SymbolIcon Grid.Column="0" Foreground="White" Symbol="Important" Margin="5,0"/>
-                                <TextBlock x:Name="tbAvisoSteamCerrado" Grid.Column="1" Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            </Grid>
-                        </controls:DropShadowPanel>
-
-                        <TextBlock x:Name="tbNumeroCategorias" Grid.Column="2" VerticalAlignment="Center" Margin="5"/>
-
-                        <controls:DropShadowPanel Grid.Column="3" Margin="10" Color="Black"
-                                                  BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5">
-                            <Button x:Name="botonBorrarCategorias" Padding="10,15" HorizontalAlignment="Center" IsEnabled="False" Background="SteelBlue">
-                                <StackPanel Orientation="Horizontal">
-                                    <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                    <TextBlock x:Name="botonBorrarCategoriasTexto" Foreground="White"/>
-                                </StackPanel>
-                            </Button>
-                        </controls:DropShadowPanel>
-                    </Grid>
-                </Grid>
-            </Grid>
-
-            <Grid Grid.Column="1" Visibility="Collapsed">
-
-                <Grid x:Name="gridConfigCategorias" Grid.Column="1" Padding="10">
-
-                    
-
-                    
-
-                    
-
-                    
-
-                    
-                </Grid>
-
-                <Grid x:Name="gridConfigCategoriasPersonalizar" Grid.Column="1" Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Column="0" MinWidth="250">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0" Text="Userscore" Margin="5"/>
-                        <GridView Grid.Row="1" Margin="5" Width="250">
-                            <GridView.Items>
-                                <CheckBox x:Name="cbPersonalizarUserscore9" Width="250" Content="+90%"/>
-                                <CheckBox x:Name="cbPersonalizarUserscore8" Width="250" Content="+80% and -91%"/>
-                                <CheckBox x:Name="cbPersonalizarUserscore7" Width="250" Content="+70% and -81%"/>
-                                <CheckBox x:Name="cbPersonalizarUserscore6" Width="250" Content="+60% and -71%"/>
-                                <CheckBox x:Name="cbPersonalizarUserscore5" Width="250" Content="+50% and -61%"/>
-                                <CheckBox x:Name="cbPersonalizarUserscore4" Width="250" Content="+40% and -51%"/>
-                                <CheckBox x:Name="cbPersonalizarUserscore3" Width="250" Content="+30% and -41%"/>
-                                <CheckBox x:Name="cbPersonalizarUserscore2" Width="250" Content="+20% and -31%"/>
-                                <CheckBox x:Name="cbPersonalizarUserscore1" Width="250" Content="-20%"/>
-                            </GridView.Items>
-                        </GridView>
-                    </Grid>
-
-                    <Grid Grid.Column="1" MinWidth="250">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0" Text="Metascore" Margin="5"/>
-                        <GridView Grid.Row="1" Margin="5" Width="250">
-                            <GridView.Items>
-                                <CheckBox x:Name="cbPersonalizarMetascore9" Width="250" Content="+90%"/>
-                                <CheckBox x:Name="cbPersonalizarMetascore8" Width="250" Content="+80% and -91%"/>
-                                <CheckBox x:Name="cbPersonalizarMetascore7" Width="250" Content="+70% and -81%"/>
-                                <CheckBox x:Name="cbPersonalizarMetascore6" Width="250" Content="+60% and -71%"/>
-                                <CheckBox x:Name="cbPersonalizarMetascore5" Width="250" Content="+50% and -61%"/>
-                                <CheckBox x:Name="cbPersonalizarMetascore4" Width="250" Content="+40% and -51%"/>
-                                <CheckBox x:Name="cbPersonalizarMetascore3" Width="250" Content="+30% and -41%"/>
-                                <CheckBox x:Name="cbPersonalizarMetascore2" Width="250" Content="+20% and -31%"/>
-                                <CheckBox x:Name="cbPersonalizarMetascore1" Width="250" Content="-20%"/>
-                            </GridView.Items>
-                        </GridView>
-                    </Grid>
-                </Grid>
-            </Grid>
-
-        </Grid>
     </Grid>
 </Page>

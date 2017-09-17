@@ -1,4 +1,4 @@
-﻿Imports Microsoft.Toolkit.Uwp
+﻿Imports Microsoft.Toolkit.Uwp.Helpers
 
 Module Categorias
 
@@ -18,14 +18,8 @@ Module Categorias
         Dim botonCargaCategorias As Button = pagina.FindName("botonCargaCategorias")
         botonCargaCategorias.IsEnabled = False
 
-        Dim botonBorrarCategorias As Button = pagina.FindName("botonBorrarCategorias")
-        botonBorrarCategorias.IsEnabled = False
-
-        Dim botonLimpiarCategorias As Button = pagina.FindName("botonLimpiarSeleccionCategorias")
-        botonLimpiarCategorias.IsEnabled = False
-
-        Dim botonBorrarCategoriasApp As Button = pagina.FindName("botonBorrarCategoriasApp")
-        botonBorrarCategoriasApp.IsEnabled = False
+        Dim botonLimpiarTodo As Button = pagina.FindName("botonLimpiarTodo")
+        botonLimpiarTodo.IsEnabled = False
 
         Dim botonSteamRuta As Button = pagina.FindName("botonSteamRuta")
         botonSteamRuta.IsEnabled = False
@@ -62,7 +56,11 @@ Module Categorias
         Dim actualizar As Boolean = False
 
         If Await helper.FileExistsAsync("actualizar") = True Then
-            actualizar = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+            Try
+                actualizar = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+            Catch ex As Exception
+
+            End Try
         End If
 
         If Not listaJuegosID Is Nothing Then
@@ -515,20 +513,24 @@ Module Categorias
             GenerarTags(listaJuegos)
             GenerarIdiomas(listaJuegos)
 
+            Dim lv As ListView = pagina.FindName("lvCategorias")
+            lv.IsEnabled = True
+
+            Dim tb As TextBlock = pagina.FindName("tbMensajeCategorias")
+            tb.Text = recursos.GetString("MessageCategories2")
+
             If actualizar = False Then
-                Toast("Steam Categories", recursos.GetString("Cargado Si"))
+                Toast("Steam Categories", recursos.GetString("CategoriesLoaded"))
             Else
                 Comprobar()
             End If
         Else
-            Toast("Steam Categories", recursos.GetString("Cargado No"))
+            Toast("Steam Categories", recursos.GetString("CategoriesNotLoaded"))
         End If
 
         gridProgreso.Visibility = Visibility.Collapsed
         botonCargaCategorias.IsEnabled = True
-        botonBorrarCategorias.IsEnabled = True
-        botonLimpiarCategorias.IsEnabled = True
-        botonBorrarCategoriasApp.IsEnabled = True
+        botonLimpiarTodo.IsEnabled = True
         botonSteamRuta.IsEnabled = True
         botonCuenta.IsEnabled = True
         tbSteamCuenta.IsEnabled = True
@@ -912,18 +914,18 @@ Module Categorias
             End If
         Next
 
-        Dim boton As Button = pagina.FindName("botonEscribirCategorias")
+        Dim lvComandos As ListView = pagina.FindName("lvCategoriasComandos")
 
         If boolBoton = True Then
-            boton.IsEnabled = True
+            lvComandos.IsEnabled = True
         Else
-            boton.IsEnabled = False
+            lvComandos.IsEnabled = False
         End If
 
         Dim tb As TextBlock = pagina.FindName("tbNumeroCategorias")
 
         If Not contadorTrue = 0 Then
-            tb.Text = contadorTrue.ToString
+            tb.Text = " (" + contadorTrue.ToString + ")"
         Else
             tb.Text = String.Empty
         End If
@@ -965,15 +967,15 @@ Module Categorias
                         boolBoton = True
                         contadorTrue += 1
 
-                        If categoria.Nombre = ("/*1/" + cbUserscore.Content) Then
+                        If categoria.Nombre = ("/*1/Userscore") Then
                             cbUserscore.IsChecked = True
                         End If
 
-                        If categoria.Nombre = ("/*2/" + cbMetascore.Content) Then
+                        If categoria.Nombre = ("/*2/Metascore") Then
                             cbMetascore.IsChecked = True
                         End If
 
-                        If categoria.Nombre = ("/*3/" + cbAños.Content) Then
+                        If categoria.Nombre = ("/*3/Years") Then
                             cbAños.IsChecked = True
                         End If
 
@@ -1025,13 +1027,13 @@ Module Categorias
                 Next
             End If
 
-            Dim botonEscribir As Button = pagina.FindName("botonEscribirCategorias")
+            Dim lvComandos As ListView = pagina.FindName("lvCategoriasComandos")
 
             If boolBoton = True Then
                 Cliente.EscribirCategorias()
-                botonEscribir.IsEnabled = True
+                lvComandos.IsEnabled = True
             Else
-                botonEscribir.IsEnabled = False
+                lvComandos.IsEnabled = False
             End If
 
             Dim tb As TextBlock = pagina.FindName("tbNumeroCategorias")

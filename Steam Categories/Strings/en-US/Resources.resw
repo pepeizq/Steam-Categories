@@ -123,14 +123,38 @@
   <data name="Add2" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AddCategoriesSteam.Text" xml:space="preserve">
+    <value>Add Categories in Steam</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
   <data name="Categories2.Text" xml:space="preserve">
     <value>Categories</value>
   </data>
+  <data name="CategoriesAdded" xml:space="preserve">
+    <value>Categories have been added in Steam</value>
+  </data>
+  <data name="CategoriesInfo.Text" xml:space="preserve">
+    <value>Categories assigned by the creators of your games</value>
+  </data>
+  <data name="CategoriesLoaded" xml:space="preserve">
+    <value>Games loaded in the app</value>
+  </data>
+  <data name="CategoriesNotAdded" xml:space="preserve">
+    <value>Categories could not be added, close Steam</value>
+  </data>
+  <data name="CategoriesNotLoaded" xml:space="preserve">
+    <value>No games loaded in app</value>
+  </data>
+  <data name="CategoriesUpdated" xml:space="preserve">
+    <value>Updated categories, restart Steam</value>
+  </data>
   <data name="Change" xml:space="preserve">
     <value>Change</value>
+  </data>
+  <data name="CleanSelection.Text" xml:space="preserve">
+    <value>Clean Selected Categories</value>
   </data>
   <data name="Config" xml:space="preserve">
     <value>Configuration</value>
@@ -151,10 +175,7 @@
     <value>To start working with the application, you must specify the folder where Steam is installed and a Steam Community account (example: http://steamcommunity.com/id/pepeizq/)</value>
   </data>
   <data name="ConfigCleanAll.Text" xml:space="preserve">
-    <value>Delete Categories in the App</value>
-  </data>
-  <data name="ConfigCleanSelection.Text" xml:space="preserve">
-    <value>Clean Selected Categories</value>
+    <value>Clean Configuration</value>
   </data>
   <data name="ConfigSteamAccount.Text" xml:space="preserve">
     <value>Steam Community Account</value>
@@ -165,6 +186,18 @@
   <data name="Contact.Text" xml:space="preserve">
     <value>Contact</value>
   </data>
+  <data name="DeleteCategoriesSteam.Text" xml:space="preserve">
+    <value>Delete Categories in Steam</value>
+  </data>
+  <data name="DeleteCategoriesSteamNo" xml:space="preserve">
+    <value>Steam categories could not be deleted</value>
+  </data>
+  <data name="DeleteCategoriesSteamYes" xml:space="preserve">
+    <value>Steam categories have been deleted</value>
+  </data>
+  <data name="DescriptionStore" xml:space="preserve">
+    <value>Add categories for your Steam games in an easy and automatic way</value>
+  </data>
   <data name="GamesAccount.Text" xml:space="preserve">
     <value>Games detected in the account:</value>
   </data>
@@ -174,11 +207,17 @@
   <data name="Genres.Text" xml:space="preserve">
     <value>Genres</value>
   </data>
+  <data name="GenresInfo.Text" xml:space="preserve">
+    <value>Genres assigned by the creators of your games</value>
+  </data>
   <data name="HelpTranslate.Text" xml:space="preserve">
     <value>Help to Translate</value>
   </data>
   <data name="Languages.Text" xml:space="preserve">
     <value>Languages</value>
+  </data>
+  <data name="LanguagesInfo.Text" xml:space="preserve">
+    <value>Supported languages for your games</value>
   </data>
   <data name="Load.Text" xml:space="preserve">
     <value>Load</value>
@@ -187,13 +226,19 @@
     <value>You must go to Configuration before you can add categories</value>
   </data>
   <data name="MessageCategories2" xml:space="preserve">
-    <value>Select an option to add categories</value>
+    <value>Select an option from the top bar to add categories</value>
+  </data>
+  <data name="MetascoreInfo.Text" xml:space="preserve">
+    <value>Add categories to your games based on score of Metacritic (customizable in Configuration)</value>
   </data>
   <data name="MoreThings" xml:space="preserve">
     <value>More Things</value>
   </data>
   <data name="OtherApps.Text" xml:space="preserve">
     <value>Other Apps</value>
+  </data>
+  <data name="Personalization.Text" xml:space="preserve">
+    <value>Personalization</value>
   </data>
   <data name="ReportBug.Text" xml:space="preserve">
     <value>Report a Bug</value>
@@ -204,10 +249,22 @@
   <data name="Tags.Text" xml:space="preserve">
     <value>Tags</value>
   </data>
+  <data name="TagsInfo.Text" xml:space="preserve">
+    <value>User-created tags for your games</value>
+  </data>
+  <data name="ThanksTo.Text" xml:space="preserve">
+    <value>Thanks to</value>
+  </data>
+  <data name="UserscoreInfo.Text" xml:space="preserve">
+    <value>Add categories to your games based on user reviews of Steam (customizable in Configuration)</value>
+  </data>
   <data name="VoteApp.Text" xml:space="preserve">
     <value>Vote the App</value>
   </data>
   <data name="Years.Text" xml:space="preserve">
     <value>Years</value>
+  </data>
+  <data name="YearsInfo.Text" xml:space="preserve">
+    <value>Add categories to your games based on the launch years</value>
   </data>
 </root>

@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.Services.Store.Engagement
-Imports Microsoft.Toolkit.Uwp
 Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
@@ -57,46 +56,6 @@ Public NotInheritable Class MainPage
         GridVisibilidad(gridCategorias, recursos.GetString("Categories"))
         nvPrincipal.IsPaneOpen = False
 
-        'botonEscribirCategoriasTexto.Text = recursos.GetString("Boton Escribir Categorias")
-        'botonBorrarCategoriasTexto.Text = recursos.GetString("Boton Borrar Categorias")
-        'tbAvisoSteamCerrado.Text = recursos.GetString("Aviso Steam")
-
-        'expanderUserscore.Header = recursos.GetString("Como Funciona")
-        'tbSeleccionUserscoreInfo.Text = recursos.GetString("Texto Seleccion Userscore")
-
-        'expanderMetascore.Header = recursos.GetString("Como Funciona")
-        'tbSeleccionMetascoreInfo.Text = recursos.GetString("Texto Seleccion Metascore")
-
-        'expanderAños.Header = recursos.GetString("Como Funciona")
-        'botonSeleccionAños.Content = recursos.GetString("Año Lanzamiento")
-        'cbSeleccionAños.Content = recursos.GetString("Año Lanzamiento")
-        'tbSeleccionAñosInfo.Text = recursos.GetString("Texto Seleccion Años")
-
-        'botonSeleccionCategorias.Content = recursos.GetString("Categorias")
-        'botonSeleccionGeneros.Content = recursos.GetString("Generos")
-        'botonSeleccionTags.Content = recursos.GetString("Tags")
-        'botonSeleccionIdiomas.Content = recursos.GetString("Idiomas")
-
-        'tbNoJuegos.Text = recursos.GetString("No Juegos")
-
-        'botonConfigCategoriasTexto.Text = recursos.GetString("App")
-        'botonConfigCategoriasPersonalizarTexto.Text = recursos.GetString("Personalizar")
-        'tbSteamConfigInstruccionesCliente.Text = recursos.GetString("Texto Steam Config Cliente")
-        'botonSteamRutaTexto.Text = recursos.GetString("Boton Añadir")
-        'tbSteamRuta.Text = recursos.GetString("Texto Carpeta")
-        'botonSteamCuentaTexto.Text = recursos.GetString("Boton Añadir")
-        'tbSteamConfigInstruccionesCuenta.Text = recursos.GetString("Texto Steam Config Cuenta")
-        'botonCargaCategoriasTexto.Text = recursos.GetString("Boton Carga Categorias")
-        'tbCargaCategoriasAviso.Text = recursos.GetString("Aviso Carga")
-        'tbJuegosCuentaMensaje.Text = recursos.GetString("Texto Juegos Cuenta")
-        'tbJuegosAppMensaje.Text = recursos.GetString("Texto Juegos App")
-        'cbActualizarListaJuegos.Content = recursos.GetString("Modo Actualizar")
-        'tbActualizarListaJuegos.Text = recursos.GetString("Modo Actualizar Tooltip")
-        'tbLimpiarSeleccionCategoriasTexto.Text = recursos.GetString("Boton Limpiar Seleccion")
-        'tbBorrarCategoriasAppTexto.Text = recursos.GetString("Boton Borrar Categorias App")
-
-        '--------------------------------------------------------
-
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
         Dim listaJuegos As List(Of Juego) = Nothing
 
@@ -118,7 +77,6 @@ Public NotInheritable Class MainPage
                         tbMensajeCategorias.text = recursos.GetString("MessageCategories2")
                     End If
 
-                    'GridSeleccionVisibilidad(gridSeleccionUserscore, botonSeleccionUserscore)
                     tbJuegosApp.Text = listaJuegos.Count.ToString
                 End If
             End If
@@ -127,7 +85,12 @@ Public NotInheritable Class MainPage
         Dim actualizar As Boolean = False
 
         If Await helper.FileExistsAsync("actualizar") = True Then
-            actualizar = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+            Try
+                actualizar = Await helper.ReadFileAsync(Of Boolean)("actualizar")
+            Catch ex As Exception
+
+            End Try
+
             cbActualizarListaJuegos.IsChecked = actualizar
         End If
 
@@ -227,83 +190,53 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub BotonEscribirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonEscribirCategorias.Click
+    Private Async Sub LvCategoriasComandosItemClick(sender As Object, args As ItemClickEventArgs)
 
-        Cliente.EscribirCategorias()
+        Dim sp As StackPanel = args.ClickedItem
 
-    End Sub
+        If sp.Tag.ToString = 0 Then
 
-    Private Sub BotonEscribirCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles botonEscribirCategorias.PointerEntered
+            Cliente.EscribirCategorias()
 
-        panelAviso.HorizontalAlignment = HorizontalAlignment.Left
-        panelAviso.Visibility = Visibility.Visible
+        ElseIf sp.Tag.ToString = 1 Then
 
-    End Sub
+            Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+            Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
 
-    Private Sub BotonEscribirCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles botonEscribirCategorias.PointerExited
+            cbSeleccionUserscore.IsChecked = False
+            cbSeleccionMetascore.IsChecked = False
+            cbSeleccionAños.IsChecked = False
 
-        panelAviso.Visibility = Visibility.Collapsed
+            For Each sp In gvCategorias.Items
+                Dim cb As CheckBox = sp.Children.Item(0)
+                cb.IsChecked = False
+            Next
 
-    End Sub
+            For Each sp In gvGeneros.Items
+                Dim cb As CheckBox = sp.Children.Item(0)
+                cb.IsChecked = False
+            Next
 
-    Private Sub BotonBorrarCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonBorrarCategorias.Click
+            For Each sp In gvTags.Items
+                Dim cb As CheckBox = sp.Children.Item(0)
+                cb.IsChecked = False
+            Next
 
-        Cliente.BorrarCategorias(botonBorrarCategorias)
+            For Each sp In gvIdiomas.Items
+                Dim cb As CheckBox = sp.Children.Item(0)
+                cb.IsChecked = False
+            Next
 
-    End Sub
+            tbNumeroCategorias.Text = String.Empty
+            lvCategoriasComandos.IsEnabled = False
 
-    Private Sub BotonBorrarCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles botonBorrarCategorias.PointerEntered
+        ElseIf sp.Tag.ToString = 2 Then
 
-        panelAviso.HorizontalAlignment = HorizontalAlignment.Right
-        panelAviso.Visibility = Visibility.Visible
+            Cliente.BorrarCategorias()
 
-    End Sub
-
-    Private Sub BotonBorrarCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles botonBorrarCategorias.PointerExited
-
-        panelAviso.Visibility = Visibility.Collapsed
-
-    End Sub
-
-    '--------------------------------------------------------------
-
-    Private Async Sub GridSeleccionVisibilidad(grid As Grid, boton As Button)
-
-
-        gridNoJuegosCargados.Visibility = Visibility.Collapsed
-
-        Dim noCategorias As Boolean = False
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-
-        If Await helper.FileExistsAsync("listaJuegos") = True Then
-            Dim listaJuegos As List(Of Juego) = Nothing
-
-            Try
-                listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
-            Catch ex As Exception
-
-            End Try
-
-            If Not listaJuegos Is Nothing Then
-                If listaJuegos.Count = 0 Then
-                    noCategorias = True
-                End If
-            Else
-                noCategorias = True
-            End If
-        Else
-            noCategorias = True
-        End If
-
-        If noCategorias = False Then
-            grid.Visibility = Visibility.Visible
-        Else
-            gridNoJuegosCargados.Visibility = Visibility.Visible
         End If
 
     End Sub
-
-
 
     '--------------------------------------------------------------
 
@@ -382,13 +315,13 @@ Public NotInheritable Class MainPage
         Next
 
         If boolBoton = True Then
-            botonEscribirCategorias.IsEnabled = True
+            lvCategoriasComandos.IsEnabled = True
         Else
-            botonEscribirCategorias.IsEnabled = False
+            lvCategoriasComandos.IsEnabled = False
         End If
 
         If Not contadorTrue = 0 Then
-            tbNumeroCategorias.Text = contadorTrue.ToString
+            tbNumeroCategorias.Text = " (" + contadorTrue.ToString + ")"
         Else
             tbNumeroCategorias.Text = String.Empty
         End If
@@ -429,13 +362,13 @@ Public NotInheritable Class MainPage
             Next
 
             If boolBoton = True Then
-                botonEscribirCategorias.IsEnabled = True
+                lvCategoriasComandos.IsEnabled = True
             Else
-                botonEscribirCategorias.IsEnabled = False
+                lvCategoriasComandos.IsEnabled = False
             End If
 
             If Not contadorTrue = 0 Then
-                tbNumeroCategorias.Text = contadorTrue.ToString
+                tbNumeroCategorias.Text = " (" + contadorTrue.ToString + ")"
             Else
                 tbNumeroCategorias.Text = String.Empty
             End If
@@ -525,43 +458,11 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub BotonLimpiarSeleccionCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonLimpiarSeleccionCategorias.Click
+    Private Async Sub BotonLimpiarTodo_Click(sender As Object, e As RoutedEventArgs) Handles botonLimpiarTodo.Click
 
+        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
 
-        cbSeleccionUserscore.IsChecked = False
-        cbSeleccionMetascore.IsChecked = False
-        cbSeleccionAños.IsChecked = False
-
-        For Each sp In gvCategorias.Items
-            Dim cb As CheckBox = sp.Children.Item(0)
-            cb.IsChecked = False
-        Next
-
-        For Each sp In gvGeneros.Items
-            Dim cb As CheckBox = sp.Children.Item(0)
-            cb.IsChecked = False
-        Next
-
-        For Each sp In gvTags.Items
-            Dim cb As CheckBox = sp.Children.Item(0)
-            cb.IsChecked = False
-        Next
-
-        For Each sp In gvIdiomas.Items
-            Dim cb As CheckBox = sp.Children.Item(0)
-            cb.IsChecked = False
-        Next
-
-        tbNumeroCategorias.Text = String.Empty
-        botonEscribirCategorias.IsEnabled = False
-
-    End Sub
-
-    Private Async Sub BotonBorrarCategoriasApp_Click(sender As Object, e As RoutedEventArgs) Handles botonBorrarCategoriasApp.Click
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
         Await helper.SaveFileAsync(Of List(Of Juego))("listaJuegos", New List(Of Juego))
 
         gvCategorias.Items.Clear()
@@ -569,8 +470,27 @@ Public NotInheritable Class MainPage
         gvTags.Items.Clear()
         gvIdiomas.Items.Clear()
 
-        tbJuegosApp.Text = 0
         lvCategorias.IsEnabled = False
+        lvCategoriasComandos.IsEnabled = False
+
+        Try
+            StorageApplicationPermissions.FutureAccessList.Remove("SteamPath")
+        Catch ex As Exception
+
+        End Try
+
+        botonSteamRutaTexto.text = recursos.GetString("Add2")
+        tbSteamRuta.Text = String.Empty
+
+        Await helper.SaveFileAsync(Of Cuenta)("cuenta", Nothing)
+        Await helper.SaveFileAsync(Of List(Of String))("listaJuegosID", Nothing)
+        botonSteamCuentaTexto.TExt = recursos.GetString("Add2")
+        tbSteamCuenta.Text = String.Empty
+
+        botonCargaCategorias.IsEnabled = False
+        tbJuegosCuenta.Text = 0
+        tbJuegosApp.Text = 0
+        cbActualizarListaJuegos.isChecked = False
 
     End Sub
 
@@ -981,11 +901,15 @@ Public NotInheritable Class MainPage
 
         ElseIf sp.Tag.ToString = 4 Then
 
-            wvMasCosas.Navigate(New Uri("https://poeditor.com/join/project/YaZAR0uIW4"))
+            wvMasCosas.Navigate(New Uri("https://poeditor.com/join/project/8XFtnZRr6T"))
 
         ElseIf sp.Tag.ToString = 5 Then
 
             wvMasCosas.Navigate(New Uri("https://github.com/pepeizq/Steam-Categories"))
+
+        ElseIf sp.Tag.ToString = 6 Then
+
+            wvMasCosas.Navigate(New Uri("https://pepeizqapps.com/thanks/"))
 
         End If
 
