@@ -133,13 +133,13 @@ Public NotInheritable Class MainPage
             panelMensajeCategorias.Visibility = Visibility.Collapsed
         End If
 
-        botonCategoriasUserscore.Background = New SolidColorBrush(Colors.SteelBlue)
-        botonCategoriasMetascore.Background = New SolidColorBrush(Colors.SteelBlue)
-        botonCategoriasAños.Background = New SolidColorBrush(Colors.SteelBlue)
-        botonCategoriasCategorias.Background = New SolidColorBrush(Colors.SteelBlue)
-        botonCategoriasGeneros.Background = New SolidColorBrush(Colors.SteelBlue)
-        botonCategoriasTags.Background = New SolidColorBrush(Colors.SteelBlue)
-        botonCategoriasIdiomas.Background = New SolidColorBrush(Colors.SteelBlue)
+        botonCategoriasUserscore.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonCategoriasMetascore.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonCategoriasAños.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonCategoriasCategorias.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonCategoriasGeneros.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonCategoriasTags.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        botonCategoriasIdiomas.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
 
         gridCategoriasUserscore.Visibility = Visibility.Collapsed
         gridCategoriasMetascore.Visibility = Visibility.Collapsed
@@ -153,37 +153,37 @@ Public NotInheritable Class MainPage
 
         If sp.Tag.ToString = 0 Then
 
-            botonCategoriasUserscore.Background = New SolidColorBrush(Colors.DarkBlue)
+            botonCategoriasUserscore.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridCategoriasUserscore.Visibility = Visibility.Visible
 
         ElseIf sp.Tag.ToString = 1 Then
 
-            botonCategoriasMetascore.Background = New SolidColorBrush(Colors.DarkBlue)
+            botonCategoriasMetascore.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridCategoriasMetascore.Visibility = Visibility.Visible
 
         ElseIf sp.Tag.ToString = 2 Then
 
-            botonCategoriasAños.Background = New SolidColorBrush(Colors.DarkBlue)
+            botonCategoriasAños.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridCategoriasAños.Visibility = Visibility.Visible
 
         ElseIf sp.Tag.ToString = 3 Then
 
-            botonCategoriasCategorias.Background = New SolidColorBrush(Colors.DarkBlue)
+            botonCategoriasCategorias.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridCategoriasCategorias.Visibility = Visibility.Visible
 
         ElseIf sp.Tag.ToString = 4 Then
 
-            botonCategoriasGeneros.Background = New SolidColorBrush(Colors.DarkBlue)
+            botonCategoriasGeneros.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridCategoriasGeneros.Visibility = Visibility.Visible
 
         ElseIf sp.Tag.ToString = 5 Then
 
-            botonCategoriasTags.Background = New SolidColorBrush(Colors.DarkBlue)
+            botonCategoriasTags.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridCategoriasTags.Visibility = Visibility.Visible
 
         ElseIf sp.Tag.ToString = 6 Then
 
-            botonCategoriasIdiomas.Background = New SolidColorBrush(Colors.DarkBlue)
+            botonCategoriasIdiomas.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
             gridCategoriasIdiomas.Visibility = Visibility.Visible
 
         End If
