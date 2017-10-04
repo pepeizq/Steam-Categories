@@ -374,15 +374,15 @@ Module Cliente
                 End Try
 
                 If actualizar = True Then
-                    Toast("Steam Categories", recursos.GetString("CategoriesUpdated"))
+                    Toast(recursos.GetString("CategoriesUpdated"), Nothing)
                 Else
-                    Toast("Steam Categories", recursos.GetString("CategoriesAdded"))
+                    Toast(recursos.GetString("CategoriesAdded"), Nothing)
                 End If
             Else
-                Toast("Steam Categories", recursos.GetString("CategoriesAdded"))
+                Toast(recursos.GetString("CategoriesAdded"), Nothing)
             End If
         Else
-            Toast("Steam Categories", recursos.GetString("CategoriesNotAdded"))
+            Toast(recursos.GetString("CategoriesNotAdded"), Nothing)
         End If
 
         lvComandos.IsEnabled = True
@@ -453,9 +453,9 @@ Module Cliente
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
         If boolFinal = True Then
-            Toast("Steam Categories", recursos.GetString("DeleteCategoriesSteamYes"))
+            Toast(recursos.GetString("DeleteCategoriesSteamYes"), Nothing)
         Else
-            Toast("Steam Categories", recursos.GetString("DeleteCategoriesSteamNo"))
+            Toast(recursos.GetString("DeleteCategoriesSteamNo"), Nothing)
         End If
 
         lvComandos.IsEnabled = True
