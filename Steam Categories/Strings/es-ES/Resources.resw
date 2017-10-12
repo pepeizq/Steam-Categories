@@ -231,11 +231,11 @@
   <data name="MetascoreInfo.Text" xml:space="preserve">
     <value>Añade categorías a tus juegos en base a su puntuación de Metacritic (personalizable en Configuración)</value>
   </data>
+  <data name="MoreApps.Text" xml:space="preserve">
+    <value>Más Apps</value>
+  </data>
   <data name="MoreThings" xml:space="preserve">
     <value>Más Cosas</value>
-  </data>
-  <data name="OtherApps.Text" xml:space="preserve">
-    <value>Otras Apps</value>
   </data>
   <data name="Personalization.Text" xml:space="preserve">
     <value>Personalización</value>
@@ -254,6 +254,9 @@
   </data>
   <data name="ThanksTo.Text" xml:space="preserve">
     <value>Agradecimientos</value>
+  </data>
+  <data name="Updates.Text" xml:space="preserve">
+    <value>Actualizaciones</value>
   </data>
   <data name="UserscoreInfo.Text" xml:space="preserve">
     <value>Añade categorías a tus juegos en base a los análisis de los usuarios de Steam (personalizable en Configuración)</value>
