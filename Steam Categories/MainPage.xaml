@@ -423,7 +423,7 @@
                                 </StackPanel>
                             </Button>
 
-                            <Grid x:Name="gridConfigPersonalization" Width="500" HorizontalAlignment="Left" Margin="5,5,10,10" Padding="10" Background="{StaticResource GridTituloBackground}">
+                            <Grid x:Name="gridConfigPersonalization" Width="500" HorizontalAlignment="Left" Margin="5,40,10,10" Padding="10" Background="{StaticResource GridTituloBackground}">
                                 <TextBlock x:Uid="Personalization" FontSize="16" Foreground="White"/>
                             </Grid>
 
