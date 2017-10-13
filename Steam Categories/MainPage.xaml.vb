@@ -112,6 +112,16 @@ Public NotInheritable Class MainPage
         Cliente.Detectar(False)
         PersonalizarConfig()
 
+        '--------------------------------------------------------
+
+        Dim transpariencia As New UISettings
+        Dim boolTranspariencia As Boolean = transpariencia.AdvancedEffectsEnabled
+
+        If boolTranspariencia = False Then
+            gridConfigCategories.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+            gridConfigPersonalization.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+        End If
+
     End Sub
 
     Private Sub GridVisibilidad(grid As Grid, tag As String)

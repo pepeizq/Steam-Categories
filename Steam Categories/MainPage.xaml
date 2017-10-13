@@ -301,8 +301,9 @@
                 <Grid x:Name="gridConfig" Visibility="Collapsed">
                     <ScrollViewer>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock x:Uid="Categories2" Margin="10,5" FontSize="16"/>
-                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+                            <Grid x:Name="gridConfigCategories" Width="500" HorizontalAlignment="Left" Margin="5,5,10,10" Padding="10" Background="{StaticResource GridTituloBackground}">
+                                <TextBlock x:Uid="Categories2" FontSize="16" Foreground="White"/>
+                            </Grid>
 
                             <TextBlock x:Uid="ConfigCategoriesMessage" Margin="10,5" TextWrapping="Wrap"/>
                             <StackPanel Orientation="Horizontal" Margin="10,5">
@@ -422,8 +423,9 @@
                                 </StackPanel>
                             </Button>
 
-                            <TextBlock x:Uid="Personalization" Margin="10,35,10,5" FontSize="16"/>
-                            <Rectangle HorizontalAlignment="Left" Fill="Black" Height="1" Margin="5" Width="400"/>
+                            <Grid x:Name="gridConfigPersonalization" Width="500" HorizontalAlignment="Left" Margin="5,5,10,10" Padding="10" Background="{StaticResource GridTituloBackground}">
+                                <TextBlock x:Uid="Personalization" FontSize="16" Foreground="White"/>
+                            </Grid>
 
                             <StackPanel Orientation="Horizontal" Margin="5">
                                 <Grid MinWidth="250">
