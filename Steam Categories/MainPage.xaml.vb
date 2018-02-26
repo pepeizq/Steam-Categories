@@ -5,6 +5,7 @@ Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.System
 Imports Windows.UI
+Imports Windows.UI.Core
 
 Public NotInheritable Class MainPage
     Inherits Page
@@ -32,7 +33,13 @@ Public NotInheritable Class MainPage
             GridVisibilidad(gridConfig, item.Text)
         ElseIf item.Text = recursos.GetString("MoreThings") Then
             GridVisibilidad(gridMasCosas, item.Text)
-            NavegarMasCosas(lvMasCosasMasApps, "https://pepeizqapps.com/")
+
+            Dim sv As ScrollViewer = gridMasCosas.Children(0)
+            Dim gridRelleno As Grid = sv.Content
+            Dim sp As StackPanel = gridRelleno.Children(0)
+            Dim lv As ListView = sp.Children(0)
+
+            MasCosas.Navegar(lv, "2", "https://pepeizqapps.com/")
         End If
 
     End Sub
@@ -75,7 +82,7 @@ Public NotInheritable Class MainPage
 
                     If Not carpeta Is Nothing Then
                         lvCategorias.IsEnabled = True
-                        tbMensajeCategorias.text = recursos.GetString("MessageCategories2")
+                        tbMensajeCategorias.Text = recursos.GetString("MessageCategories2")
                     End If
 
                     tbJuegosApp.Text = listaJuegos.Count.ToString
@@ -108,9 +115,62 @@ Public NotInheritable Class MainPage
             Categorias.Cargar()
         End If
 
+        Interfaz.GenerarMenu()
         Cuentas.Detectar(actualizar)
         Cliente.Detectar(False)
         PersonalizarConfig()
+        MasCosas.Generar()
+
+        '--------------------------------------------------------
+
+        AddHandler botonSteamRuta.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonSteamRuta.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonSteamCuenta.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonSteamCuenta.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonCargaCategorias.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonCargaCategorias.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbActualizarListaJuegos.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbActualizarListaJuegos.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonLimpiarTodo.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonLimpiarTodo.PointerExited, AddressOf UsuarioSaleBoton
+
+        AddHandler cbPersonalizarUserscore1.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarUserscore1.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarUserscore2.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarUserscore2.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarUserscore3.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarUserscore3.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarUserscore4.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarUserscore4.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarUserscore5.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarUserscore5.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarUserscore6.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarUserscore6.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarUserscore7.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarUserscore7.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarUserscore8.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarUserscore8.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarUserscore9.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarUserscore9.PointerExited, AddressOf UsuarioSaleBoton
+
+        AddHandler cbPersonalizarMetascore1.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarMetascore1.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarMetascore2.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarMetascore2.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarMetascore3.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarMetascore3.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarMetascore4.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarMetascore4.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarMetascore5.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarMetascore5.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarMetascore6.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarMetascore6.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarMetascore7.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarMetascore7.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarMetascore8.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarMetascore8.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler cbPersonalizarMetascore9.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler cbPersonalizarMetascore9.PointerExited, AddressOf UsuarioSaleBoton
 
         '--------------------------------------------------------
 
@@ -146,21 +206,35 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
+
+    End Sub
+
+    Private Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
+
+    End Sub
+
     'CATEGORIAS--------------------------------------------------------------
 
-    Private Sub LvCategoriasItemClick(sender As Object, args As ItemClickEventArgs)
+    Private Sub LvCategoriasItemClick(sender As Object, e As ItemClickEventArgs)
+
+        Interfaz.Clickeo(e.ClickedItem)
 
         If panelMensajeCategorias.Visibility = Visibility.Visible Then
             panelMensajeCategorias.Visibility = Visibility.Collapsed
         End If
 
-        botonCategoriasUserscore.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        botonCategoriasMetascore.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        botonCategoriasAños.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        botonCategoriasCategorias.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        botonCategoriasGeneros.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        botonCategoriasTags.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        botonCategoriasIdiomas.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        'botonCategoriasUserscore.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        'botonCategoriasMetascore.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        'botonCategoriasAños.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        'botonCategoriasCategorias.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        'botonCategoriasGeneros.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        'botonCategoriasTags.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
+        'botonCategoriasIdiomas.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
 
         gridCategoriasUserscore.Visibility = Visibility.Collapsed
         gridCategoriasMetascore.Visibility = Visibility.Collapsed
@@ -170,44 +244,44 @@ Public NotInheritable Class MainPage
         gridCategoriasTags.Visibility = Visibility.Collapsed
         gridCategoriasIdiomas.Visibility = Visibility.Collapsed
 
-        Dim sp As StackPanel = args.ClickedItem
+        Dim sp As StackPanel = e.ClickedItem
 
-        If sp.Tag.ToString = 0 Then
+        'If sp.Tag.ToString = 0 Then
 
-            botonCategoriasUserscore.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-            gridCategoriasUserscore.Visibility = Visibility.Visible
+        '    'botonCategoriasUserscore.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+        '    gridCategoriasUserscore.Visibility = Visibility.Visible
 
-        ElseIf sp.Tag.ToString = 1 Then
+        'ElseIf sp.Tag.ToString = 1 Then
 
-            botonCategoriasMetascore.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-            gridCategoriasMetascore.Visibility = Visibility.Visible
+        '    'botonCategoriasMetascore.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+        '    gridCategoriasMetascore.Visibility = Visibility.Visible
 
-        ElseIf sp.Tag.ToString = 2 Then
+        'ElseIf sp.Tag.ToString = 2 Then
 
-            botonCategoriasAños.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-            gridCategoriasAños.Visibility = Visibility.Visible
+        '    'botonCategoriasAños.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+        '    gridCategoriasAños.Visibility = Visibility.Visible
 
-        ElseIf sp.Tag.ToString = 3 Then
+        'ElseIf sp.Tag.ToString = 3 Then
 
-            botonCategoriasCategorias.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-            gridCategoriasCategorias.Visibility = Visibility.Visible
+        '    'botonCategoriasCategorias.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+        '    gridCategoriasCategorias.Visibility = Visibility.Visible
 
-        ElseIf sp.Tag.ToString = 4 Then
+        'ElseIf sp.Tag.ToString = 4 Then
 
-            botonCategoriasGeneros.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-            gridCategoriasGeneros.Visibility = Visibility.Visible
+        '    'botonCategoriasGeneros.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+        '    gridCategoriasGeneros.Visibility = Visibility.Visible
 
-        ElseIf sp.Tag.ToString = 5 Then
+        'ElseIf sp.Tag.ToString = 5 Then
 
-            botonCategoriasTags.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-            gridCategoriasTags.Visibility = Visibility.Visible
+        '    'botonCategoriasTags.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+        '    gridCategoriasTags.Visibility = Visibility.Visible
 
-        ElseIf sp.Tag.ToString = 6 Then
+        'ElseIf sp.Tag.ToString = 6 Then
 
-            botonCategoriasIdiomas.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-            gridCategoriasIdiomas.Visibility = Visibility.Visible
+        '    'botonCategoriasIdiomas.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+        '    gridCategoriasIdiomas.Visibility = Visibility.Visible
 
-        End If
+        'End If
 
     End Sub
 
@@ -500,18 +574,18 @@ Public NotInheritable Class MainPage
 
         End Try
 
-        botonSteamRutaTexto.text = recursos.GetString("Add2")
+        botonSteamRutaTexto.Text = recursos.GetString("Add2")
         tbSteamRuta.Text = String.Empty
 
         Await helper.SaveFileAsync(Of Cuenta)("cuenta", Nothing)
         Await helper.SaveFileAsync(Of List(Of String))("listaJuegosID", Nothing)
-        botonSteamCuentaTexto.TExt = recursos.GetString("Add2")
+        botonSteamCuentaTexto.Text = recursos.GetString("Add2")
         tbSteamCuenta.Text = String.Empty
 
         botonCargaCategorias.IsEnabled = False
         tbJuegosCuenta.Text = 0
         tbJuegosApp.Text = 0
-        cbActualizarListaJuegos.isChecked = False
+        cbActualizarListaJuegos.IsChecked = False
 
     End Sub
 

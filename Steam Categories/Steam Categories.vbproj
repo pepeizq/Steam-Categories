@@ -105,6 +105,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Clases\Categoria.vb" />
+    <Compile Include="Clases\Categoria2.vb" />
     <Compile Include="Clases\Cuenta.vb" />
     <Compile Include="Clases\Juego.vb" />
     <Compile Include="Clases\CategoriaCliente.vb" />
@@ -112,6 +113,8 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modulos\Decompiladores.vb" />
+    <Compile Include="Modulos\Interfaz.vb" />
+    <Compile Include="Modulos\MasCosas.vb" />
     <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
     <Compile Include="Modulos\Steam\Categorias.vb" />
@@ -185,6 +188,13 @@
     <Content Include="Assets\MasCosas\github.png" />
     <Content Include="Assets\MasCosas\pepeizq.png" />
     <Content Include="Assets\MasCosas\poeditor.png" />
+    <Content Include="Assets\Menu\categorias_años.PNG" />
+    <Content Include="Assets\Menu\categorias_categorias.PNG" />
+    <Content Include="Assets\Menu\categorias_etiquetas.PNG" />
+    <Content Include="Assets\Menu\categorias_generos.PNG" />
+    <Content Include="Assets\Menu\categorias_idiomas.PNG" />
+    <Content Include="Assets\Menu\categorias_metascore.PNG" />
+    <Content Include="Assets\Menu\categorias_userscore.PNG" />
     <Content Include="Assets\Screens\cat1.png" />
     <Content Include="Assets\Screens\cat2.png" />
     <Content Include="Assets\Screens\cat3.png" />

@@ -34,268 +34,282 @@
                     </LinearGradientBrush>
                 </Grid.Background>
 
-                <Grid x:Name="gridCategorias" Visibility="Collapsed" Padding="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <Grid x:Name="gridCategorias" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <ListView x:Name="lvCategorias" Grid.Row="0" IsItemClickEnabled="True" IsEnabled="False"
-                                  ItemClick="LvCategoriasItemClick" HorizontalAlignment="Center">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Background="Transparent" Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
+                    <Grid Grid.Column="0" Padding="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <ListView x:Name="lvCategorias" Grid.Row="0" IsItemClickEnabled="True" IsEnabled="False"
+                                  ItemClick="LvCategoriasItemClick" HorizontalAlignment="Left">
+                            <!--<ListViewItem x:Name="botonCategoriasUserscore" Background="SteelBlue" Padding="15" MinWidth="0">
+                                <StackPanel Orientation="Horizontal" Tag="0">
+                                    <TextBlock Text="Userscore" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem x:Name="botonCategoriasMetascore" Background="SteelBlue" Padding="15" MinWidth="0">
+                                <StackPanel Orientation="Horizontal" Tag="1">
+                                    <TextBlock Text="Metascore" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem x:Name="botonCategoriasAños" Background="SteelBlue" Padding="15" MinWidth="0">
+                                <StackPanel Orientation="Horizontal" Tag="2">
+                                    <TextBlock x:Uid="Years" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem x:Name="botonCategoriasCategorias" Background="SteelBlue" Padding="15" MinWidth="0">
+                                <StackPanel Orientation="Horizontal" Tag="3">
+                                    <TextBlock x:Uid="Categories2" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem x:Name="botonCategoriasGeneros" Background="SteelBlue" Padding="15" MinWidth="0">
+                                <StackPanel Orientation="Horizontal" Tag="4">
+                                    <TextBlock x:Uid="Genres" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem x:Name="botonCategoriasTags" Background="SteelBlue" Padding="15" MinWidth="0">
+                                <StackPanel Orientation="Horizontal" Tag="5">
+                                    <TextBlock x:Uid="Tags" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem x:Name="botonCategoriasIdiomas" Background="SteelBlue" Padding="15" MinWidth="0">
+                                <StackPanel Orientation="Horizontal" Tag="6">
+                                    <TextBlock x:Uid="Languages" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>-->
+                        </ListView>
 
-                        <ListViewItem x:Name="botonCategoriasUserscore" Background="SteelBlue" Padding="15" MinWidth="0">
-                            <StackPanel Orientation="Horizontal" Tag="0">
-                                <TextBlock Text="Userscore" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem x:Name="botonCategoriasMetascore" Background="SteelBlue" Padding="15" MinWidth="0">
-                            <StackPanel Orientation="Horizontal" Tag="1">
-                                <TextBlock Text="Metascore" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem x:Name="botonCategoriasAños" Background="SteelBlue" Padding="15" MinWidth="0">
-                            <StackPanel Orientation="Horizontal" Tag="2">
-                                <TextBlock x:Uid="Years" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem x:Name="botonCategoriasCategorias" Background="SteelBlue" Padding="15" MinWidth="0">
-                            <StackPanel Orientation="Horizontal" Tag="3">
-                                <TextBlock x:Uid="Categories2" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem x:Name="botonCategoriasGeneros" Background="SteelBlue" Padding="15" MinWidth="0">
-                            <StackPanel Orientation="Horizontal" Tag="4">
-                                <TextBlock x:Uid="Genres" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem x:Name="botonCategoriasTags" Background="SteelBlue" Padding="15" MinWidth="0">
-                            <StackPanel Orientation="Horizontal" Tag="5">
-                                <TextBlock x:Uid="Tags" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem x:Name="botonCategoriasIdiomas" Background="SteelBlue" Padding="15" MinWidth="0">
-                            <StackPanel Orientation="Horizontal" Tag="6">
-                                <TextBlock x:Uid="Languages" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                    </ListView>
+                        <StackPanel x:Name="spImagenCategoria" Orientation="Vertical" Grid.Row="1" Visibility="Collapsed">
+                            <TextBlock x:Uid="ImageExample" Margin="5"/>
+                            <controls:ImageEx x:Name="imagenCategoriaEjemplo" Width="290" Height="290" BorderBrush="{StaticResource BrushSecundario}" 
+                                              BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None"/>
+                        </StackPanel>
+                        
+                    </Grid>
 
-                    <Grid Grid.Row="1" Padding="0,10">
+                    <Grid Grid.Column="1" Padding="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
                         <controls:DropShadowPanel x:Name="panelMensajeCategorias" Color="IndianRed" 
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                  BlurRadius="4" ShadowOpacity="1" OffsetZ="5">
+                                                  BlurRadius="4" ShadowOpacity="1" OffsetZ="5" Visibility="Collapsed">
                             <Grid Padding="10" Background="IndianRed">
                                 <TextBlock x:Name="tbMensajeCategorias" x:Uid="MessageCategories" TextWrapping="Wrap" Foreground="White"/>
                             </Grid>
                         </controls:DropShadowPanel>
-                        
-                        <Grid x:Name="gridCategoriasUserscore" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
 
-                            <CheckBox x:Name="cbSeleccionUserscore" Grid.Row="0" Content="Userscore" HorizontalAlignment="Center" Margin="0,10"/>
+                        <Grid Grid.Row="0">
+                            <Grid x:Name="gridCategoriasUserscore" Visibility="Collapsed" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
+                                <CheckBox x:Name="cbSeleccionUserscore" Grid.Row="0" Content="Userscore" HorizontalAlignment="Center" Margin="0,10"/>
 
-                                    <TextBlock x:Uid="UserscoreInfo" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                    <Grid Grid.Row="1" Margin="0,20">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Uid="UserscoreInfo" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center"/>
 
-                                        <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat1.png" IsCacheEnabled="True"/>
-                                        <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                        <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat2.png" IsCacheEnabled="True"/>
+                                        <Grid Grid.Row="1" Margin="0,20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat1.png" IsCacheEnabled="True"/>
+                                            <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
+                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat2.png" IsCacheEnabled="True"/>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </ScrollViewer>
-                        </Grid>
+                                </ScrollViewer>
+                            </Grid>
 
-                        <Grid x:Name="gridCategoriasMetascore" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                            <Grid x:Name="gridCategoriasMetascore" Visibility="Collapsed" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                            <CheckBox x:Name="cbSeleccionMetascore" Grid.Row="0" Content="Metascore" HorizontalAlignment="Center" Margin="0,10"/>
+                                <CheckBox x:Name="cbSeleccionMetascore" Grid.Row="0" Content="Metascore" HorizontalAlignment="Center" Margin="0,10"/>
 
-                            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
+                                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                    <TextBlock x:Uid="MetascoreInfo" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                        <TextBlock x:Uid="MetascoreInfo" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center"/>
 
-                                    <Grid Grid.Row="1" Margin="0,20">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Row="1" Margin="0,20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat3.png" IsCacheEnabled="True"/>
-                                        <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                        <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat4.png" IsCacheEnabled="True"/>
+                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat3.png" IsCacheEnabled="True"/>
+                                            <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
+                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat4.png" IsCacheEnabled="True"/>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </ScrollViewer>
-                        </Grid>
+                                </ScrollViewer>
+                            </Grid>
 
-                        <Grid x:Name="gridCategoriasAños" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                            <Grid x:Name="gridCategoriasAños" Visibility="Collapsed" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                            <CheckBox x:Name="cbSeleccionAños" Grid.Row="0" HorizontalAlignment="Center" Margin="0,10">
-                                <CheckBox.Content>
-                                    <TextBlock x:Uid="Years"/>
-                                </CheckBox.Content>    
-                            </CheckBox> 
+                                <CheckBox x:Name="cbSeleccionAños" Grid.Row="0" HorizontalAlignment="Center" Margin="0,10">
+                                    <CheckBox.Content>
+                                        <TextBlock x:Uid="Years"/>
+                                    </CheckBox.Content>
+                                </CheckBox>
 
-                            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
+                                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                    <TextBlock x:Uid="YearsInfo" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center"/>
+                                        <TextBlock x:Uid="YearsInfo" Grid.Row="0" TextWrapping="Wrap" HorizontalAlignment="Center"/>
 
-                                    <Grid Grid.Row="1" Margin="0,20">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Row="1" Margin="0,20">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat5.png" IsCacheEnabled="True"/>
-                                        <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
-                                        <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat6.png" IsCacheEnabled="True"/>
+                                            <controls:ImageEx Grid.Column="0" Source="Assets/Screens/cat5.png" IsCacheEnabled="True"/>
+                                            <FontIcon Glyph="&#xE72A;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Margin="10,0" VerticalAlignment="Center" FontSize="25"/>
+                                            <controls:ImageEx Grid.Column="2" Source="Assets/Screens/cat6.png" IsCacheEnabled="True"/>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </ScrollViewer>
+                                </ScrollViewer>
+                            </Grid>
+
+                            <Grid x:Name="gridCategoriasCategorias" Visibility="Collapsed" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Uid="CategoriesInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
+
+                                <GridView x:Name="gvCategorias" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                </GridView>
+                            </Grid>
+
+                            <Grid x:Name="gridCategoriasGeneros" Visibility="Collapsed" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Uid="GenresInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
+
+                                <GridView x:Name="gvGeneros" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                </GridView>
+                            </Grid>
+
+                            <Grid x:Name="gridCategoriasTags" Visibility="Collapsed" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Uid="TagsInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
+
+                                <GridView x:Name="gvTags" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                </GridView>
+                            </Grid>
+
+                            <Grid x:Name="gridCategoriasIdiomas" Visibility="Collapsed" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Uid="LanguagesInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
+
+                                <GridView x:Name="gvIdiomas" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                </GridView>
+                            </Grid>
                         </Grid>
 
-                        <Grid x:Name="gridCategoriasCategorias" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock x:Uid="CategoriesInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
-
-                            <GridView x:Name="gvCategorias" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                        <Setter Property="Padding" Value="0"/>
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                            </GridView>
-                        </Grid>
-
-                        <Grid x:Name="gridCategoriasGeneros" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock x:Uid="GenresInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
-
-                            <GridView x:Name="gvGeneros" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                        <Setter Property="Padding" Value="0"/>
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                            </GridView>
-                        </Grid>
-
-                        <Grid x:Name="gridCategoriasTags" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock x:Uid="TagsInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
-
-                            <GridView x:Name="gvTags" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                        <Setter Property="Padding" Value="0"/>
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                            </GridView>
-                        </Grid>
-
-                        <Grid x:Name="gridCategoriasIdiomas" Visibility="Collapsed" HorizontalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock x:Uid="LanguagesInfo" Grid.Row="0" HorizontalAlignment="Center" Margin="0,5"/>
-
-                            <GridView x:Name="gvIdiomas" Grid.Row="1" IsItemClickEnabled="True" HorizontalAlignment="Center" Margin="0,10">
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                        <Setter Property="Padding" Value="0"/>
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                            </GridView>
-                        </Grid>
-                    </Grid>
-
-                    <ListView x:Name="lvCategoriasComandos" Grid.Row="2" IsItemClickEnabled="True" IsEnabled="False"
+                        <ListView x:Name="lvCategoriasComandos" Grid.Row="1" IsItemClickEnabled="True" IsEnabled="False"
                                   ItemClick="LvCategoriasComandosItemClick" HorizontalAlignment="Center">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Background="Transparent" Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Background="Transparent" Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
 
-                        <ListViewItem Background="SteelBlue" Padding="15" MinWidth="0">
-                            <StackPanel Orientation="Horizontal" Tag="0">
-                                <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                <TextBlock x:Uid="AddCategoriesSteam" Foreground="White"/>
-                                <TextBlock x:Name="tbNumeroCategorias" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem Background="SteelBlue" Padding="15" MinWidth="0" Margin="40,0">
-                            <StackPanel Orientation="Horizontal" Tag="1">
-                                <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                <TextBlock x:Uid="CleanSelection" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem Background="SteelBlue" Padding="15" MinWidth="0">
-                            <StackPanel Orientation="Horizontal" Tag="2">
-                                <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                <TextBlock x:Uid="DeleteCategoriesSteam" Foreground="White"/>
-                            </StackPanel>
-                        </ListViewItem>
-                    </ListView> 
+                            <ListViewItem Background="SteelBlue" Padding="15" MinWidth="0">
+                                <StackPanel Orientation="Horizontal" Tag="0">
+                                    <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock x:Uid="AddCategoriesSteam" Foreground="White"/>
+                                    <TextBlock x:Name="tbNumeroCategorias" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem Background="SteelBlue" Padding="15" MinWidth="0" Margin="40,0">
+                                <StackPanel Orientation="Horizontal" Tag="1">
+                                    <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock x:Uid="CleanSelection" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem Background="SteelBlue" Padding="15" MinWidth="0">
+                                <StackPanel Orientation="Horizontal" Tag="2">
+                                    <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                    <TextBlock x:Uid="DeleteCategoriesSteam" Foreground="White"/>
+                                </StackPanel>
+                            </ListViewItem>
+                        </ListView>
+                    </Grid>
                 </Grid>
 
                 <Grid x:Name="gridConfig" Visibility="Collapsed" Background="{StaticResource GridAcrilico}">

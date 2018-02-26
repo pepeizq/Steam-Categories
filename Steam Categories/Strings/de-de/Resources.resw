@@ -142,16 +142,16 @@
     <value>Kategorie konnte nicht hinzugefügt werden, beendete Steam</value>
   </data>
   <data name="CategoriesNotLoaded" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="CategoriesUpdated" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="Change" xml:space="preserve">
     <value>Änder</value>
   </data>
   <data name="CleanSelection.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="Config" xml:space="preserve">
     <value>Einstellungen</value>
@@ -160,19 +160,19 @@
     <value>Automatische Aktualisierung</value>
   </data>
   <data name="ConfigAutoUpdateDescription.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="ConfigCategoriesLoad.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="ConfigCategoriesLoadWarning.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="ConfigCategoriesMessage.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="ConfigCleanAll.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="ConfigSteamAccount.Text" xml:space="preserve">
     <value>Steam Account</value>
@@ -180,32 +180,32 @@
   <data name="ConfigSteamFolder.Text" xml:space="preserve">
     <value>Steam Ordner</value>
   </data>
-  <data name="Contact.Text" xml:space="preserve">
+  <data name="MoreThings_Contact" xml:space="preserve">
     <value>Kontakt</value>
   </data>
   <data name="DeleteCategoriesSteam.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="DeleteCategoriesSteamNo" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="DeleteCategoriesSteamYes" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="DescriptionStore" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="GamesAccount.Text" xml:space="preserve">
     <value>Spiele gefunden</value>
   </data>
   <data name="GamesApp.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="Genres.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
-  <data name="HelpTranslate.Text" xml:space="preserve">
-    <value></value>
+  <data name="MoreThings_HelpTranslate" xml:space="preserve">
+    <value />
   </data>
   <data name="Languages.Text" xml:space="preserve">
     <value>Sprache</value>
@@ -214,61 +214,60 @@
     <value>Lade</value>
   </data>
   <data name="MessageCategories.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="MessageCategories2" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="MoreThings" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="Personalization.Text" xml:space="preserve">
     <value>Personalisierung</value>
   </data>
-  <data name="ReportBug.Text" xml:space="preserve">
+  <data name="MoreThings_ReportBug" xml:space="preserve">
     <value>Melde einen Bug</value>
   </data>
-  <data name="SourceCode.Text" xml:space="preserve">
-    <value></value>
+  <data name="MoreThings_SourceCode" xml:space="preserve">
+    <value />
   </data>
   <data name="Tags.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
-  <data name="VoteApp.Text" xml:space="preserve">
+  <data name="MoreThings_VoteApp" xml:space="preserve">
     <value>Bewerte die App</value>
   </data>
   <data name="Years.Text" xml:space="preserve">
     <value>Jahre</value>
   </data>
   <data name="CategoriesInfo.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="GenresInfo.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="LanguagesInfo.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="MetascoreInfo.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="TagsInfo.Text" xml:space="preserve">
     <value>Tags von Nutzer für deine Spiele</value>
   </data>
-  <data name="ThanksTo.Text" xml:space="preserve">
-    <value>Danke an</value>
-  </data>
   <data name="UserscoreInfo.Text" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="YearsInfo.Text" xml:space="preserve">
     <value>Sortiere deine Spiele nach dem Erscheinungsdatum</value>
   </data>
-  <data name="MoreApps.Text" xml:space="preserve">
-    <value></value>
+  <data name="MoreThings_MoreApps" xml:space="preserve">
+    <value />
   </data>
-  <data name="Updates.Text" xml:space="preserve">
-    <value></value>
+  <data name="MoreThings_Back" xml:space="preserve">
+    <value />
   </data>
-
+  <data name="ImageExample.Text" xml:space="preserve">
+    <value />
+  </data>
 </root>
