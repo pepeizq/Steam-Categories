@@ -129,9 +129,6 @@
   <data name="Categories" xml:space="preserve">
     <value>Categorías</value>
   </data>
-  <data name="Categories2.Text" xml:space="preserve">
-    <value>Categorías</value>
-  </data>
   <data name="CategoriesAdded" xml:space="preserve">
     <value>Se han añadido las categorías en Steam</value>
   </data>
@@ -201,7 +198,7 @@
   <data name="GamesApp.Text" xml:space="preserve">
     <value>Juegos cargados en la app:</value>
   </data>
-  <data name="Genres.Text" xml:space="preserve">
+  <data name="Genres" xml:space="preserve">
     <value>Géneros</value>
   </data>
   <data name="GenresInfo.Text" xml:space="preserve">
@@ -210,7 +207,7 @@
   <data name="ImageExample.Text" xml:space="preserve">
     <value>Imagen de ejemplo</value>
   </data>
-  <data name="Languages.Text" xml:space="preserve">
+  <data name="Languages" xml:space="preserve">
     <value>Idiomas</value>
   </data>
   <data name="LanguagesInfo.Text" xml:space="preserve">
@@ -223,7 +220,7 @@
     <value>Debes ir a Configuración antes de poder añadir categorías</value>
   </data>
   <data name="MessageCategories2" xml:space="preserve">
-    <value>Selecciona una opción de la barra superior para añadir categorías</value>
+    <value>Selecciona una opción de la barra de la izquierda para añadir categorías</value>
   </data>
   <data name="MetascoreInfo.Text" xml:space="preserve">
     <value>Añade categorías a tus juegos en base a su puntuación de Metacritic (personalizable en Configuración)</value>
@@ -255,7 +252,7 @@
   <data name="Personalization.Text" xml:space="preserve">
     <value>Personalización</value>
   </data>
-  <data name="Tags.Text" xml:space="preserve">
+  <data name="Tags" xml:space="preserve">
     <value>Etiquetas</value>
   </data>
   <data name="TagsInfo.Text" xml:space="preserve">
@@ -264,10 +261,10 @@
   <data name="UserscoreInfo.Text" xml:space="preserve">
     <value>Añade categorías a tus juegos en base a los análisis de los usuarios de Steam (personalizable en Configuración)</value>
   </data>
-  <data name="Years.Text" xml:space="preserve">
+  <data name="Years" xml:space="preserve">
     <value>Años</value>
   </data>
   <data name="YearsInfo.Text" xml:space="preserve">
-    <value>Añade categorías a tus juegos en base a los años de lanzamiento</value>
+    <value>Años de lanzamiento de tus juegos</value>
   </data>
 </root>

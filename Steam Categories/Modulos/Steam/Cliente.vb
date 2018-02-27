@@ -127,8 +127,14 @@ Module Cliente
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim lvComandos As ListView = pagina.FindName("lvCategoriasComandos")
-        lvComandos.IsEnabled = False
+        Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
+        botonAñadir.IsEnabled = False
+
+        Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+        botonLimpiar.IsEnabled = False
+
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
+        botonBorrar.IsEnabled = False
 
         Dim boolFinal As Boolean = False
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
@@ -164,9 +170,27 @@ Module Cliente
                                 End If
                             End If
 
-                            If categoria.Nombre.Contains("/*3/") Then
-                                listaCategoriasJuego.Add(juego.Año)
-                            End If
+                            For Each año In juego.Años
+                                If categoria.Nombre = año Then
+                                    If listaCategoriasJuego.Count > 0 Then
+                                        Dim boolAñadir As Boolean = False
+
+                                        Dim i As Integer = 0
+                                        While i < listaCategoriasJuego.Count
+                                            If categoria.Nombre = listaCategoriasJuego(i) Then
+                                                boolAñadir = True
+                                            End If
+                                            i += 1
+                                        End While
+
+                                        If boolAñadir = False Then
+                                            listaCategoriasJuego.Add(año)
+                                        End If
+                                    Else
+                                        listaCategoriasJuego.Add(año)
+                                    End If
+                                End If
+                            Next
 
                             For Each genero In juego.Generos
                                 If categoria.Nombre = genero Then
@@ -385,7 +409,9 @@ Module Cliente
             Toast(recursos.GetString("CategoriesNotAdded"), Nothing)
         End If
 
-        lvComandos.IsEnabled = True
+        botonAñadir.IsEnabled = True
+        botonLimpiar.IsEnabled = True
+        botonBorrar.IsEnabled = True
 
     End Sub
 
@@ -394,8 +420,14 @@ Module Cliente
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
-        Dim lvComandos As ListView = pagina.FindName("lvCategoriasComandos")
-        lvComandos.IsEnabled = False
+        Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
+        botonAñadir.IsEnabled = False
+
+        Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+        botonLimpiar.IsEnabled = False
+
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
+        botonBorrar.IsEnabled = False
 
         Dim boolFinal As Boolean = False
         Dim usuarioID As String = Await GenerarID()
@@ -458,7 +490,9 @@ Module Cliente
             Toast(recursos.GetString("DeleteCategoriesSteamNo"), Nothing)
         End If
 
-        lvComandos.IsEnabled = True
+        botonAñadir.IsEnabled = True
+        botonLimpiar.IsEnabled = True
+        botonBorrar.IsEnabled = True
 
     End Sub
 

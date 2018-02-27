@@ -1,5 +1,4 @@
-﻿Imports Microsoft.Toolkit.Uwp.UI.Controls
-Imports Windows.UI
+﻿Imports Windows.UI
 Imports Windows.UI.Core
 
 Module Interfaz
@@ -13,15 +12,30 @@ Module Interfaz
 
         Dim recursos As New Resources.ResourceLoader()
 
-        Dim userscore As New Categoria2("Userscore", "Assets\Menu\categorias_userscore.PNG", 0)
+        Dim userscore As New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")
         lv.Items.Add(GenerarMenuItem(userscore))
 
-        Dim metascore As New Categoria2("Metascore", "Assets\Menu\categorias_metascore.PNG", 1)
+        Dim metascore As New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")
         lv.Items.Add(GenerarMenuItem(metascore))
+
+        Dim años As New CategoriaMaestro(recursos.GetString("Years"), "Assets\Menu\categorias_años.PNG", 2, "gridCategoriasAños")
+        lv.Items.Add(GenerarMenuItem(años))
+
+        Dim categorias As New CategoriaMaestro(recursos.GetString("Categories"), "Assets\Menu\categorias_categorias.PNG", 3, "gridCategoriasCategorias")
+        lv.Items.Add(GenerarMenuItem(categorias))
+
+        Dim generos As New CategoriaMaestro(recursos.GetString("Genres"), "Assets\Menu\categorias_generos.PNG", 4, "gridCategoriasGeneros")
+        lv.Items.Add(GenerarMenuItem(generos))
+
+        Dim etiquetas As New CategoriaMaestro(recursos.GetString("Tags"), "Assets\Menu\categorias_etiquetas.PNG", 5, "gridCategoriasTags")
+        lv.Items.Add(GenerarMenuItem(etiquetas))
+
+        Dim idiomas As New CategoriaMaestro(recursos.GetString("Languages"), "Assets\Menu\categorias_idiomas.PNG", 6, "gridCategoriasIdiomas")
+        lv.Items.Add(GenerarMenuItem(idiomas))
 
     End Sub
 
-    Private Function GenerarMenuItem(categoria As Categoria2)
+    Private Function GenerarMenuItem(categoria As CategoriaMaestro)
 
         Dim tb As New TextBlock With {
             .Foreground = New SolidColorBrush(Colors.White),
@@ -41,7 +55,8 @@ Module Interfaz
         Dim lvitem As New ListViewItem With {
             .Content = sp,
             .Padding = New Thickness(0, 0, 0, 0),
-            .HorizontalContentAlignment = HorizontalAlignment.Stretch
+            .HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            .MinWidth = 150
         }
 
         AddHandler lvitem.PointerEntered, AddressOf UsuarioEntraBoton
@@ -68,23 +83,29 @@ Module Interfaz
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
+        Dim categoriaClickeada As CategoriaMaestro = spClickeado.Tag
+
+        Dim tbTitulo As TextBlock = pagina.FindName("tbTitulo")
+        tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + categoriaClickeada.Nombre
+
+        Dim categorias As Grid = pagina.FindName("gridCategoriasMaestro")
+
+        For Each grid As Grid In categorias.Children
+            If grid.Name = categoriaClickeada.GridNombre Then
+                grid.Visibility = Visibility.Visible
+            Else
+                grid.Visibility = Visibility.Collapsed
+            End If
+        Next
+
         Dim lv As ListView = pagina.FindName("lvCategorias")
-
-        Dim categoriaClickeada As Categoria2 = spClickeado.Tag
-
         For Each lvitem As ListViewItem In lv.Items
             Dim sp As StackPanel = lvitem.Content
 
-            Dim categoria As Categoria2 = sp.Tag
+            Dim categoria As CategoriaMaestro = sp.Tag
 
             If categoria.ID = categoriaClickeada.ID Then
                 sp.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-
-                Dim spImagen As StackPanel = pagina.FindName("spImagenCategoria")
-                spImagen.Visibility = Visibility.Visible
-
-                Dim imagen As ImageEx = pagina.FindName("imagenCategoriaEjemplo")
-                imagen.Source = categoria.Imagen
             Else
                 sp.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
             End If

@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Windows.UI.Core
 
 Module Categorias
 
@@ -143,7 +144,7 @@ Module Categorias
                             metascore = temp5
                         End If
 
-                        Dim año As String = Nothing
+                        Dim años As New List(Of String)
 
                         If html.Contains("<strong>Release date</strong>") Then
                             Dim temp4, temp5 As String
@@ -189,9 +190,14 @@ Module Categorias
                                 End If
                             End If
 
-                            temp5 = temp5.Trim
+                            If temp5.Contains("<") Then
+                                Dim int6 As Integer
 
-                            año = temp5
+                                int6 = temp5.IndexOf("<")
+                                temp5 = temp5.Remove(int6, temp5.Length - int6)
+                            End If
+
+                            años.Add(temp5.Trim)
                         End If
 
                         Dim categorias As New List(Of String)
@@ -489,7 +495,7 @@ Module Categorias
                             End If
                         End If
 
-                        Dim juego As New Juego(titulo, listaJuegosID(i), userscore, metascore, año, categorias, generos, tags, idiomas)
+                        Dim juego As New Juego(titulo, listaJuegosID(i), userscore, metascore, años, categorias, generos, tags, idiomas)
 
                         listaJuegos.Add(juego)
                     End If
@@ -508,6 +514,7 @@ Module Categorias
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
         If listaJuegos.Count > 0 Then
+            GenerarAños(listaJuegos)
             GenerarCategorias(listaJuegos)
             GenerarGeneros(listaJuegos)
             GenerarTags(listaJuegos)
@@ -535,6 +542,55 @@ Module Categorias
         botonCuenta.IsEnabled = True
         tbSteamCuenta.IsEnabled = True
         cbActualizar.IsEnabled = True
+
+    End Sub
+
+    Public Sub GenerarAños(listaJuegos As List(Of Juego))
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim gv As GridView = pagina.FindName("gvAños")
+        gv.Items.Clear()
+
+        Dim listaAños As New List(Of Categoria)
+
+        If Not listaJuegos Is Nothing Then
+            If listaJuegos.Count > 0 Then
+                Dim i As Integer = 0
+                While i < listaJuegos.Count
+                    If Not listaJuegos(i).Años Is Nothing Then
+                        For Each categoria_ In listaJuegos(i).Años
+                            If Not categoria_ = Nothing Then
+                                If listaAños.Count > 0 Then
+                                    Dim boolCategoria As Boolean = False
+
+                                    Dim j As Integer = 0
+                                    While j < listaAños.Count
+                                        If categoria_ = listaAños(j).Nombre Then
+                                            boolCategoria = True
+                                        End If
+                                        j += 1
+                                    End While
+
+                                    If boolCategoria = False Then
+                                        listaAños.Add(New Categoria(categoria_, False, "año"))
+                                    End If
+                                Else
+                                    listaAños.Add(New Categoria(categoria_, False, "año"))
+                                End If
+                            End If
+                        Next
+                    End If
+
+                    i += 1
+                End While
+
+                listaAños.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
+                ConstructorCheckBoxes(listaAños, gv)
+
+            End If
+        End If
 
     End Sub
 
@@ -577,38 +633,7 @@ Module Categorias
                 End While
 
                 listaCategorias.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
-
-                For Each categoria In listaCategorias
-                    If categoria.Nombre.Length > 0 Then
-                        Dim sp As New StackPanel With {
-                            .Padding = New Thickness(5, 5, 5, 5),
-                            .Orientation = Orientation.Horizontal,
-                            .Width = 200,
-                            .Tag = categoria
-                        }
-
-                        Dim cb As New CheckBox With {
-                            .IsChecked = categoria.Estado,
-                            .MinWidth = 30,
-                            .VerticalAlignment = VerticalAlignment.Center,
-                            .IsHitTestVisible = False
-                        }
-
-                        sp.Children.Add(cb)
-
-                        Dim tb As New TextBlock With {
-                            .Text = categoria.Nombre,
-                            .TextWrapping = TextWrapping.Wrap,
-                            .FontSize = 14,
-                            .VerticalAlignment = VerticalAlignment.Center,
-                            .MaxWidth = 165
-                        }
-
-                        sp.Children.Add(tb)
-
-                        gv.Items.Add(sp)
-                    End If
-                Next
+                ConstructorCheckBoxes(listaCategorias, gv)
 
             End If
         End If
@@ -654,38 +679,7 @@ Module Categorias
                 End While
 
                 listaGeneros.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
-
-                For Each categoria In listaGeneros
-                    If categoria.Nombre.Length > 0 Then
-                        Dim sp As New StackPanel With {
-                            .Padding = New Thickness(5, 5, 5, 5),
-                            .Orientation = Orientation.Horizontal,
-                            .Width = 200,
-                            .Tag = categoria
-                        }
-
-                        Dim cb As New CheckBox With {
-                            .IsChecked = categoria.Estado,
-                            .MinWidth = 30,
-                            .VerticalAlignment = VerticalAlignment.Center,
-                            .IsHitTestVisible = False
-                        }
-
-                        sp.Children.Add(cb)
-
-                        Dim tb As New TextBlock With {
-                            .Text = categoria.Nombre,
-                            .TextWrapping = TextWrapping.Wrap,
-                            .FontSize = 14,
-                            .VerticalAlignment = VerticalAlignment.Center,
-                            .MaxWidth = 165
-                        }
-
-                        sp.Children.Add(tb)
-
-                        gv.Items.Add(sp)
-                    End If
-                Next
+                ConstructorCheckBoxes(listaGeneros, gv)
 
             End If
         End If
@@ -731,38 +725,7 @@ Module Categorias
                 End While
 
                 listaTags.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
-
-                For Each categoria In listaTags
-                    If categoria.Nombre.Length > 0 Then
-                        Dim sp As New StackPanel With {
-                            .Padding = New Thickness(5, 5, 5, 5),
-                            .Orientation = Orientation.Horizontal,
-                            .Width = 200,
-                            .Tag = categoria
-                        }
-
-                        Dim cb As New CheckBox With {
-                            .IsChecked = categoria.Estado,
-                            .MinWidth = 30,
-                            .VerticalAlignment = VerticalAlignment.Center,
-                            .IsHitTestVisible = False
-                        }
-
-                        sp.Children.Add(cb)
-
-                        Dim tb As New TextBlock With {
-                            .Text = categoria.Nombre,
-                            .TextWrapping = TextWrapping.Wrap,
-                            .FontSize = 14,
-                            .VerticalAlignment = VerticalAlignment.Center,
-                            .MaxWidth = 165
-                        }
-
-                        sp.Children.Add(tb)
-
-                        gv.Items.Add(sp)
-                    End If
-                Next
+                ConstructorCheckBoxes(listaTags, gv)
 
             End If
         End If
@@ -808,45 +771,60 @@ Module Categorias
                 End While
 
                 listaIdiomas.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
-
-                For Each categoria In listaIdiomas
-                    If categoria.Nombre.Length > 0 Then
-                        Dim sp As New StackPanel With {
-                            .Padding = New Thickness(5, 5, 5, 5),
-                            .Orientation = Orientation.Horizontal,
-                            .Width = 200,
-                            .Tag = categoria
-                        }
-
-                        Dim cb As New CheckBox With {
-                            .IsChecked = categoria.Estado,
-                            .MinWidth = 30,
-                            .VerticalAlignment = VerticalAlignment.Center,
-                            .IsHitTestVisible = False
-                        }
-
-                        sp.Children.Add(cb)
-
-                        Dim tb As New TextBlock With {
-                            .Text = categoria.Nombre,
-                            .TextWrapping = TextWrapping.Wrap,
-                            .FontSize = 14,
-                            .VerticalAlignment = VerticalAlignment.Center,
-                            .MaxWidth = 165
-                        }
-
-                        sp.Children.Add(tb)
-
-                        gv.Items.Add(sp)
-                    End If
-                Next
+                ConstructorCheckBoxes(listaIdiomas, gv)
 
             End If
         End If
 
     End Sub
 
-    Public Async Sub AñadirListaCategorias(sp As StackPanel)
+    Private Sub ConstructorCheckBoxes(lista As List(Of Categoria), gv As GridView)
+
+        For Each categoria In lista
+            If categoria.Nombre.Length > 0 Then
+                Dim tb As New TextBlock With {
+                    .Text = categoria.Nombre,
+                    .TextWrapping = TextWrapping.Wrap,
+                    .FontSize = 14,
+                    .VerticalAlignment = VerticalAlignment.Center
+                }
+
+                Dim cb As New CheckBox With {
+                    .IsChecked = categoria.Estado,
+                    .VerticalAlignment = VerticalAlignment.Center,
+                    .HorizontalAlignment = HorizontalAlignment.Stretch,
+                    .Content = tb,
+                    .Tag = categoria,
+                    .Width = 200,
+                    .Padding = New Thickness(5, 5, 5, 5)
+                }
+
+                AddHandler cb.Checked, AddressOf UsuarioClickeaCaja
+                AddHandler cb.Unchecked, AddressOf UsuarioClickeaCaja
+                AddHandler cb.PointerEntered, AddressOf UsuarioEntraBoton
+                AddHandler cb.PointerExited, AddressOf UsuarioSaleBoton
+
+                gv.Items.Add(cb)
+            End If
+        Next
+
+    End Sub
+
+    Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
+
+    End Sub
+
+    Private Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
+
+        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
+
+    End Sub
+
+    Private Async Sub UsuarioClickeaCaja(sender As Object, e As RoutedEventArgs)
+
+        Dim cb As CheckBox = e.OriginalSource
 
         Dim listaCategorias As List(Of Categoria) = Nothing
 
@@ -859,10 +837,9 @@ Module Categorias
             listaCategorias = New List(Of Categoria)
         End If
 
-        Dim categoria As Categoria = sp.Tag
-        Dim cb As CheckBox = sp.Children.Item(0)
+        Dim categoria As Categoria = cb.Tag
 
-        If categoria.Estado = False Then
+        If cb.IsChecked = True Then
             categoria.Estado = True
 
             If listaCategorias.Count > 0 Then
@@ -899,8 +876,6 @@ Module Categorias
             End While
         End If
 
-        cb.IsChecked = categoria.Estado
-
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
@@ -914,13 +889,14 @@ Module Categorias
             End If
         Next
 
-        Dim lvComandos As ListView = pagina.FindName("lvCategoriasComandos")
+        Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
+        botonAñadir.IsEnabled = boolBoton
 
-        If boolBoton = True Then
-            lvComandos.IsEnabled = True
-        Else
-            lvComandos.IsEnabled = False
-        End If
+        Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+        botonLimpiar.IsEnabled = boolBoton
+
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
+        botonBorrar.IsEnabled = boolBoton
 
         Dim tb As TextBlock = pagina.FindName("tbNumeroCategorias")
 
@@ -950,8 +926,8 @@ Module Categorias
 
             Dim cbUserscore As CheckBox = pagina.FindName("cbSeleccionUserscore")
             Dim cbMetascore As CheckBox = pagina.FindName("cbSeleccionMetascore")
-            Dim cbAños As CheckBox = pagina.FindName("cbSeleccionAños")
 
+            Dim gvAños As GridView = pagina.FindName("gvAños")
             Dim gvCategorias As GridView = pagina.FindName("gvCategorias")
             Dim gvGeneros As GridView = pagina.FindName("gvGeneros")
             Dim gvTags As GridView = pagina.FindName("gvTags")
@@ -975,65 +951,70 @@ Module Categorias
                             cbMetascore.IsChecked = True
                         End If
 
-                        If categoria.Nombre = ("/*3/Years") Then
-                            cbAños.IsChecked = True
-                        End If
-
-                        For Each sp In gvCategorias.Items
-                            Dim categoria_ As Categoria = sp.Tag
+                        For Each cb In gvAños.Items
+                            Dim categoria_ As Categoria = cb.Tag
 
                             If categoria_.Seccion = categoria.Seccion Then
                                 If categoria_.Nombre = categoria.Nombre Then
-                                    Dim cb As CheckBox = sp.Children.Item(0)
                                     cb.IsChecked = True
                                 End If
                             End If
                         Next
 
-                        For Each sp In gvGeneros.Items
-                            Dim categoria_ As Categoria = sp.Tag
+                        For Each cb In gvCategorias.Items
+                            Dim categoria_ As Categoria = cb.Tag
 
                             If categoria_.Seccion = categoria.Seccion Then
                                 If categoria_.Nombre = categoria.Nombre Then
-                                    Dim cb As CheckBox = sp.Children.Item(0)
                                     cb.IsChecked = True
                                 End If
                             End If
                         Next
 
-                        For Each sp In gvTags.Items
-                            Dim categoria_ As Categoria = sp.Tag
+                        For Each cb In gvGeneros.Items
+                            Dim categoria_ As Categoria = cb.Tag
 
                             If categoria_.Seccion = categoria.Seccion Then
                                 If categoria_.Nombre = categoria.Nombre Then
-                                    Dim cb As CheckBox = sp.Children.Item(0)
                                     cb.IsChecked = True
                                 End If
                             End If
                         Next
 
-                        For Each sp In gvIdiomas.Items
-                            Dim categoria_ As Categoria = sp.Tag
+                        For Each cb In gvTags.Items
+                            Dim categoria_ As Categoria = cb.Tag
 
                             If categoria_.Seccion = categoria.Seccion Then
                                 If categoria_.Nombre = categoria.Nombre Then
-                                    Dim cb As CheckBox = sp.Children.Item(0)
                                     cb.IsChecked = True
                                 End If
                             End If
                         Next
 
+                        For Each cb In gvIdiomas.Items
+                            Dim categoria_ As Categoria = cb.Tag
+
+                            If categoria_.Seccion = categoria.Seccion Then
+                                If categoria_.Nombre = categoria.Nombre Then
+                                    cb.IsChecked = True
+                                End If
+                            End If
+                        Next
                     End If
                 Next
             End If
 
-            Dim lvComandos As ListView = pagina.FindName("lvCategoriasComandos")
+            Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
+            botonAñadir.IsEnabled = boolBoton
+
+            Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+            botonLimpiar.IsEnabled = boolBoton
+
+            Dim botonEliminar As Button = pagina.FindName("botonBorrarCategorias")
+            botonEliminar.IsEnabled = boolBoton
 
             If boolBoton = True Then
                 Cliente.EscribirCategorias()
-                lvComandos.IsEnabled = True
-            Else
-                lvComandos.IsEnabled = False
             End If
 
             Dim tb As TextBlock = pagina.FindName("tbNumeroCategorias")

@@ -64,6 +64,9 @@ Public NotInheritable Class MainPage
         GridVisibilidad(gridCategorias, recursos.GetString("Categories"))
         nvPrincipal.IsPaneOpen = False
 
+        Interfaz.GenerarMenu()
+        MasCosas.Generar()
+
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
         Dim listaJuegos As List(Of Juego) = Nothing
 
@@ -107,6 +110,7 @@ Public NotInheritable Class MainPage
                 Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
             End If
 
+            Categorias.GenerarAños(listaJuegos)
             Categorias.GenerarCategorias(listaJuegos)
             Categorias.GenerarGeneros(listaJuegos)
             Categorias.GenerarTags(listaJuegos)
@@ -115,13 +119,29 @@ Public NotInheritable Class MainPage
             Categorias.Cargar()
         End If
 
-        Interfaz.GenerarMenu()
         Cuentas.Detectar(actualizar)
         Cliente.Detectar(False)
         PersonalizarConfig()
-        MasCosas.Generar()
 
         '--------------------------------------------------------
+
+        AddHandler botonPopupaños.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonPopupaños.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonPopupCategorias.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonPopupCategorias.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonPopupGeneros.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonPopupGeneros.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonPopupTags.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonPopupTags.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonPopupIdiomas.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonPopupIdiomas.PointerExited, AddressOf UsuarioSaleBoton
+
+        AddHandler botonAñadirCategorias.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonAñadirCategorias.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonLimpiarSeleccion.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonLimpiarSeleccion.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonBorrarCategorias.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonBorrarCategorias.PointerExited, AddressOf UsuarioSaleBoton
 
         AddHandler botonSteamRuta.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler botonSteamRuta.PointerExited, AddressOf UsuarioSaleBoton
@@ -222,114 +242,58 @@ Public NotInheritable Class MainPage
 
     Private Sub LvCategoriasItemClick(sender As Object, e As ItemClickEventArgs)
 
-        Interfaz.Clickeo(e.ClickedItem)
-
         If panelMensajeCategorias.Visibility = Visibility.Visible Then
             panelMensajeCategorias.Visibility = Visibility.Collapsed
         End If
 
-        'botonCategoriasUserscore.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        'botonCategoriasMetascore.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        'botonCategoriasAños.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        'botonCategoriasCategorias.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        'botonCategoriasGeneros.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        'botonCategoriasTags.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        'botonCategoriasIdiomas.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-
-        gridCategoriasUserscore.Visibility = Visibility.Collapsed
-        gridCategoriasMetascore.Visibility = Visibility.Collapsed
-        gridCategoriasAños.Visibility = Visibility.Collapsed
-        gridCategoriasCategorias.Visibility = Visibility.Collapsed
-        gridCategoriasGeneros.Visibility = Visibility.Collapsed
-        gridCategoriasTags.Visibility = Visibility.Collapsed
-        gridCategoriasIdiomas.Visibility = Visibility.Collapsed
-
-        Dim sp As StackPanel = e.ClickedItem
-
-        'If sp.Tag.ToString = 0 Then
-
-        '    'botonCategoriasUserscore.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-        '    gridCategoriasUserscore.Visibility = Visibility.Visible
-
-        'ElseIf sp.Tag.ToString = 1 Then
-
-        '    'botonCategoriasMetascore.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-        '    gridCategoriasMetascore.Visibility = Visibility.Visible
-
-        'ElseIf sp.Tag.ToString = 2 Then
-
-        '    'botonCategoriasAños.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-        '    gridCategoriasAños.Visibility = Visibility.Visible
-
-        'ElseIf sp.Tag.ToString = 3 Then
-
-        '    'botonCategoriasCategorias.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-        '    gridCategoriasCategorias.Visibility = Visibility.Visible
-
-        'ElseIf sp.Tag.ToString = 4 Then
-
-        '    'botonCategoriasGeneros.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-        '    gridCategoriasGeneros.Visibility = Visibility.Visible
-
-        'ElseIf sp.Tag.ToString = 5 Then
-
-        '    'botonCategoriasTags.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-        '    gridCategoriasTags.Visibility = Visibility.Visible
-
-        'ElseIf sp.Tag.ToString = 6 Then
-
-        '    'botonCategoriasIdiomas.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-        '    gridCategoriasIdiomas.Visibility = Visibility.Visible
-
-        'End If
+        Interfaz.Clickeo(e.ClickedItem)
 
     End Sub
 
-    Private Async Sub LvCategoriasComandosItemClick(sender As Object, args As ItemClickEventArgs)
+    Private Sub BotonAñadirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonAñadirCategorias.Click
 
-        Dim sp As StackPanel = args.ClickedItem
+        Cliente.EscribirCategorias()
 
-        If sp.Tag.ToString = 0 Then
+    End Sub
 
-            Cliente.EscribirCategorias()
+    Private Async Sub BotonLimpiarSeleccion_Click(sender As Object, e As RoutedEventArgs) Handles botonLimpiarSeleccion.Click
 
-        ElseIf sp.Tag.ToString = 1 Then
+        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
 
-            Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-            Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
+        cbSeleccionUserscore.IsChecked = False
+        cbSeleccionMetascore.IsChecked = False
 
-            cbSeleccionUserscore.IsChecked = False
-            cbSeleccionMetascore.IsChecked = False
-            cbSeleccionAños.IsChecked = False
+        For Each cb As CheckBox In gvAños.Items
+            cb.IsChecked = False
+        Next
 
-            For Each sp In gvCategorias.Items
-                Dim cb As CheckBox = sp.Children.Item(0)
-                cb.IsChecked = False
-            Next
+        For Each cb As CheckBox In gvCategorias.Items
+            cb.IsChecked = False
+        Next
 
-            For Each sp In gvGeneros.Items
-                Dim cb As CheckBox = sp.Children.Item(0)
-                cb.IsChecked = False
-            Next
+        For Each cb As CheckBox In gvGeneros.Items
+            cb.IsChecked = False
+        Next
 
-            For Each sp In gvTags.Items
-                Dim cb As CheckBox = sp.Children.Item(0)
-                cb.IsChecked = False
-            Next
+        For Each cb As CheckBox In gvTags.Items
+            cb.IsChecked = False
+        Next
 
-            For Each sp In gvIdiomas.Items
-                Dim cb As CheckBox = sp.Children.Item(0)
-                cb.IsChecked = False
-            Next
+        For Each cb As CheckBox In gvIdiomas.Items
+            cb.IsChecked = False
+        Next
 
-            tbNumeroCategorias.Text = String.Empty
-            lvCategoriasComandos.IsEnabled = False
+        tbNumeroCategorias.Text = String.Empty
+        botonAñadirCategorias.IsEnabled = False
+        botonLimpiarSeleccion.IsEnabled = False
+        botonBorrarCategorias.IsEnabled = False
 
-        ElseIf sp.Tag.ToString = 2 Then
+    End Sub
 
-            Cliente.BorrarCategorias()
+    Private Sub BotonBorrarCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonBorrarCategorias.Click
 
-        End If
+        Cliente.BorrarCategorias()
 
     End Sub
 
@@ -356,18 +320,6 @@ Public NotInheritable Class MainPage
     Private Sub CbSeleccionMetascore_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionMetascore.Unchecked
 
         CbSeleccionUnChecked("/*2/Metascore")
-
-    End Sub
-
-    Private Sub CbSeleccionAños_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionAños.Checked
-
-        CbSeleccionChecked("/*3/Years")
-
-    End Sub
-
-    Private Sub CbSeleccionAños_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionAños.Unchecked
-
-        CbSeleccionUnChecked("/*3/Years")
 
     End Sub
 
@@ -409,11 +361,9 @@ Public NotInheritable Class MainPage
             End If
         Next
 
-        If boolBoton = True Then
-            lvCategoriasComandos.IsEnabled = True
-        Else
-            lvCategoriasComandos.IsEnabled = False
-        End If
+        botonAñadirCategorias.IsEnabled = boolBoton
+        botonLimpiarSeleccion.IsEnabled = boolBoton
+        botonBorrarCategorias.IsEnabled = boolBoton
 
         If Not contadorTrue = 0 Then
             tbNumeroCategorias.Text = " (" + contadorTrue.ToString + ")"
@@ -456,11 +406,9 @@ Public NotInheritable Class MainPage
                 End If
             Next
 
-            If boolBoton = True Then
-                lvCategoriasComandos.IsEnabled = True
-            Else
-                lvCategoriasComandos.IsEnabled = False
-            End If
+            botonAñadirCategorias.IsEnabled = boolBoton
+            botonLimpiarSeleccion.IsEnabled = boolBoton
+            botonBorrarCategorias.IsEnabled = boolBoton
 
             If Not contadorTrue = 0 Then
                 tbNumeroCategorias.Text = " (" + contadorTrue.ToString + ")"
@@ -474,34 +422,6 @@ Public NotInheritable Class MainPage
 
             End Try
         End If
-
-    End Sub
-
-    Private Sub GvCategorias_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvCategorias.ItemClick
-
-        Dim sp As StackPanel = e.ClickedItem
-        Categorias.AñadirListaCategorias(sp)
-
-    End Sub
-
-    Private Sub GvGeneros_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvGeneros.ItemClick
-
-        Dim sp As StackPanel = e.ClickedItem
-        Categorias.AñadirListaCategorias(sp)
-
-    End Sub
-
-    Private Sub GvTags_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvTags.ItemClick
-
-        Dim sp As StackPanel = e.ClickedItem
-        Categorias.AñadirListaCategorias(sp)
-
-    End Sub
-
-    Private Sub GvIdiomas_ItemClick(sender As Object, e As ItemClickEventArgs) Handles gvIdiomas.ItemClick
-
-        Dim sp As StackPanel = e.ClickedItem
-        Categorias.AñadirListaCategorias(sp)
 
     End Sub
 
@@ -566,7 +486,9 @@ Public NotInheritable Class MainPage
         gvIdiomas.Items.Clear()
 
         lvCategorias.IsEnabled = False
-        lvCategoriasComandos.IsEnabled = False
+        botonAñadirCategorias.IsEnabled = False
+        botonLimpiarSeleccion.IsEnabled = False
+        botonBorrarCategorias.IsEnabled = False
 
         Try
             StorageApplicationPermissions.FutureAccessList.Remove("SteamPath")

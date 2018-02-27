@@ -129,9 +129,6 @@
   <data name="Categories" xml:space="preserve">
     <value>Kategorien</value>
   </data>
-  <data name="Categories2.Text" xml:space="preserve">
-    <value>Kategorien</value>
-  </data>
   <data name="CategoriesAdded" xml:space="preserve">
     <value>Kategorien wurde in Steam hinzugefügt</value>
   </data>
@@ -201,13 +198,13 @@
   <data name="GamesApp.Text" xml:space="preserve">
     <value />
   </data>
-  <data name="Genres.Text" xml:space="preserve">
+  <data name="Genres" xml:space="preserve">
     <value />
   </data>
   <data name="MoreThings_HelpTranslate" xml:space="preserve">
     <value />
   </data>
-  <data name="Languages.Text" xml:space="preserve">
+  <data name="Languages" xml:space="preserve">
     <value>Sprache</value>
   </data>
   <data name="Load.Text" xml:space="preserve">
@@ -231,13 +228,13 @@
   <data name="MoreThings_SourceCode" xml:space="preserve">
     <value />
   </data>
-  <data name="Tags.Text" xml:space="preserve">
+  <data name="Tags" xml:space="preserve">
     <value />
   </data>
   <data name="MoreThings_VoteApp" xml:space="preserve">
     <value>Bewerte die App</value>
   </data>
-  <data name="Years.Text" xml:space="preserve">
+  <data name="Years" xml:space="preserve">
     <value>Jahre</value>
   </data>
   <data name="CategoriesInfo.Text" xml:space="preserve">
@@ -259,7 +256,7 @@
     <value />
   </data>
   <data name="YearsInfo.Text" xml:space="preserve">
-    <value>Sortiere deine Spiele nach dem Erscheinungsdatum</value>
+    <value />
   </data>
   <data name="MoreThings_MoreApps" xml:space="preserve">
     <value />
