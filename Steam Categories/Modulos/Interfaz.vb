@@ -1,4 +1,5 @@
-﻿Imports Windows.UI
+﻿Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Windows.UI
 Imports Windows.UI.Core
 
 Module Interfaz
@@ -56,7 +57,8 @@ Module Interfaz
             .Content = sp,
             .Padding = New Thickness(0, 0, 0, 0),
             .HorizontalContentAlignment = HorizontalAlignment.Stretch,
-            .MinWidth = 150
+            .MinWidth = 150,
+            .Tag = categoria
         }
 
         AddHandler lvitem.PointerEntered, AddressOf UsuarioEntraBoton
@@ -78,7 +80,7 @@ Module Interfaz
 
     End Sub
 
-    Public Sub Clickeo(spClickeado As StackPanel)
+    Public Sub ClickeoBarraIzquierda(spClickeado As StackPanel)
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
@@ -112,5 +114,166 @@ Module Interfaz
         Next
 
     End Sub
+
+    Public Sub RellenarGridsCheckboxes(listaCategoriasJuego As List(Of Categoria), gv As GridView, maestro As CategoriaMaestro)
+
+        gv.Items.Clear()
+
+        Dim lista As New List(Of Categoria)
+
+        If Not listaCategoriasJuego Is Nothing Then
+            If listaCategoriasJuego.Count > 0 Then
+                For Each categoria In listaCategoriasJuego
+                    If Not categoria Is Nothing Then
+                        If lista.Count > 0 Then
+                            Dim boolCategoria As Boolean = False
+
+                            Dim j As Integer = 0
+                            While j < lista.Count
+                                If categoria.Nombre = lista(j).Nombre Then
+                                    boolCategoria = True
+                                End If
+                                j += 1
+                            End While
+
+                            If boolCategoria = False Then
+                                lista.Add(New Categoria(categoria.Nombre, False, maestro))
+                            End If
+                        Else
+                            lista.Add(New Categoria(categoria.Nombre, False, maestro))
+                        End If
+                    End If
+                Next
+
+                lista.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
+
+                For Each categoria In lista
+                    If categoria.Nombre.Length > 0 Then
+                        Dim tb As New TextBlock With {
+                            .Text = categoria.Nombre,
+                            .TextWrapping = TextWrapping.Wrap,
+                            .FontSize = 14,
+                            .VerticalAlignment = VerticalAlignment.Center
+                        }
+
+                        Dim cb As New CheckBox With {
+                            .IsChecked = categoria.Estado,
+                            .VerticalAlignment = VerticalAlignment.Center,
+                            .HorizontalAlignment = HorizontalAlignment.Stretch,
+                            .Content = tb,
+                            .Tag = categoria,
+                            .Width = 200,
+                            .Padding = New Thickness(5, 5, 5, 5)
+                        }
+
+                        AddHandler cb.Checked, AddressOf UsuarioClickeaCaja
+                        AddHandler cb.Unchecked, AddressOf UsuarioClickeaCaja
+                        AddHandler cb.PointerEntered, AddressOf UsuarioEntraBoton
+                        AddHandler cb.PointerExited, AddressOf UsuarioSaleBoton
+
+                        gv.Items.Add(cb)
+                    End If
+                Next
+            End If
+        End If
+
+    End Sub
+
+    Public Async Sub UsuarioClickeaCaja(sender As Object, e As RoutedEventArgs)
+
+        Dim cb As CheckBox = e.OriginalSource
+
+        Dim listaCategorias As List(Of Categoria) = Nothing
+
+        Dim helper As New LocalObjectStorageHelper
+        If Await helper.FileExistsAsync("listaCategorias") = True Then
+            listaCategorias = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
+        End If
+
+        If listaCategorias Is Nothing Then
+            listaCategorias = New List(Of Categoria)
+        End If
+
+        Dim categoria As Categoria = cb.Tag
+
+        If cb.IsChecked = True Then
+            If Not categoria Is Nothing Then
+                categoria.Estado = True
+
+                If listaCategorias.Count > 0 Then
+                    Dim boolCategoria As Boolean = False
+
+                    Dim j As Integer = 0
+                    While j < listaCategorias.Count
+                        If categoria.Maestro.ID = listaCategorias(j).Maestro.ID Then
+                            If categoria.Nombre = listaCategorias(j).Nombre Then
+                                listaCategorias(j).Estado = True
+                                boolCategoria = True
+                            End If
+                        End If
+                        j += 1
+                    End While
+
+                    If boolCategoria = False Then
+                        listaCategorias.Add(categoria)
+                    End If
+                Else
+                    listaCategorias.Add(categoria)
+                End If
+            End If
+        Else
+            If Not categoria Is Nothing Then
+                categoria.Estado = False
+
+                Dim j As Integer = 0
+                While j < listaCategorias.Count
+                    If categoria.Maestro.ID = listaCategorias(j).Maestro.ID Then
+                        If categoria.Nombre = listaCategorias(j).Nombre Then
+                            listaCategorias(j).Estado = False
+                        End If
+                    End If
+                    j += 1
+                End While
+            End If
+        End If
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim boolBoton As Boolean = False
+        Dim contadorTrue As Integer = 0
+
+        For Each item In listaCategorias
+            If item.Estado = True Then
+                boolBoton = True
+                contadorTrue += 1
+            End If
+        Next
+
+        Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
+        botonAñadir.IsEnabled = boolBoton
+
+        Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+        botonLimpiar.IsEnabled = boolBoton
+
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
+        botonBorrar.IsEnabled = boolBoton
+
+        Dim tb As TextBlock = pagina.FindName("tbNumeroCategorias")
+
+        If Not contadorTrue = 0 Then
+            tb.Text = " (" + contadorTrue.ToString + ")"
+        Else
+            tb.Text = String.Empty
+        End If
+
+        Try
+            Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", listaCategorias)
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
 
 End Module

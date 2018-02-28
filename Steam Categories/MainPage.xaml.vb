@@ -1,9 +1,7 @@
-﻿Imports Microsoft.Services.Store.Engagement
-Imports Microsoft.Toolkit.Uwp.Helpers
+﻿Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
-Imports Windows.System
 Imports Windows.UI
 Imports Windows.UI.Core
 
@@ -110,23 +108,43 @@ Public NotInheritable Class MainPage
                 Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
             End If
 
-            Categorias.GenerarAños(listaJuegos)
-            Categorias.GenerarCategorias(listaJuegos)
-            Categorias.GenerarGeneros(listaJuegos)
-            Categorias.GenerarTags(listaJuegos)
-            Categorias.GenerarIdiomas(listaJuegos)
+            If Not listaJuegos Is Nothing Then
+                Dim listaAños As New List(Of Categoria)
+                Dim listaCategorias As New List(Of Categoria)
+                Dim listaGeneros As New List(Of Categoria)
+                Dim listaTags As New List(Of Categoria)
+                Dim listaIdiomas As New List(Of Categoria)
+
+                For Each juego In listaJuegos
+                    listaAños.AddRange(juego.Años)
+                    listaCategorias.AddRange(juego.Categorias)
+                    listaGeneros.AddRange(juego.Generos)
+                    listaTags.AddRange(juego.Tags)
+                    listaIdiomas.AddRange(juego.Idiomas)
+                Next
+
+                Interfaz.RellenarGridsCheckboxes(listaAños, gvAños, lvCategorias.Items(2).Tag)
+                Interfaz.RellenarGridsCheckboxes(listaCategorias, gvCategorias, lvCategorias.Items(3).Tag)
+                Interfaz.RellenarGridsCheckboxes(listaGeneros, gvGeneros, lvCategorias.Items(4).Tag)
+                Interfaz.RellenarGridsCheckboxes(listaTags, gvTags, lvCategorias.Items(5).Tag)
+                Interfaz.RellenarGridsCheckboxes(listaIdiomas, gvIdiomas, lvCategorias.Items(6).Tag)
+            End If
         Else
             Categorias.Cargar()
         End If
 
         Cuentas.Detectar(actualizar)
         Cliente.Detectar(False)
-        PersonalizarConfig()
+        PersonalizarConfigUserMetascore(actualizar)
 
         '--------------------------------------------------------
 
-        AddHandler botonPopupaños.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonPopupaños.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonPopupUserscore.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonPopupUserscore.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonPopupMetascore.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonPopupMetascore.PointerExited, AddressOf UsuarioSaleBoton
+        AddHandler botonPopupAños.PointerEntered, AddressOf UsuarioEntraBoton
+        AddHandler botonPopupAños.PointerExited, AddressOf UsuarioSaleBoton
         AddHandler botonPopupCategorias.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler botonPopupCategorias.PointerExited, AddressOf UsuarioSaleBoton
         AddHandler botonPopupGeneros.PointerEntered, AddressOf UsuarioEntraBoton
@@ -154,64 +172,107 @@ Public NotInheritable Class MainPage
         AddHandler botonLimpiarTodo.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler botonLimpiarTodo.PointerExited, AddressOf UsuarioSaleBoton
 
+        '--------------------------------------------------------
+
+        cbPersonalizarUserscore1.Tag = New Categoria(cbPersonalizarUserscore1.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
         AddHandler cbPersonalizarUserscore1.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarUserscore1.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarUserscore2.Tag = New Categoria(cbPersonalizarUserscore2.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
         AddHandler cbPersonalizarUserscore2.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarUserscore2.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarUserscore3.Tag = New Categoria(cbPersonalizarUserscore3.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
         AddHandler cbPersonalizarUserscore3.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarUserscore3.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarUserscore4.Tag = New Categoria(cbPersonalizarUserscore4.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
         AddHandler cbPersonalizarUserscore4.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarUserscore4.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarUserscore5.Tag = New Categoria(cbPersonalizarUserscore5.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
         AddHandler cbPersonalizarUserscore5.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarUserscore5.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarUserscore6.Tag = New Categoria(cbPersonalizarUserscore6.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
         AddHandler cbPersonalizarUserscore6.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarUserscore6.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarUserscore7.Tag = New Categoria(cbPersonalizarUserscore7.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
         AddHandler cbPersonalizarUserscore7.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarUserscore7.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarUserscore8.Tag = New Categoria(cbPersonalizarUserscore8.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
         AddHandler cbPersonalizarUserscore8.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarUserscore8.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarUserscore9.Tag = New Categoria(cbPersonalizarUserscore9.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
         AddHandler cbPersonalizarUserscore9.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarUserscore9.PointerExited, AddressOf UsuarioSaleBoton
 
+        cbPersonalizarMetascore1.Tag = New Categoria(cbPersonalizarMetascore1.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
         AddHandler cbPersonalizarMetascore1.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarMetascore1.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarMetascore2.Tag = New Categoria(cbPersonalizarMetascore2.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
         AddHandler cbPersonalizarMetascore2.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarMetascore2.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarMetascore3.Tag = New Categoria(cbPersonalizarMetascore3.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
         AddHandler cbPersonalizarMetascore3.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarMetascore3.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarMetascore4.Tag = New Categoria(cbPersonalizarMetascore4.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
         AddHandler cbPersonalizarMetascore4.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarMetascore4.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarMetascore5.Tag = New Categoria(cbPersonalizarMetascore5.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
         AddHandler cbPersonalizarMetascore5.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarMetascore5.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarMetascore6.Tag = New Categoria(cbPersonalizarMetascore6.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
         AddHandler cbPersonalizarMetascore6.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarMetascore6.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarMetascore7.Tag = New Categoria(cbPersonalizarMetascore7.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
         AddHandler cbPersonalizarMetascore7.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarMetascore7.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarMetascore8.Tag = New Categoria(cbPersonalizarMetascore8.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
         AddHandler cbPersonalizarMetascore8.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarMetascore8.PointerExited, AddressOf UsuarioSaleBoton
+
+        cbPersonalizarMetascore9.Tag = New Categoria(cbPersonalizarMetascore9.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
         AddHandler cbPersonalizarMetascore9.PointerEntered, AddressOf UsuarioEntraBoton
         AddHandler cbPersonalizarMetascore9.PointerExited, AddressOf UsuarioSaleBoton
 
         '--------------------------------------------------------
 
         Dim transpariencia As New UISettings
+        TransparienciaEfectosFinal(transpariencia.AdvancedEffectsEnabled)
         AddHandler transpariencia.AdvancedEffectsEnabledChanged, AddressOf TransparienciaEfectosCambia
 
     End Sub
 
     Private Sub TransparienciaEfectosCambia(sender As UISettings, e As Object)
 
-        If sender.AdvancedEffectsEnabled = True Then
-            gridConfig.Background = New SolidColorBrush(App.Current.Resources("GridAcrilico"))
-            gridConfigCategories.Background = New SolidColorBrush(App.Current.Resources("GridTituloBackground"))
-            gridConfigPersonalization.Background = New SolidColorBrush(App.Current.Resources("GridTituloBackground"))
-            gridMasCosas.Background = New SolidColorBrush(App.Current.Resources("GridAcrilico"))
-        Else
-            gridConfig.Background = New SolidColorBrush(Colors.LightGray)
-            gridConfigCategories.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-            gridConfigPersonalization.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-            gridMasCosas.Background = New SolidColorBrush(Colors.LightGray)
-        End If
+        TransparienciaEfectosFinal(sender.AdvancedEffectsEnabled)
+
+    End Sub
+
+    Private Async Sub TransparienciaEfectosFinal(estado As Boolean)
+
+        Await Dispatcher.RunAsync(CoreDispatcherPriority.High, Sub()
+                                                                   If estado = True Then
+                                                                       gridConfig.Background = App.Current.Resources("GridAcrilico")
+                                                                       gridConfigCategories.Background = App.Current.Resources("GridTituloBackground")
+                                                                       gridMasCosas.Background = App.Current.Resources("GridAcrilico")
+                                                                   Else
+                                                                       gridConfig.Background = New SolidColorBrush(Colors.LightGray)
+                                                                       gridConfigCategories.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
+                                                                       gridMasCosas.Background = New SolidColorBrush(Colors.LightGray)
+                                                                   End If
+                                                               End Sub)
 
     End Sub
 
@@ -246,7 +307,7 @@ Public NotInheritable Class MainPage
             panelMensajeCategorias.Visibility = Visibility.Collapsed
         End If
 
-        Interfaz.Clickeo(e.ClickedItem)
+        Interfaz.ClickeoBarraIzquierda(e.ClickedItem)
 
     End Sub
 
@@ -261,8 +322,13 @@ Public NotInheritable Class MainPage
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
         Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
 
-        cbSeleccionUserscore.IsChecked = False
-        cbSeleccionMetascore.IsChecked = False
+        For Each cb As CheckBox In gvUserscore.Items
+            cb.IsChecked = False
+        Next
+
+        For Each cb As CheckBox In gvMetascore.Items
+            cb.IsChecked = False
+        Next
 
         For Each cb As CheckBox In gvAños.Items
             cb.IsChecked = False
@@ -294,134 +360,6 @@ Public NotInheritable Class MainPage
     Private Sub BotonBorrarCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonBorrarCategorias.Click
 
         Cliente.BorrarCategorias()
-
-    End Sub
-
-    '--------------------------------------------------------------
-
-    Private Sub CbSeleccionUserscore_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionUserscore.Checked
-
-        CbSeleccionChecked("/*1/Userscore")
-
-    End Sub
-
-    Private Sub CbSeleccionUserscore_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionUserscore.Unchecked
-
-        CbSeleccionUnChecked("/*1/Userscore")
-
-    End Sub
-
-    Private Sub CbSeleccionMetascore_Checked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionMetascore.Checked
-
-        CbSeleccionChecked("/*2/Metascore")
-
-    End Sub
-
-    Private Sub CbSeleccionMetascore_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbSeleccionMetascore.Unchecked
-
-        CbSeleccionUnChecked("/*2/Metascore")
-
-    End Sub
-
-    Private Async Sub CbSeleccionChecked(categoria As String)
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        Dim listaCategorias As List(Of Categoria) = Nothing
-
-        If Await helper.FileExistsAsync("listaCategorias") = True Then
-            listaCategorias = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
-        End If
-
-        If listaCategorias Is Nothing Then
-            listaCategorias = New List(Of Categoria)
-        End If
-
-        Dim boolCategoria As Boolean = False
-
-        Dim j As Integer = 0
-        While j < listaCategorias.Count
-            If categoria = listaCategorias(j).Nombre Then
-                listaCategorias(j).Estado = True
-                boolCategoria = True
-            End If
-            j += 1
-        End While
-
-        If boolCategoria = False Then
-            listaCategorias.Add(New Categoria(categoria, True, "principal"))
-        End If
-
-        Dim boolBoton As Boolean = False
-        Dim contadorTrue As Integer = 0
-
-        For Each item In listaCategorias
-            If item.Estado = True Then
-                boolBoton = True
-                contadorTrue += 1
-            End If
-        Next
-
-        botonAñadirCategorias.IsEnabled = boolBoton
-        botonLimpiarSeleccion.IsEnabled = boolBoton
-        botonBorrarCategorias.IsEnabled = boolBoton
-
-        If Not contadorTrue = 0 Then
-            tbNumeroCategorias.Text = " (" + contadorTrue.ToString + ")"
-        Else
-            tbNumeroCategorias.Text = String.Empty
-        End If
-
-        Try
-            Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", listaCategorias)
-        Catch ex As Exception
-
-        End Try
-
-    End Sub
-
-    Private Async Sub CbSeleccionUnChecked(categoria As String)
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-
-        If Await helper.FileExistsAsync("listaCategorias") = True Then
-            Dim listaCategorias As List(Of Categoria) = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
-
-            If listaCategorias Is Nothing Then
-                listaCategorias = New List(Of Categoria)
-            End If
-
-            For Each categoria_ In listaCategorias
-                If categoria = categoria_.Nombre Then
-                    categoria_.Estado = False
-                End If
-            Next
-
-            Dim boolBoton As Boolean = False
-            Dim contadorTrue As Integer = 0
-
-            For Each item In listaCategorias
-                If item.Estado = True Then
-                    boolBoton = True
-                    contadorTrue += 1
-                End If
-            Next
-
-            botonAñadirCategorias.IsEnabled = boolBoton
-            botonLimpiarSeleccion.IsEnabled = boolBoton
-            botonBorrarCategorias.IsEnabled = boolBoton
-
-            If Not contadorTrue = 0 Then
-                tbNumeroCategorias.Text = " (" + contadorTrue.ToString + ")"
-            Else
-                tbNumeroCategorias.Text = String.Empty
-            End If
-
-            Try
-                Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", listaCategorias)
-            Catch ex As Exception
-
-            End Try
-        End If
 
     End Sub
 
@@ -480,6 +418,9 @@ Public NotInheritable Class MainPage
 
         Await helper.SaveFileAsync(Of List(Of Juego))("listaJuegos", New List(Of Juego))
 
+        PersonalizarConfigUserMetascore(False)
+
+        gvAños.Items.Clear()
         gvCategorias.Items.Clear()
         gvGeneros.Items.Clear()
         gvTags.Items.Clear()
@@ -511,7 +452,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub PersonalizarConfig()
+    Private Async Sub PersonalizarConfigUserMetascore(actualizacion As Boolean)
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
 
@@ -526,109 +467,129 @@ Public NotInheritable Class MainPage
             metascore = Await helper.ReadFileAsync(Of List(Of Categoria))("metascore")
         End If
 
+        Dim generarUserscore As Boolean = False
+
         If userscore Is Nothing Then
+            generarUserscore = True
+        End If
+
+        If actualizacion = False Then
+            generarUserscore = True
+        Else
+            For Each score In userscore
+                If score.Nombre = "9" Then
+                    cbPersonalizarUserscore9.IsChecked = score.Estado
+                End If
+
+                If score.Nombre = "8" Then
+                    cbPersonalizarUserscore8.IsChecked = score.Estado
+                End If
+
+                If score.Nombre = "7" Then
+                    cbPersonalizarUserscore7.IsChecked = score.Estado
+                End If
+
+                If score.Nombre = "6" Then
+                    cbPersonalizarUserscore6.IsChecked = score.Estado
+                End If
+
+                If score.Nombre = "5" Then
+                    cbPersonalizarUserscore5.IsChecked = score.Estado
+                End If
+
+                If score.Nombre = "4" Then
+                    cbPersonalizarUserscore4.IsChecked = score.Estado
+                End If
+
+                If score.Nombre = "3" Then
+                    cbPersonalizarUserscore3.IsChecked = score.Estado
+                End If
+
+                If score.Nombre = "2" Then
+                    cbPersonalizarUserscore2.IsChecked = score.Estado
+                End If
+
+                If score.Nombre = "1" Then
+                    cbPersonalizarUserscore1.IsChecked = score.Estado
+                End If
+            Next
+        End If
+
+        If generarUserscore = True Then
             userscore = New List(Of Categoria) From {
-                New Categoria("9", True, "userscore"),
-                New Categoria("8", True, "userscore"),
-                New Categoria("7", True, "userscore"),
-                New Categoria("6", True, "userscore"),
-                New Categoria("5", False, "userscore"),
-                New Categoria("4", False, "userscore"),
-                New Categoria("3", False, "userscore"),
-                New Categoria("2", False, "userscore"),
-                New Categoria("1", False, "userscore")
+                New Categoria("9", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+                New Categoria("8", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+                New Categoria("7", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+                New Categoria("6", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+                New Categoria("5", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+                New Categoria("4", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+                New Categoria("3", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+                New Categoria("2", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+                New Categoria("1", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
             }
         End If
+
+        Dim generarMetascore As Boolean = False
 
         If metascore Is Nothing Then
-            metascore = New List(Of Categoria) From {
-                New Categoria("9", True, "metascore"),
-                New Categoria("8", True, "metascore"),
-                New Categoria("7", True, "metascore"),
-                New Categoria("6", True, "metascore"),
-                New Categoria("5", True, "metascore"),
-                New Categoria("4", True, "metascore"),
-                New Categoria("3", True, "metascore"),
-                New Categoria("2", True, "metascore"),
-                New Categoria("1", True, "metascore")
-            }
+            generarMetascore = True
         End If
 
-        For Each score In userscore
-            If score.Nombre = "9" Then
-                cbPersonalizarUserscore9.IsChecked = score.Estado
-            End If
+        If actualizacion = False Then
+            generarMetascore = True
+        Else
+            For Each score In metascore
+                If score.Nombre = "9" Then
+                    cbPersonalizarMetascore9.IsChecked = score.Estado
+                End If
 
-            If score.Nombre = "8" Then
-                cbPersonalizarUserscore8.IsChecked = score.Estado
-            End If
+                If score.Nombre = "8" Then
+                    cbPersonalizarMetascore8.IsChecked = score.Estado
+                End If
 
-            If score.Nombre = "7" Then
-                cbPersonalizarUserscore7.IsChecked = score.Estado
-            End If
+                If score.Nombre = "7" Then
+                    cbPersonalizarMetascore7.IsChecked = score.Estado
+                End If
 
-            If score.Nombre = "6" Then
-                cbPersonalizarUserscore6.IsChecked = score.Estado
-            End If
+                If score.Nombre = "6" Then
+                    cbPersonalizarMetascore6.IsChecked = score.Estado
+                End If
 
-            If score.Nombre = "5" Then
-                cbPersonalizarUserscore5.IsChecked = score.Estado
-            End If
+                If score.Nombre = "5" Then
+                    cbPersonalizarMetascore5.IsChecked = score.Estado
+                End If
 
-            If score.Nombre = "4" Then
-                cbPersonalizarUserscore4.IsChecked = score.Estado
-            End If
+                If score.Nombre = "4" Then
+                    cbPersonalizarMetascore4.IsChecked = score.Estado
+                End If
 
-            If score.Nombre = "3" Then
-                cbPersonalizarUserscore3.IsChecked = score.Estado
-            End If
+                If score.Nombre = "3" Then
+                    cbPersonalizarMetascore3.IsChecked = score.Estado
+                End If
 
-            If score.Nombre = "2" Then
-                cbPersonalizarUserscore2.IsChecked = score.Estado
-            End If
+                If score.Nombre = "2" Then
+                    cbPersonalizarMetascore2.IsChecked = score.Estado
+                End If
 
-            If score.Nombre = "1" Then
-                cbPersonalizarUserscore1.IsChecked = score.Estado
-            End If
-        Next
+                If score.Nombre = "1" Then
+                    cbPersonalizarMetascore1.IsChecked = score.Estado
+                End If
+            Next
+        End If
 
-        For Each score In metascore
-            If score.Nombre = "9" Then
-                cbPersonalizarMetascore9.IsChecked = score.Estado
-            End If
-
-            If score.Nombre = "8" Then
-                cbPersonalizarMetascore8.IsChecked = score.Estado
-            End If
-
-            If score.Nombre = "7" Then
-                cbPersonalizarMetascore7.IsChecked = score.Estado
-            End If
-
-            If score.Nombre = "6" Then
-                cbPersonalizarMetascore6.IsChecked = score.Estado
-            End If
-
-            If score.Nombre = "5" Then
-                cbPersonalizarMetascore5.IsChecked = score.Estado
-            End If
-
-            If score.Nombre = "4" Then
-                cbPersonalizarMetascore4.IsChecked = score.Estado
-            End If
-
-            If score.Nombre = "3" Then
-                cbPersonalizarMetascore3.IsChecked = score.Estado
-            End If
-
-            If score.Nombre = "2" Then
-                cbPersonalizarMetascore2.IsChecked = score.Estado
-            End If
-
-            If score.Nombre = "1" Then
-                cbPersonalizarMetascore1.IsChecked = score.Estado
-            End If
-        Next
+        If generarMetascore = True Then
+            metascore = New List(Of Categoria) From {
+                New Categoria("9", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+                New Categoria("8", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+                New Categoria("7", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+                New Categoria("6", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+                New Categoria("5", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+                New Categoria("4", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+                New Categoria("3", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+                New Categoria("2", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+                New Categoria("1", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+            }
+        End If
 
         Try
             Await helper.SaveFileAsync(Of List(Of Categoria))("userscore", userscore)
@@ -675,278 +636,253 @@ Public NotInheritable Class MainPage
 
     Private Sub CbPersonalizarUserscore9_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore9.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("9", cbPersonalizarUserscore9.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore9_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore9.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("9", cbPersonalizarUserscore9.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore8_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore8.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("8", cbPersonalizarUserscore8.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore8_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore8.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("8", cbPersonalizarUserscore8.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore7_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore7.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("7", cbPersonalizarUserscore7.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore7_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore7.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("7", cbPersonalizarUserscore7.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore6_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore6.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("6", cbPersonalizarUserscore6.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore6_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore6.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("6", cbPersonalizarUserscore6.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore5_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore5.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("5", cbPersonalizarUserscore5.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore5_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore5.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("5", cbPersonalizarUserscore5.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore4_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore4.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("4", cbPersonalizarUserscore4.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore4_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore4.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("4", cbPersonalizarUserscore4.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore3_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore3.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("3", cbPersonalizarUserscore3.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore3_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore3.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("3", cbPersonalizarUserscore3.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore2_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore2.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("2", cbPersonalizarUserscore2.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore2_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore2.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("2", cbPersonalizarUserscore2.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore1_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore1.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("1", cbPersonalizarUserscore1.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarUserscore1_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore1.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("1", cbPersonalizarUserscore1.IsChecked, "userscore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore9_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore9.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("9", cbPersonalizarMetascore9.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore9_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore9.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("9", cbPersonalizarMetascore9.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore8_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore8.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("8", cbPersonalizarMetascore8.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore8_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore8.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("8", cbPersonalizarMetascore8.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore7_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore7.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("7", cbPersonalizarMetascore7.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore7_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore7.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("7", cbPersonalizarMetascore7.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore6_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore6.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("6", cbPersonalizarMetascore6.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore6_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore6.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("6", cbPersonalizarMetascore6.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore5_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore5.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("5", cbPersonalizarMetascore5.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore5_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore5.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("5", cbPersonalizarMetascore5.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore4_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore4.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("4", cbPersonalizarMetascore4.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore4_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore4.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("4", cbPersonalizarMetascore4.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore3_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore3.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("3", cbPersonalizarMetascore3.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore3_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore3.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("3", cbPersonalizarMetascore3.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore2_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore2.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("2", cbPersonalizarMetascore2.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore2_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore2.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("2", cbPersonalizarMetascore2.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore1_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore1.Checked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("1", cbPersonalizarMetascore1.IsChecked, "metascore")
 
     End Sub
 
     Private Sub CbPersonalizarMetascore1_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore1.Unchecked
 
+        Interfaz.UsuarioClickeaCaja(sender, e)
         PersonalizarPuntuaciones("1", cbPersonalizarMetascore1.IsChecked, "metascore")
-
-    End Sub
-
-    'MASCOSAS-----------------------------------------
-
-    Private Async Sub LvMasCosasItemClick(sender As Object, args As ItemClickEventArgs)
-
-        Dim sp As StackPanel = args.ClickedItem
-
-        If sp.Tag.ToString = 0 Then
-
-            Await Launcher.LaunchUriAsync(New Uri("ms-windows-store:REVIEW?PFN=" + Package.Current.Id.FamilyName))
-
-        ElseIf sp.Tag.ToString = 1 Then
-
-            NavegarMasCosas(lvMasCosasMasApps, "https://pepeizqapps.com/")
-
-        ElseIf sp.Tag.ToString = 3 Then
-
-            NavegarMasCosas(lvMasCosasContacto, "https://pepeizqapps.com/contact/")
-
-        ElseIf sp.Tag.ToString = 4 Then
-
-            If StoreServicesFeedbackLauncher.IsSupported = True Then
-                Dim ejecutador As StoreServicesFeedbackLauncher = StoreServicesFeedbackLauncher.GetDefault()
-                Await ejecutador.LaunchAsync()
-            Else
-                NavegarMasCosas(lvMasCosasReportarFallo, "https://pepeizqapps.com/contact/")
-            End If
-
-        ElseIf sp.Tag.ToString = 5 Then
-
-            NavegarMasCosas(lvMasCosasTraduccion, "https://poeditor.com/join/project/8XFtnZRr6T")
-
-        ElseIf sp.Tag.ToString = 6 Then
-
-            NavegarMasCosas(lvMasCosasCodigoFuente, "https://github.com/pepeizq/Steam-Categories")
-
-        End If
-
-    End Sub
-
-    Private Sub NavegarMasCosas(lvItem As ListViewItem, url As String)
-
-        lvMasCosasMasApps.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        lvMasCosasContacto.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        lvMasCosasReportarFallo.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        lvMasCosasTraduccion.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-        lvMasCosasCodigoFuente.Background = New SolidColorBrush(App.Current.Resources("ColorSecundario"))
-
-        lvItem.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-
-        pbMasCosas.Visibility = Visibility.Visible
-
-        wvMasCosas.Navigate(New Uri(url))
-
-    End Sub
-
-    Private Sub WvMasCosas_NavigationCompleted(sender As WebView, args As WebViewNavigationCompletedEventArgs) Handles wvMasCosas.NavigationCompleted
-
-        pbMasCosas.Visibility = Visibility.Collapsed
 
     End Sub
 

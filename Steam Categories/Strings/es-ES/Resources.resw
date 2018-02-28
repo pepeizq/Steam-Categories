@@ -129,6 +129,9 @@
   <data name="Categories" xml:space="preserve">
     <value>Categorías</value>
   </data>
+  <data name="Categories2.Text" xml:space="preserve">
+    <value>Categorías</value>
+  </data>
   <data name="CategoriesAdded" xml:space="preserve">
     <value>Se han añadido las categorías en Steam</value>
   </data>
@@ -223,7 +226,7 @@
     <value>Selecciona una opción de la barra de la izquierda para añadir categorías</value>
   </data>
   <data name="MetascoreInfo.Text" xml:space="preserve">
-    <value>Añade categorías a tus juegos en base a su puntuación de Metacritic (personalizable en Configuración)</value>
+    <value>Añade categorías a tus juegos en base a su puntuación de Metacritic</value>
   </data>
   <data name="MoreThings" xml:space="preserve">
     <value>Más Cosas</value>
@@ -259,7 +262,7 @@
     <value>Etiquetas creadas por usuarios para tus juegos</value>
   </data>
   <data name="UserscoreInfo.Text" xml:space="preserve">
-    <value>Añade categorías a tus juegos en base a los análisis de los usuarios de Steam (personalizable en Configuración)</value>
+    <value>Añade categorías a tus juegos en base a los análisis de los usuarios de Steam</value>
   </data>
   <data name="Years" xml:space="preserve">
     <value>Años</value>

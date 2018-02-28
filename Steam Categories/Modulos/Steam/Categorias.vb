@@ -8,6 +8,8 @@ Module Categorias
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
+        Dim lvCategorias As ListView = pagina.FindName("lvCategorias")
+
         Dim gridProgreso As Grid = pagina.FindName("gridProgreso")
         gridProgreso.Visibility = Visibility.Visible
 
@@ -144,7 +146,7 @@ Module Categorias
                             metascore = temp5
                         End If
 
-                        Dim años As New List(Of String)
+                        Dim años As New List(Of Categoria)
 
                         If html.Contains("<strong>Release date</strong>") Then
                             Dim temp4, temp5 As String
@@ -197,10 +199,10 @@ Module Categorias
                                 temp5 = temp5.Remove(int6, temp5.Length - int6)
                             End If
 
-                            años.Add(temp5.Trim)
+                            años.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(2).Tag))
                         End If
 
-                        Dim categorias As New List(Of String)
+                        Dim categorias As New List(Of Categoria)
 
                         If html.Contains("<strong>Category:</strong>") Then
                             Dim temp4, temp5 As String
@@ -218,7 +220,7 @@ Module Categorias
                             temp5 = temp5.Trim
 
                             If Not temp5.Contains(",") Then
-                                categorias.Add(temp5)
+                                categorias.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(3).Tag))
                             Else
                                 Dim j As Integer = 0
                                 While j < 100
@@ -229,11 +231,11 @@ Module Categorias
                                         int6 = temp5.IndexOf(",")
                                         temp6 = temp5.Remove(int6, temp5.Length - int6)
 
-                                        categorias.Add(temp6.Trim)
+                                        categorias.Add(New Categoria(temp6.Trim, False, lvCategorias.Items(3).Tag))
 
                                         temp5 = temp5.Remove(0, int6 + 1)
                                     Else
-                                        categorias.Add(temp5.Trim)
+                                        categorias.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(3).Tag))
                                         Exit While
                                     End If
                                     j += 1
@@ -241,7 +243,7 @@ Module Categorias
                             End If
                         End If
 
-                        Dim generos As New List(Of String)
+                        Dim generos As New List(Of Categoria)
 
                         If html.Contains("<strong>Genre:</strong>") Then
                             Dim temp4, temp5 As String
@@ -268,7 +270,7 @@ Module Categorias
                                     temp5 = temp5.Replace("</a>", Nothing)
                                 End If
 
-                                generos.Add(temp5)
+                                generos.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(4).Tag))
                             Else
                                 Dim j As Integer = 0
                                 While j < 100
@@ -288,7 +290,7 @@ Module Categorias
                                             temp6 = temp6.Replace("</a>", Nothing)
                                         End If
 
-                                        generos.Add(temp6.Trim)
+                                        generos.Add(New Categoria(temp6.Trim, False, lvCategorias.Items(4).Tag))
 
                                         temp5 = temp5.Remove(0, int6 + 1)
                                     Else
@@ -301,7 +303,7 @@ Module Categorias
                                             temp5 = temp5.Replace("</a>", Nothing)
                                         End If
 
-                                        generos.Add(temp5.Trim)
+                                        generos.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(4).Tag))
                                         Exit While
                                     End If
                                     j += 1
@@ -309,7 +311,7 @@ Module Categorias
                             End If
                         End If
 
-                        Dim tags As New List(Of String)
+                        Dim tags As New List(Of Categoria)
 
                         If html.Contains("<strong>Tags:</strong>") Then
                             Dim temp4, temp5 As String
@@ -344,7 +346,7 @@ Module Categorias
                                     temp5 = temp5.Remove(int7, int8 - int7 + 1)
                                 End If
 
-                                tags.Add(temp5)
+                                tags.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(5).Tag))
                             Else
                                 Dim j As Integer = 0
                                 While j < 100
@@ -372,7 +374,7 @@ Module Categorias
                                             temp6 = temp6.Remove(int7, int8 - int7 + 1)
                                         End If
 
-                                        tags.Add(temp6.Trim)
+                                        tags.Add(New Categoria(temp6.Trim, False, lvCategorias.Items(5).Tag))
 
                                         temp5 = temp5.Remove(0, int6 + 1)
                                     Else
@@ -393,7 +395,7 @@ Module Categorias
                                             temp5 = temp5.Remove(int7, int8 - int7 + 1)
                                         End If
 
-                                        tags.Add(temp5.Trim)
+                                        tags.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(5).Tag))
                                         Exit While
                                     End If
                                     j += 1
@@ -401,7 +403,7 @@ Module Categorias
                             End If
                         End If
 
-                        Dim idiomas As New List(Of String)
+                        Dim idiomas As New List(Of Categoria)
 
                         If html.Contains("<strong>Languages:</strong>") Then
                             Dim temp4, temp5 As String
@@ -438,7 +440,7 @@ Module Categorias
                                     temp5 = temp5.Remove(int7, int8 - int7 + 1)
                                 End If
 
-                                idiomas.Add(temp5.Trim)
+                                idiomas.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(6).Tag))
                             Else
                                 Dim j As Integer = 0
                                 While j < 100
@@ -466,7 +468,7 @@ Module Categorias
                                             temp6 = temp6.Remove(int7, int8 - int7 + 1)
                                         End If
 
-                                        idiomas.Add(temp6.Trim)
+                                        idiomas.Add(New Categoria(temp6.Trim, False, lvCategorias.Items(6).Tag))
 
                                         temp5 = temp5.Remove(0, int6 + 1)
                                     Else
@@ -487,7 +489,7 @@ Module Categorias
                                             temp5 = temp5.Remove(int7, int8 - int7 + 1)
                                         End If
 
-                                        idiomas.Add(temp5.Trim)
+                                        idiomas.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(6).Tag))
                                         Exit While
                                     End If
                                     j += 1
@@ -514,14 +516,33 @@ Module Categorias
         Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
 
         If listaJuegos.Count > 0 Then
-            GenerarAños(listaJuegos)
-            GenerarCategorias(listaJuegos)
-            GenerarGeneros(listaJuegos)
-            GenerarTags(listaJuegos)
-            GenerarIdiomas(listaJuegos)
+            Dim gvAños As GridView = pagina.FindName("gvAños")
+            Dim gvCategorias As GridView = pagina.FindName("gvCategorias")
+            Dim gvGeneros As GridView = pagina.FindName("gvGeneros")
+            Dim gvTags As GridView = pagina.FindName("gvTags")
+            Dim gvIdiomas As GridView = pagina.FindName("gvIdiomas")
 
-            Dim lv As ListView = pagina.FindName("lvCategorias")
-            lv.IsEnabled = True
+            Dim listaAños As New List(Of Categoria)
+            Dim listaCategorias As New List(Of Categoria)
+            Dim listaGeneros As New List(Of Categoria)
+            Dim listaTags As New List(Of Categoria)
+            Dim listaIdiomas As New List(Of Categoria)
+
+            For Each juego In listaJuegos
+                listaAños.AddRange(juego.Años)
+                listaCategorias.AddRange(juego.Categorias)
+                listaGeneros.AddRange(juego.Generos)
+                listaTags.AddRange(juego.Tags)
+                listaIdiomas.AddRange(juego.Idiomas)
+            Next
+
+            Interfaz.RellenarGridsCheckboxes(listaAños, gvAños, lvCategorias.Items(2).Tag)
+            Interfaz.RellenarGridsCheckboxes(listaCategorias, gvCategorias, lvCategorias.Items(3).Tag)
+            Interfaz.RellenarGridsCheckboxes(listaGeneros, gvGeneros, lvCategorias.Items(4).Tag)
+            Interfaz.RellenarGridsCheckboxes(listaTags, gvTags, lvCategorias.Items(5).Tag)
+            Interfaz.RellenarGridsCheckboxes(listaIdiomas, gvIdiomas, lvCategorias.Items(6).Tag)
+
+            lvCategorias.IsEnabled = True
 
             Dim tb As TextBlock = pagina.FindName("tbMensajeCategorias")
             tb.Text = recursos.GetString("MessageCategories2")
@@ -542,375 +563,6 @@ Module Categorias
         botonCuenta.IsEnabled = True
         tbSteamCuenta.IsEnabled = True
         cbActualizar.IsEnabled = True
-
-    End Sub
-
-    Public Sub GenerarAños(listaJuegos As List(Of Juego))
-
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-
-        Dim gv As GridView = pagina.FindName("gvAños")
-        gv.Items.Clear()
-
-        Dim listaAños As New List(Of Categoria)
-
-        If Not listaJuegos Is Nothing Then
-            If listaJuegos.Count > 0 Then
-                Dim i As Integer = 0
-                While i < listaJuegos.Count
-                    If Not listaJuegos(i).Años Is Nothing Then
-                        For Each categoria_ In listaJuegos(i).Años
-                            If Not categoria_ = Nothing Then
-                                If listaAños.Count > 0 Then
-                                    Dim boolCategoria As Boolean = False
-
-                                    Dim j As Integer = 0
-                                    While j < listaAños.Count
-                                        If categoria_ = listaAños(j).Nombre Then
-                                            boolCategoria = True
-                                        End If
-                                        j += 1
-                                    End While
-
-                                    If boolCategoria = False Then
-                                        listaAños.Add(New Categoria(categoria_, False, "año"))
-                                    End If
-                                Else
-                                    listaAños.Add(New Categoria(categoria_, False, "año"))
-                                End If
-                            End If
-                        Next
-                    End If
-
-                    i += 1
-                End While
-
-                listaAños.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
-                ConstructorCheckBoxes(listaAños, gv)
-
-            End If
-        End If
-
-    End Sub
-
-    Public Sub GenerarCategorias(listaJuegos As List(Of Juego))
-
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-
-        Dim gv As GridView = pagina.FindName("gvCategorias")
-        gv.Items.Clear()
-
-        Dim listaCategorias As New List(Of Categoria)
-
-        If Not listaJuegos Is Nothing Then
-            If listaJuegos.Count > 0 Then
-                Dim i As Integer = 0
-                While i < listaJuegos.Count
-                    For Each categoria_ In listaJuegos(i).Categorias
-                        If Not categoria_ = Nothing Then
-                            If listaCategorias.Count > 0 Then
-                                Dim boolCategoria As Boolean = False
-
-                                Dim j As Integer = 0
-                                While j < listaCategorias.Count
-                                    If categoria_ = listaCategorias(j).Nombre Then
-                                        boolCategoria = True
-                                    End If
-                                    j += 1
-                                End While
-
-                                If boolCategoria = False Then
-                                    listaCategorias.Add(New Categoria(categoria_, False, "categoria"))
-                                End If
-                            Else
-                                listaCategorias.Add(New Categoria(categoria_, False, "categoria"))
-                            End If
-                        End If
-                    Next
-                    i += 1
-                End While
-
-                listaCategorias.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
-                ConstructorCheckBoxes(listaCategorias, gv)
-
-            End If
-        End If
-
-    End Sub
-
-    Public Sub GenerarGeneros(listaJuegos As List(Of Juego))
-
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-
-        Dim gv As GridView = pagina.FindName("gvGeneros")
-        gv.Items.Clear()
-
-        Dim listaGeneros As New List(Of Categoria)
-
-        If Not listaJuegos Is Nothing Then
-            If listaJuegos.Count > 0 Then
-                Dim i As Integer = 0
-                While i < listaJuegos.Count
-                    For Each genero_ In listaJuegos(i).Generos
-                        If Not genero_ = Nothing Then
-                            If listaGeneros.Count > 0 Then
-                                Dim boolGenero As Boolean = False
-
-                                Dim j As Integer = 0
-                                While j < listaGeneros.Count
-                                    If genero_ = listaGeneros(j).Nombre Then
-                                        boolGenero = True
-                                    End If
-                                    j += 1
-                                End While
-
-                                If boolGenero = False Then
-                                    listaGeneros.Add(New Categoria(genero_, False, "genero"))
-                                End If
-                            Else
-                                listaGeneros.Add(New Categoria(genero_, False, "genero"))
-                            End If
-                        End If
-                    Next
-                    i += 1
-                End While
-
-                listaGeneros.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
-                ConstructorCheckBoxes(listaGeneros, gv)
-
-            End If
-        End If
-
-    End Sub
-
-    Public Sub GenerarTags(listaJuegos As List(Of Juego))
-
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-
-        Dim gv As GridView = pagina.FindName("gvTags")
-        gv.Items.Clear()
-
-        Dim listaTags As New List(Of Categoria)
-
-        If Not listaJuegos Is Nothing Then
-            If listaJuegos.Count > 0 Then
-                Dim i As Integer = 0
-                While i < listaJuegos.Count
-                    For Each tag_ In listaJuegos(i).Tags
-                        If Not tag_ = Nothing Then
-                            If listaTags.Count > 0 Then
-                                Dim boolTag As Boolean = False
-
-                                Dim j As Integer = 0
-                                While j < listaTags.Count
-                                    If tag_ = listaTags(j).Nombre Then
-                                        boolTag = True
-                                    End If
-                                    j += 1
-                                End While
-
-                                If boolTag = False Then
-                                    listaTags.Add(New Categoria(tag_, False, "tag"))
-                                End If
-                            Else
-                                listaTags.Add(New Categoria(tag_, False, "tag"))
-                            End If
-                        End If
-                    Next
-                    i += 1
-                End While
-
-                listaTags.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
-                ConstructorCheckBoxes(listaTags, gv)
-
-            End If
-        End If
-
-    End Sub
-
-    Public Sub GenerarIdiomas(listaJuegos As List(Of Juego))
-
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-
-        Dim gv As GridView = pagina.FindName("gvIdiomas")
-        gv.Items.Clear()
-
-        Dim listaIdiomas As New List(Of Categoria)
-
-        If Not listaJuegos Is Nothing Then
-            If listaJuegos.Count > 0 Then
-                Dim i As Integer = 0
-                While i < listaJuegos.Count
-                    For Each idioma_ In listaJuegos(i).Idiomas
-                        If Not idioma_ = Nothing Then
-                            If listaIdiomas.Count > 0 Then
-                                Dim boolIdioma As Boolean = False
-
-                                Dim j As Integer = 0
-                                While j < listaIdiomas.Count
-                                    If idioma_ = listaIdiomas(j).Nombre Then
-                                        boolIdioma = True
-                                    End If
-                                    j += 1
-                                End While
-
-                                If boolIdioma = False Then
-                                    listaIdiomas.Add(New Categoria(idioma_, False, "idioma"))
-                                End If
-                            Else
-                                listaIdiomas.Add(New Categoria(idioma_, False, "idioma"))
-                            End If
-                        End If
-                    Next
-                    i += 1
-                End While
-
-                listaIdiomas.Sort(Function(x, y) x.Nombre.CompareTo(y.Nombre))
-                ConstructorCheckBoxes(listaIdiomas, gv)
-
-            End If
-        End If
-
-    End Sub
-
-    Private Sub ConstructorCheckBoxes(lista As List(Of Categoria), gv As GridView)
-
-        For Each categoria In lista
-            If categoria.Nombre.Length > 0 Then
-                Dim tb As New TextBlock With {
-                    .Text = categoria.Nombre,
-                    .TextWrapping = TextWrapping.Wrap,
-                    .FontSize = 14,
-                    .VerticalAlignment = VerticalAlignment.Center
-                }
-
-                Dim cb As New CheckBox With {
-                    .IsChecked = categoria.Estado,
-                    .VerticalAlignment = VerticalAlignment.Center,
-                    .HorizontalAlignment = HorizontalAlignment.Stretch,
-                    .Content = tb,
-                    .Tag = categoria,
-                    .Width = 200,
-                    .Padding = New Thickness(5, 5, 5, 5)
-                }
-
-                AddHandler cb.Checked, AddressOf UsuarioClickeaCaja
-                AddHandler cb.Unchecked, AddressOf UsuarioClickeaCaja
-                AddHandler cb.PointerEntered, AddressOf UsuarioEntraBoton
-                AddHandler cb.PointerExited, AddressOf UsuarioSaleBoton
-
-                gv.Items.Add(cb)
-            End If
-        Next
-
-    End Sub
-
-    Private Sub UsuarioEntraBoton(sender As Object, e As PointerRoutedEventArgs)
-
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Hand, 1)
-
-    End Sub
-
-    Private Sub UsuarioSaleBoton(sender As Object, e As PointerRoutedEventArgs)
-
-        Window.Current.CoreWindow.PointerCursor = New CoreCursor(CoreCursorType.Arrow, 1)
-
-    End Sub
-
-    Private Async Sub UsuarioClickeaCaja(sender As Object, e As RoutedEventArgs)
-
-        Dim cb As CheckBox = e.OriginalSource
-
-        Dim listaCategorias As List(Of Categoria) = Nothing
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        If Await helper.FileExistsAsync("listaCategorias") = True Then
-            listaCategorias = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
-        End If
-
-        If listaCategorias Is Nothing Then
-            listaCategorias = New List(Of Categoria)
-        End If
-
-        Dim categoria As Categoria = cb.Tag
-
-        If cb.IsChecked = True Then
-            categoria.Estado = True
-
-            If listaCategorias.Count > 0 Then
-                Dim boolCategoria As Boolean = False
-
-                Dim j As Integer = 0
-                While j < listaCategorias.Count
-                    If categoria.Seccion = listaCategorias(j).Seccion Then
-                        If categoria.Nombre = listaCategorias(j).Nombre Then
-                            listaCategorias(j).Estado = True
-                            boolCategoria = True
-                        End If
-                    End If
-                    j += 1
-                End While
-
-                If boolCategoria = False Then
-                    listaCategorias.Add(categoria)
-                End If
-            Else
-                listaCategorias.Add(categoria)
-            End If
-        Else
-            categoria.Estado = False
-
-            Dim j As Integer = 0
-            While j < listaCategorias.Count
-                If categoria.Seccion = listaCategorias(j).Seccion Then
-                    If categoria.Nombre = listaCategorias(j).Nombre Then
-                        listaCategorias(j).Estado = False
-                    End If
-                End If
-                j += 1
-            End While
-        End If
-
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-
-        Dim boolBoton As Boolean = False
-        Dim contadorTrue As Integer = 0
-
-        For Each item In listaCategorias
-            If item.Estado = True Then
-                boolBoton = True
-                contadorTrue += 1
-            End If
-        Next
-
-        Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
-        botonAñadir.IsEnabled = boolBoton
-
-        Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
-        botonLimpiar.IsEnabled = boolBoton
-
-        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
-        botonBorrar.IsEnabled = boolBoton
-
-        Dim tb As TextBlock = pagina.FindName("tbNumeroCategorias")
-
-        If Not contadorTrue = 0 Then
-            tb.Text = " (" + contadorTrue.ToString + ")"
-        Else
-            tb.Text = String.Empty
-        End If
-
-        Try
-            Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", listaCategorias)
-        Catch ex As Exception
-
-        End Try
 
     End Sub
 
@@ -954,7 +606,7 @@ Module Categorias
                         For Each cb In gvAños.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Seccion = categoria.Seccion Then
+                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
                                 If categoria_.Nombre = categoria.Nombre Then
                                     cb.IsChecked = True
                                 End If
@@ -964,7 +616,7 @@ Module Categorias
                         For Each cb In gvCategorias.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Seccion = categoria.Seccion Then
+                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
                                 If categoria_.Nombre = categoria.Nombre Then
                                     cb.IsChecked = True
                                 End If
@@ -974,7 +626,7 @@ Module Categorias
                         For Each cb In gvGeneros.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Seccion = categoria.Seccion Then
+                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
                                 If categoria_.Nombre = categoria.Nombre Then
                                     cb.IsChecked = True
                                 End If
@@ -984,7 +636,7 @@ Module Categorias
                         For Each cb In gvTags.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Seccion = categoria.Seccion Then
+                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
                                 If categoria_.Nombre = categoria.Nombre Then
                                     cb.IsChecked = True
                                 End If
@@ -994,7 +646,7 @@ Module Categorias
                         For Each cb In gvIdiomas.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Seccion = categoria.Seccion Then
+                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
                                 If categoria_.Nombre = categoria.Nombre Then
                                     cb.IsChecked = True
                                 End If

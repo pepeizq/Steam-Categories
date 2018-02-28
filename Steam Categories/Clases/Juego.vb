@@ -4,15 +4,15 @@
     Public Property ID As Integer
     Public Property Userscore As String
     Public Property Metascore As String
-    Public Property Años As List(Of String)
-    Public Property Categorias As List(Of String)
-    Public Property Generos As List(Of String)
-    Public Property Tags As List(Of String)
-    Public Property Idiomas As List(Of String)
+    Public Property Años As List(Of Categoria)
+    Public Property Categorias As List(Of Categoria)
+    Public Property Generos As List(Of Categoria)
+    Public Property Tags As List(Of Categoria)
+    Public Property Idiomas As List(Of Categoria)
 
     Public Sub New(ByVal titulo As String, ByVal id As Integer, ByVal userscore As String, ByVal metascore As String,
-                   ByVal años As List(Of String), ByVal categorias As List(Of String), ByVal generos As List(Of String),
-                   ByVal tags As List(Of String), ByVal idiomas As List(Of String))
+                   ByVal años As List(Of Categoria), ByVal categorias As List(Of Categoria), ByVal generos As List(Of Categoria),
+                   ByVal tags As List(Of Categoria), ByVal idiomas As List(Of Categoria))
         Me.Titulo = titulo
         Me.ID = id
         Me.Userscore = userscore

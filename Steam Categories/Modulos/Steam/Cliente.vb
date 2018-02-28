@@ -154,7 +154,7 @@ Module Cliente
 
                     For Each categoria In listaCategorias
                         If categoria.Estado = True Then
-                            If categoria.Nombre.Contains("/*1/") Then
+                            If categoria.Maestro.ID = 0 Then
                                 Dim puntuacion As String = GenerarPuntuacion(userscore, juego.Userscore, 0)
 
                                 If Not puntuacion = Nothing Then
@@ -162,7 +162,7 @@ Module Cliente
                                 End If
                             End If
 
-                            If categoria.Nombre.Contains("/*2/") Then
+                            If categoria.Maestro.ID = 1 Then
                                 Dim puntuacion As String = GenerarPuntuacion(metascore, juego.Metascore, 1)
 
                                 If Not puntuacion = Nothing Then
@@ -171,7 +171,7 @@ Module Cliente
                             End If
 
                             For Each año In juego.Años
-                                If categoria.Nombre = año Then
+                                If categoria.Nombre = año.Nombre Then
                                     If listaCategoriasJuego.Count > 0 Then
                                         Dim boolAñadir As Boolean = False
 
@@ -184,16 +184,16 @@ Module Cliente
                                         End While
 
                                         If boolAñadir = False Then
-                                            listaCategoriasJuego.Add(año)
+                                            listaCategoriasJuego.Add(año.Nombre)
                                         End If
                                     Else
-                                        listaCategoriasJuego.Add(año)
+                                        listaCategoriasJuego.Add(año.Nombre)
                                     End If
                                 End If
                             Next
 
                             For Each genero In juego.Generos
-                                If categoria.Nombre = genero Then
+                                If categoria.Nombre = genero.Nombre Then
                                     If listaCategoriasJuego.Count > 0 Then
                                         Dim boolAñadir As Boolean = False
 
@@ -206,16 +206,16 @@ Module Cliente
                                         End While
 
                                         If boolAñadir = False Then
-                                            listaCategoriasJuego.Add(genero)
+                                            listaCategoriasJuego.Add(genero.Nombre)
                                         End If
                                     Else
-                                        listaCategoriasJuego.Add(genero)
+                                        listaCategoriasJuego.Add(genero.Nombre)
                                     End If
                                 End If
                             Next
 
                             For Each categoria_ In juego.Categorias
-                                If categoria.Nombre = categoria_ Then
+                                If categoria.Nombre = categoria_.Nombre Then
                                     If listaCategoriasJuego.Count > 0 Then
                                         Dim boolAñadir As Boolean = False
 
@@ -237,7 +237,7 @@ Module Cliente
                             Next
 
                             For Each tag In juego.Tags
-                                If categoria.Nombre = tag Then
+                                If categoria.Nombre = tag.Nombre Then
                                     If listaCategoriasJuego.Count > 0 Then
                                         Dim boolAñadir As Boolean = False
 
@@ -250,16 +250,16 @@ Module Cliente
                                         End While
 
                                         If boolAñadir = False Then
-                                            listaCategoriasJuego.Add(tag)
+                                            listaCategoriasJuego.Add(tag.Nombre)
                                         End If
                                     Else
-                                        listaCategoriasJuego.Add(tag)
+                                        listaCategoriasJuego.Add(tag.Nombre)
                                     End If
                                 End If
                             Next
 
                             For Each idioma In juego.Idiomas
-                                If categoria.Nombre = idioma Then
+                                If categoria.Nombre = idioma.Nombre Then
                                     If listaCategoriasJuego.Count > 0 Then
                                         Dim boolAñadir As Boolean = False
 
@@ -272,10 +272,10 @@ Module Cliente
                                         End While
 
                                         If boolAñadir = False Then
-                                            listaCategoriasJuego.Add(idioma)
+                                            listaCategoriasJuego.Add(idioma.Nombre)
                                         End If
                                     Else
-                                        listaCategoriasJuego.Add(idioma)
+                                        listaCategoriasJuego.Add(idioma.Nombre)
                                     End If
                                 End If
                             Next
