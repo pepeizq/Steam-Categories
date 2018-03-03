@@ -452,31 +452,23 @@
                                     <Grid Margin="0,15" >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
                                         <Button x:Name="botonCargaCategorias" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}" IsEnabled="False">
-                                            <StackPanel Orientation="Horizontal">
-                                                <FontIcon Glyph="&#xE898;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBlock x:Uid="Load" Foreground="White"/>
-                                            </StackPanel>
+                                            <ToolTipService.ToolTip>
+                                                <TextBlock x:Uid="ConfigCategoriesLoadWarning" FontSize="16" TextWrapping="Wrap" Padding="5"/>
+                                            </ToolTipService.ToolTip>
+                                            
+                                            <Button.Content>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <FontIcon Glyph="&#xE898;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
+                                                    <TextBlock x:Uid="Load" Foreground="White"/>
+                                                </StackPanel>
+                                            </Button.Content>
                                         </Button>
 
-                                        <controls:DropShadowPanel x:Name="panelAvisoCargaCategorias" Grid.Column="1" Margin="10,0" Color="Black"
-                                                  BlurRadius="4" ShadowOpacity="0.5" OffsetZ="5" Visibility="Collapsed">
-                                            <Grid Padding="10" Background="IndianRed">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <FontIcon Glyph="&#xE8C9;" FontFamily="Segoe MDL2 Assets" Grid.Column="0" VerticalAlignment="Center" Foreground="White"/>
-                                                <TextBlock x:Uid="ConfigCategoriesLoadWarning" Grid.Column="1" FontSize="16" TextWrapping="Wrap" Foreground="White" Margin="10,0,5,0"/>
-                                            </Grid>
-                                        </controls:DropShadowPanel>
-
-                                        <Grid x:Name="gridProgreso" Grid.Column="2" Visibility="Collapsed">
+                                        <Grid x:Name="gridProgreso" Grid.Column="1" Visibility="Collapsed">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>

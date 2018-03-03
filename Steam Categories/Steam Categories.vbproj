@@ -195,12 +195,6 @@
     <Content Include="Assets\Menu\categorias_idiomas.PNG" />
     <Content Include="Assets\Menu\categorias_metascore.PNG" />
     <Content Include="Assets\Menu\categorias_userscore.PNG" />
-    <Content Include="Assets\Screens\cat1.png" />
-    <Content Include="Assets\Screens\cat2.png" />
-    <Content Include="Assets\Screens\cat3.png" />
-    <Content Include="Assets\Screens\cat4.png" />
-    <Content Include="Assets\Screens\cat5.png" />
-    <Content Include="Assets\Screens\cat6.png" />
     <Content Include="Assets\steam_logo.png" />
     <Content Include="My Project\Default.rd.xml" />
     <None Include="Package.StoreAssociation.xml" />

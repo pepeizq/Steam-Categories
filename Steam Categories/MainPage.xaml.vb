@@ -377,18 +377,6 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub BotonCargaCategorias_PointerEntered(sender As Object, e As PointerRoutedEventArgs) Handles botonCargaCategorias.PointerEntered
-
-        panelAvisoCargaCategorias.Visibility = Visibility.Visible
-
-    End Sub
-
-    Private Sub BotonCargaCategorias_PointerExited(sender As Object, e As PointerRoutedEventArgs) Handles botonCargaCategorias.PointerExited
-
-        panelAvisoCargaCategorias.Visibility = Visibility.Collapsed
-
-    End Sub
-
     Private Sub BotonCargaCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonCargaCategorias.Click
 
         Categorias.Cargar()
