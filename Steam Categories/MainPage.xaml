@@ -14,7 +14,22 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="gridTitulo" Grid.Row="0" Background="{StaticResource GridTituloBackground}">
-            <TextBlock x:Name="tbTitulo" Margin="50,0,0,0" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="tbTitulo" Grid.Column="0" Margin="50,0,0,0" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+
+            <Button x:Name="botonMasCosas" Grid.Column="1" BorderThickness="0" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
+                <Button.Content>
+                    <FontIcon Glyph="&#57361;" FontFamily="Segoe MDL2 Assets" Foreground="White" Margin="10,5" FontSize="15"/>
+                </Button.Content>
+
+                <Button.Flyout>
+                    <MenuFlyout x:Name="botonMasCosasMenu"/>
+                </Button.Flyout>
+            </Button>
         </Grid>
 
         <NavigationView x:Name="nvPrincipal" Grid.Row="1" Loaded="Nv_Loaded" ItemInvoked="Nv_ItemInvoked"
@@ -73,7 +88,7 @@
 
                                     <TextBlock x:Uid="UserscoreInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
 
-                                    <Button x:Name="botonPopupUserscore" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10">
+                                    <Button x:Name="botonPopupUserscore" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <FontIcon Glyph="&#59170;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
@@ -97,15 +112,15 @@
                                     </GridView.ItemContainerStyle>
 
                                     <GridView.Items>
-                                        <CheckBox x:Name="cbPersonalizarUserscore9" Width="200" Content="+90%"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore8" Width="200" Content="+80% &amp; -91%"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore7" Width="200" Content="+70% &amp; -81%"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore6" Width="200" Content="+60% &amp; -71%"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore5" Width="200" Content="+50% &amp; -61%"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore4" Width="200" Content="+40% &amp; -51%"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore3" Width="200" Content="+30% &amp; -41%"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore2" Width="200" Content="+20% &amp; -31%"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore1" Width="200" Content="-20%"/>
+                                        <CheckBox x:Name="cbPersonalizarUserscore9" Width="200" Content="+90%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarUserscore8" Width="200" Content="+80% &amp; -91%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarUserscore7" Width="200" Content="+70% &amp; -81%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarUserscore6" Width="200" Content="+60% &amp; -71%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarUserscore5" Width="200" Content="+50% &amp; -61%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarUserscore4" Width="200" Content="+40% &amp; -51%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarUserscore3" Width="200" Content="+30% &amp; -41%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarUserscore2" Width="200" Content="+20% &amp; -31%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarUserscore1" Width="200" Content="-20%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
                                     </GridView.Items>
                                 </GridView>
                             </Grid>
@@ -124,7 +139,7 @@
 
                                     <TextBlock x:Uid="MetascoreInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
 
-                                    <Button x:Name="botonPopupMetascore" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10">
+                                    <Button x:Name="botonPopupMetascore" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <FontIcon Glyph="&#59170;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
@@ -148,15 +163,15 @@
                                     </GridView.ItemContainerStyle>
 
                                     <GridView.Items>
-                                        <CheckBox x:Name="cbPersonalizarMetascore9" Width="200" Content="+90%"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore8" Width="200" Content="+80% &amp; -91%"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore7" Width="200" Content="+70% &amp; -81%"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore6" Width="200" Content="+60% &amp; -71%"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore5" Width="200" Content="+50% &amp; -61%"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore4" Width="200" Content="+40% &amp; -51%"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore3" Width="200" Content="+30% &amp; -41%"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore2" Width="200" Content="+20% &amp; -31%"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore1" Width="200" Content="-20%"/>
+                                        <CheckBox x:Name="cbPersonalizarMetascore9" Width="200" Content="+90%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarMetascore8" Width="200" Content="+80% &amp; -91%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarMetascore7" Width="200" Content="+70% &amp; -81%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarMetascore6" Width="200" Content="+60% &amp; -71%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarMetascore5" Width="200" Content="+50% &amp; -61%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarMetascore4" Width="200" Content="+40% &amp; -51%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarMetascore3" Width="200" Content="+30% &amp; -41%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarMetascore2" Width="200" Content="+20% &amp; -31%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
+                                        <CheckBox x:Name="cbPersonalizarMetascore1" Width="200" Content="-20%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
                                     </GridView.Items>
                                 </GridView>
                             </Grid>
@@ -175,7 +190,7 @@
 
                                     <TextBlock x:Uid="YearsInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
 
-                                    <Button x:Name="botonPopupAños" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10">
+                                    <Button x:Name="botonPopupAños" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <FontIcon Glyph="&#59170;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
@@ -214,7 +229,7 @@
 
                                     <TextBlock x:Uid="CategoriesInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
 
-                                    <Button x:Name="botonPopupCategorias" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10">
+                                    <Button x:Name="botonPopupCategorias" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <FontIcon Glyph="&#59170;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
@@ -253,7 +268,7 @@
 
                                     <TextBlock x:Uid="GenresInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
 
-                                    <Button x:Name="botonPopupGeneros" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10">
+                                    <Button x:Name="botonPopupGeneros" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <FontIcon Glyph="&#59170;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
@@ -292,7 +307,7 @@
 
                                     <TextBlock x:Uid="TagsInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
 
-                                    <Button x:Name="botonPopupTags" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10">
+                                    <Button x:Name="botonPopupTags" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <FontIcon Glyph="&#59170;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
@@ -331,7 +346,7 @@
 
                                     <TextBlock x:Uid="LanguagesInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
 
-                                    <Button x:Name="botonPopupIdiomas" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10">
+                                    <Button x:Name="botonPopupIdiomas" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <FontIcon Glyph="&#59170;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
@@ -364,7 +379,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Button x:Name="botonAñadirCategorias" Grid.Column="0" Background="{StaticResource BrushSecundario}" Padding="15" IsEnabled="False" Margin="0,0,30,0">
+                            <Button x:Name="botonAñadirCategorias" Grid.Column="0" Background="{StaticResource BrushSecundario}" Padding="15" IsEnabled="False" Margin="0,0,30,0" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon Glyph="&#xE70F;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
@@ -374,7 +389,7 @@
                                 </Button.Content>
                             </Button>
 
-                            <Button x:Name="botonLimpiarSeleccion" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15" IsEnabled="False">
+                            <Button x:Name="botonLimpiarSeleccion" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15" IsEnabled="False" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
@@ -383,7 +398,7 @@
                                 </Button.Content>
                             </Button>
 
-                            <Button x:Name="botonBorrarCategorias" Grid.Column="2" Background="{StaticResource BrushSecundario}" Padding="15" IsEnabled="False" HorizontalAlignment="Right">
+                            <Button x:Name="botonBorrarCategorias" Grid.Column="2" Background="{StaticResource BrushSecundario}" Padding="15" IsEnabled="False" HorizontalAlignment="Right" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
@@ -417,7 +432,7 @@
                                         <TextBlock x:Uid="ConfigSteamFolder" Margin="0,0,10,0"/>
 
                                         <StackPanel Orientation="Horizontal">
-                                            <Button x:Name="botonSteamRuta" Margin="0,10" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <Button x:Name="botonSteamRuta" Margin="0,10" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal">
                                                     <SymbolIcon Symbol="NewFolder" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                                     <TextBlock x:Name="botonSteamRutaTexto" x:Uid="Add" Foreground="White"/>
@@ -432,7 +447,7 @@
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock x:Uid="ConfigSteamAccount" Margin="0,0,10,0"/>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button x:Name="botonSteamCuenta" Margin="0,10" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                            <Button x:Name="botonSteamCuenta" Margin="0,10" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                                 <StackPanel Orientation="Horizontal">
                                                     <controls:ImageEx Source="Assets/steam_logo.png" IsCacheEnabled="True" Margin="0,0,10,0" Width="20" Height="20"/>
                                                     <TextBlock x:Name="botonSteamCuentaTexto" x:Uid="Add" Foreground="White"/>
@@ -455,7 +470,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Button x:Name="botonCargaCategorias" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}" IsEnabled="False">
+                                        <Button x:Name="botonCargaCategorias" Grid.Column="0" Padding="15,10" Background="{StaticResource BrushSecundario}" IsEnabled="False" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                             <ToolTipService.ToolTip>
                                                 <TextBlock x:Uid="ConfigCategoriesLoadWarning" FontSize="16" TextWrapping="Wrap" Padding="5"/>
                                             </ToolTipService.ToolTip>
@@ -508,7 +523,7 @@
 
                                     <Grid BorderBrush="{StaticResource BrushSecundario}" BorderThickness="0,1,0,0" HorizontalAlignment="Stretch" Margin="0,25"/>
 
-                                    <CheckBox x:Name="cbActualizarListaJuegos">
+                                    <CheckBox x:Name="cbActualizarListaJuegos" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <CheckBox.Content>
                                             <Grid>
                                                 <Grid.RowDefinitions>
@@ -530,7 +545,7 @@
                                         </CheckBox.Content>
                                     </CheckBox>
 
-                                    <Button x:Name="botonLimpiarTodo" Margin="0,25,0,5" Padding="15,10" Background="{StaticResource BrushSecundario}">
+                                    <Button x:Name="botonLimpiarTodo" Margin="0,25,0,5" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <StackPanel Orientation="Horizontal">
                                             <FontIcon Glyph="&#xE74D;" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" VerticalAlignment="Center" Foreground="White"/>
                                             <TextBlock x:Uid="ConfigCleanAll" Foreground="White"/>

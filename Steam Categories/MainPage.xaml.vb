@@ -1,5 +1,4 @@
 ﻿Imports Microsoft.Toolkit.Uwp.Helpers
-Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.UI
@@ -15,7 +14,6 @@ Public NotInheritable Class MainPage
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Categories"), New SymbolIcon(Symbol.Home), 0))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
         nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Config"), New SymbolIcon(Symbol.Setting), 1))
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("MoreThings"), New SymbolIcon(Symbol.More), 2))
 
     End Sub
 
@@ -29,15 +27,6 @@ Public NotInheritable Class MainPage
             GridVisibilidad(gridCategorias, item.Text)
         ElseIf item.Text = recursos.GetString("Config") Then
             GridVisibilidad(gridConfig, item.Text)
-        ElseIf item.Text = recursos.GetString("MoreThings") Then
-            GridVisibilidad(gridMasCosas, item.Text)
-
-            Dim sv As ScrollViewer = gridMasCosas.Children(0)
-            Dim gridRelleno As Grid = sv.Content
-            Dim sp As StackPanel = gridRelleno.Children(0)
-            Dim lv As ListView = sp.Children(0)
-
-            MasCosas.Navegar(lv, "2", "https://pepeizqapps.com/")
         End If
 
     End Sub
@@ -47,23 +36,14 @@ Public NotInheritable Class MainPage
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
 
-        Dim coreBarra As CoreApplicationViewTitleBar = CoreApplication.GetCurrentView.TitleBar
-        coreBarra.ExtendViewIntoTitleBar = True
+        MasCosas.Generar()
 
-        Dim barra As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
-        barra.ButtonBackgroundColor = Colors.Transparent
-        barra.ButtonForegroundColor = Colors.White
-        barra.ButtonInactiveBackgroundColor = Colors.Transparent
-
-        '--------------------------------------------------------
-
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
 
         GridVisibilidad(gridCategorias, recursos.GetString("Categories"))
         nvPrincipal.IsPaneOpen = False
 
         Interfaz.GenerarMenu()
-        MasCosas.Generar()
 
         Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
         Dim listaJuegos As List(Of Juego) = Nothing
@@ -139,112 +119,25 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
-        AddHandler botonPopupUserscore.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonPopupUserscore.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonPopupMetascore.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonPopupMetascore.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonPopupAños.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonPopupAños.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonPopupCategorias.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonPopupCategorias.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonPopupGeneros.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonPopupGeneros.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonPopupTags.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonPopupTags.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonPopupIdiomas.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonPopupIdiomas.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonAñadirCategorias.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonAñadirCategorias.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonLimpiarSeleccion.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonLimpiarSeleccion.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonBorrarCategorias.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonBorrarCategorias.PointerExited, AddressOf UsuarioSaleBoton
-
-        AddHandler botonSteamRuta.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonSteamRuta.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonSteamCuenta.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonSteamCuenta.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonCargaCategorias.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonCargaCategorias.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler cbActualizarListaJuegos.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbActualizarListaJuegos.PointerExited, AddressOf UsuarioSaleBoton
-        AddHandler botonLimpiarTodo.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler botonLimpiarTodo.PointerExited, AddressOf UsuarioSaleBoton
-
-        '--------------------------------------------------------
-
         cbPersonalizarUserscore1.Tag = New Categoria(cbPersonalizarUserscore1.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        AddHandler cbPersonalizarUserscore1.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarUserscore1.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarUserscore2.Tag = New Categoria(cbPersonalizarUserscore2.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        AddHandler cbPersonalizarUserscore2.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarUserscore2.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarUserscore3.Tag = New Categoria(cbPersonalizarUserscore3.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        AddHandler cbPersonalizarUserscore3.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarUserscore3.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarUserscore4.Tag = New Categoria(cbPersonalizarUserscore4.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        AddHandler cbPersonalizarUserscore4.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarUserscore4.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarUserscore5.Tag = New Categoria(cbPersonalizarUserscore5.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        AddHandler cbPersonalizarUserscore5.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarUserscore5.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarUserscore6.Tag = New Categoria(cbPersonalizarUserscore6.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        AddHandler cbPersonalizarUserscore6.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarUserscore6.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarUserscore7.Tag = New Categoria(cbPersonalizarUserscore7.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        AddHandler cbPersonalizarUserscore7.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarUserscore7.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarUserscore8.Tag = New Categoria(cbPersonalizarUserscore8.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        AddHandler cbPersonalizarUserscore8.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarUserscore8.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarUserscore9.Tag = New Categoria(cbPersonalizarUserscore9.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        AddHandler cbPersonalizarUserscore9.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarUserscore9.PointerExited, AddressOf UsuarioSaleBoton
 
         cbPersonalizarMetascore1.Tag = New Categoria(cbPersonalizarMetascore1.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        AddHandler cbPersonalizarMetascore1.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarMetascore1.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarMetascore2.Tag = New Categoria(cbPersonalizarMetascore2.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        AddHandler cbPersonalizarMetascore2.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarMetascore2.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarMetascore3.Tag = New Categoria(cbPersonalizarMetascore3.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        AddHandler cbPersonalizarMetascore3.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarMetascore3.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarMetascore4.Tag = New Categoria(cbPersonalizarMetascore4.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        AddHandler cbPersonalizarMetascore4.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarMetascore4.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarMetascore5.Tag = New Categoria(cbPersonalizarMetascore5.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        AddHandler cbPersonalizarMetascore5.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarMetascore5.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarMetascore6.Tag = New Categoria(cbPersonalizarMetascore6.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        AddHandler cbPersonalizarMetascore6.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarMetascore6.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarMetascore7.Tag = New Categoria(cbPersonalizarMetascore7.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        AddHandler cbPersonalizarMetascore7.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarMetascore7.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarMetascore8.Tag = New Categoria(cbPersonalizarMetascore8.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        AddHandler cbPersonalizarMetascore8.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarMetascore8.PointerExited, AddressOf UsuarioSaleBoton
-
         cbPersonalizarMetascore9.Tag = New Categoria(cbPersonalizarMetascore9.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        AddHandler cbPersonalizarMetascore9.PointerEntered, AddressOf UsuarioEntraBoton
-        AddHandler cbPersonalizarMetascore9.PointerExited, AddressOf UsuarioSaleBoton
 
         '--------------------------------------------------------
 
