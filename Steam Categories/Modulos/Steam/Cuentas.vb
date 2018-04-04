@@ -4,7 +4,7 @@ Module Cuentas
 
     Public Async Sub Detectar(actualizar As Boolean)
 
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Dim helper As New LocalObjectStorageHelper
         Dim cuenta As Cuenta = Nothing
 
         If Await helper.FileExistsAsync("cuenta") = True Then
@@ -17,7 +17,7 @@ Module Cuentas
         Dim botonCuenta As Button = pagina.FindName("botonSteamCuenta")
         botonCuenta.IsEnabled = False
 
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
+        Dim recursos As New Resources.ResourceLoader()
         Dim botonCuentaTexto As TextBlock = pagina.FindName("botonSteamCuentaTexto")
 
         Dim tb As TextBox = pagina.FindName("tbSteamCuenta")
@@ -58,7 +58,7 @@ Module Cuentas
             End If
 
             Dim id64 As String = Nothing
-            Dim htmlID As String = Await Decompiladores.HttpClient(New Uri("https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=488AE837ADDDA0201B51693B28F1B389&vanityurl=" + usuario))
+            Dim htmlID As String = Await Decompiladores.HttpClient(New Uri("https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=41F2D73A0B5024E9101F8D4E8D8AC21E&vanityurl=" + usuario))
 
             If Not htmlID = Nothing Then
                 If htmlID.Contains("steamid") Then
@@ -97,7 +97,7 @@ Module Cuentas
         If Not cuenta Is Nothing Then
             tb.Text = cuenta.Usuario
 
-            Dim htmlJuegos As String = Await Decompiladores.HttpClient(New Uri("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=488AE837ADDDA0201B51693B28F1B389&steamid=" + cuenta.ID64 + "&format=json"))
+            Dim htmlJuegos As String = Await Decompiladores.HttpClient(New Uri("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=41F2D73A0B5024E9101F8D4E8D8AC21E&steamid=" + cuenta.ID64 + "&format=json"))
 
             If Not htmlJuegos = Nothing Then
                 If htmlJuegos.Contains("game_count") Then

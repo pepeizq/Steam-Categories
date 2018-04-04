@@ -192,9 +192,6 @@
   <data name="DeleteCategoriesSteamYes" xml:space="preserve">
     <value>Steam categories have been deleted</value>
   </data>
-  <data name="DescriptionStore" xml:space="preserve">
-    <value>Add categories for your Steam games in an easy and automatic way</value>
-  </data>
   <data name="GamesAccount.Text" xml:space="preserve">
     <value>Games detected in the account:</value>
   </data>
@@ -254,6 +251,12 @@
   </data>
   <data name="Personalization.Text" xml:space="preserve">
     <value>Personalization</value>
+  </data>
+  <data name="StoreDescription" xml:space="preserve">
+    <value>Add categories for your Steam games in an easy and automatic way</value>
+  </data>
+  <data name="StoreTags" xml:space="preserve">
+    <value>Steam;Categories;Games</value>
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>

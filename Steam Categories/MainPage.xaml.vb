@@ -1,4 +1,5 @@
-﻿Imports Microsoft.Toolkit.Uwp.Helpers
+﻿Imports FontAwesome.UWP
+Imports Microsoft.Toolkit.Uwp.Helpers
 Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.UI
@@ -11,9 +12,9 @@ Public NotInheritable Class MainPage
 
         Dim recursos As New Resources.ResourceLoader()
 
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Categories"), New SymbolIcon(Symbol.Home), 0))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Categories"), FontAwesomeIcon.Home, 0))
         nvPrincipal.MenuItems.Add(New NavigationViewItemSeparator)
-        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Config"), New SymbolIcon(Symbol.Setting), 1))
+        nvPrincipal.MenuItems.Add(NavigationViewItems.Generar(recursos.GetString("Config"), FontAwesomeIcon.Cog, 1))
 
     End Sub
 
@@ -23,11 +24,19 @@ Public NotInheritable Class MainPage
 
         Dim item As TextBlock = args.InvokedItem
 
-        If item.Text = recursos.GetString("Categories") Then
-            GridVisibilidad(gridCategorias, item.Text)
-        ElseIf item.Text = recursos.GetString("Config") Then
-            GridVisibilidad(gridConfig, item.Text)
+        If Not item Is Nothing Then
+            If item.Text = recursos.GetString("Categories") Then
+                GridVisibilidad(gridCategorias, item.Text)
+            ElseIf item.Text = recursos.GetString("Config") Then
+                GridVisibilidad(gridConfig, item.Text)
+            End If
         End If
+
+    End Sub
+
+    Private Sub Nv_ItemFlyout(sender As NavigationViewItem, args As TappedRoutedEventArgs)
+
+        FlyoutBase.ShowAttachedFlyout(sender)
 
     End Sub
 
@@ -45,7 +54,7 @@ Public NotInheritable Class MainPage
 
         Interfaz.GenerarMenu()
 
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Dim helper As New LocalObjectStorageHelper
         Dim listaJuegos As List(Of Juego) = Nothing
 
         If Await helper.FileExistsAsync("listaJuegos") = True Then
@@ -159,11 +168,9 @@ Public NotInheritable Class MainPage
                                                                    If estado = True Then
                                                                        gridConfig.Background = App.Current.Resources("GridAcrilico")
                                                                        gridConfigCategories.Background = App.Current.Resources("GridTituloBackground")
-                                                                       gridMasCosas.Background = App.Current.Resources("GridAcrilico")
                                                                    Else
                                                                        gridConfig.Background = New SolidColorBrush(Colors.LightGray)
                                                                        gridConfigCategories.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
-                                                                       gridMasCosas.Background = New SolidColorBrush(Colors.LightGray)
                                                                    End If
                                                                End Sub)
 
@@ -174,7 +181,6 @@ Public NotInheritable Class MainPage
         tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + tag
 
         gridConfig.Visibility = Visibility.Collapsed
-        gridMasCosas.Visibility = Visibility.Collapsed
 
         grid.Visibility = Visibility.Visible
 
