@@ -1,4 +1,6 @@
-﻿Imports Microsoft.Toolkit.Uwp.Helpers
+﻿Imports FontAwesome.UWP
+Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 Imports Windows.UI
 Imports Windows.UI.Core
 
@@ -275,5 +277,133 @@ Module Interfaz
 
     End Sub
 
+
+
+
+    Public Function AñadirJuegoLista(juego As Juego)
+
+        Dim grid As New Grid With {
+            .Tag = juego,
+            .Padding = New Thickness(10, 3, 10, 3)
+        }
+
+        Dim color1 As New GradientStop With {
+            .Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#e0e0e0"),
+            .Offset = 0.5
+        }
+
+        Dim color2 As New GradientStop With {
+            .Color = Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#d6d6d6"),
+            .Offset = 1.0
+        }
+
+        Dim coleccion As New GradientStopCollection From {
+            color1,
+            color2
+        }
+
+        Dim brush As New LinearGradientBrush With {
+            .StartPoint = New Point(0.5, 0),
+            .EndPoint = New Point(0.5, 1),
+            .GradientStops = coleccion
+        }
+
+        grid.Background = brush
+
+        Dim col1 As New ColumnDefinition
+        Dim col2 As New ColumnDefinition
+        Dim col3 As New ColumnDefinition
+
+        col1.Width = New GridLength(1, GridUnitType.Auto)
+        col2.Width = New GridLength(1, GridUnitType.Star)
+        col3.Width = New GridLength(1, GridUnitType.Auto)
+
+        grid.ColumnDefinitions.Add(col1)
+        grid.ColumnDefinitions.Add(col2)
+        grid.ColumnDefinitions.Add(col3)
+
+        Dim borde As New Border With {
+            .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorSecundario")),
+            .BorderThickness = New Thickness(1, 1, 1, 1),
+            .Margin = New Thickness(4, 4, 10, 4)
+        }
+
+        Dim imagenJuego As New ImageEx With {
+            .Stretch = Stretch.Uniform,
+            .IsCacheEnabled = True
+        }
+
+        Try
+            imagenJuego.Source = New BitmapImage(New Uri(juego.Imagen))
+        Catch ex As Exception
+
+        End Try
+
+        borde.Child = imagenJuego
+        borde.SetValue(Grid.ColumnProperty, 0)
+
+        grid.Children.Add(borde)
+
+        Dim tb As New TextBlock With {
+            .Text = juego.Titulo,
+            .VerticalAlignment = VerticalAlignment.Center,
+            .Margin = New Thickness(0, 0, 10, 0),
+            .Foreground = New SolidColorBrush(Colors.Black)
+        }
+
+        tb.SetValue(Grid.ColumnProperty, 1)
+
+        grid.Children.Add(tb)
+
+        '-------------------------------------------------------------
+
+        Dim sp As New StackPanel With {
+            .Orientation = Orientation.Horizontal
+        }
+
+        If Not juego.Userscore = Nothing Then
+            Dim iconoUserscore As New FontAwesome.UWP.FontAwesome With {
+                .VerticalAlignment = VerticalAlignment.Center
+            }
+
+            If juego.Userscore > 74 Then
+                iconoUserscore.Icon = FontAwesomeIcon.ThumbsUp
+                iconoUserscore.Foreground = New SolidColorBrush(Colors.Green)
+            ElseIf juego.Userscore > 49 And juego.Userscore < 75 Then
+                iconoUserscore.Icon = FontAwesomeIcon.HandRockOutline
+                iconoUserscore.Foreground = New SolidColorBrush(Colors.Goldenrod)
+            ElseIf juego.Userscore < 50 Then
+                iconoUserscore.Icon = FontAwesomeIcon.ThumbsDown
+                iconoUserscore.Foreground = New SolidColorBrush(Colors.Red)
+            End If
+
+            Dim cbUserscore As New CheckBox With {
+                .MinWidth = 0,
+                .Margin = New Thickness(5, 0, 5, 0),
+                .Content = iconoUserscore,
+                .VerticalAlignment = VerticalAlignment.Center
+            }
+
+            AddHandler cbUserscore.PointerEntered, AddressOf UsuarioEntraBoton
+            AddHandler cbUserscore.PointerExited, AddressOf UsuarioSaleBoton
+
+            sp.Children.Add(cbUserscore)
+        End If
+
+        If Not juego.Tags Is Nothing Then
+            If juego.Tags.Count > 0 Then
+                Dim boton As New Button
+
+
+                sp.Children.Add(boton)
+            End If
+        End If
+
+        sp.SetValue(Grid.ColumnProperty, 2)
+        grid.Children.Add(sp)
+
+        Return grid
+
+    End Function
 
 End Module

@@ -117,7 +117,7 @@
     <Compile Include="Modulos\MasCosas.vb" />
     <Compile Include="Modulos\NavigationViewItems.vb" />
     <Compile Include="Modulos\Notificaciones.vb" />
-    <Compile Include="Modulos\Steam\Categorias.vb" />
+    <Compile Include="Modulos\Steam\Juegos.vb" />
     <Compile Include="Modulos\Steam\Cliente.vb" />
     <Compile Include="Modulos\Steam\Cuentas.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

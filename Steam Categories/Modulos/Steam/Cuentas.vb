@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Microsoft.Toolkit.Uwp.UI.Controls
 
 Module Cuentas
 
@@ -7,8 +8,8 @@ Module Cuentas
         Dim helper As New LocalObjectStorageHelper
         Dim cuenta As Cuenta = Nothing
 
-        If Await helper.FileExistsAsync("cuenta") = True Then
-            cuenta = Await helper.ReadFileAsync(Of Cuenta)("cuenta")
+        If Await helper.FileExistsAsync("cuenta2") = True Then
+            cuenta = Await helper.ReadFileAsync(Of Cuenta)("cuenta2")
         End If
 
         Dim frame As Frame = Window.Current.Content
@@ -84,17 +85,63 @@ Module Cuentas
                     id64 = usuario
                 End If
 
-                cuenta = New Cuenta(usuario, id64)
+                If Not id64 = Nothing Then
+                    Dim htmlDatos As String = Await Decompiladores.HttpClient(New Uri("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=41F2D73A0B5024E9101F8D4E8D8AC21E&steamids=" + id64))
 
-                Try
-                    Await helper.SaveFileAsync(Of Cuenta)("cuenta", cuenta)
-                Catch ex As Exception
+                    Dim temp3, temp4 As String
+                    Dim int3, int4 As Integer
 
-                End Try
+                    If htmlDatos.Contains(ChrW(34) + "personaname" + ChrW(34)) Then
+                        int3 = htmlDatos.IndexOf(ChrW(34) + "personaname" + ChrW(34))
+                        temp3 = htmlDatos.Remove(0, int3)
+
+                        int3 = temp3.IndexOf(":")
+                        temp3 = temp3.Remove(0, int3 + 1)
+
+                        int3 = temp3.IndexOf(ChrW(34))
+                        temp3 = temp3.Remove(0, int3 + 1)
+
+                        int4 = temp3.IndexOf(ChrW(34))
+                        temp4 = temp3.Remove(int4, temp3.Length - int4)
+
+                        Dim nombre As String = temp4.Trim
+
+                        Dim temp5, temp6 As String
+                        Dim int5, int6 As Integer
+
+                        int5 = htmlDatos.IndexOf(ChrW(34) + "avatarfull" + ChrW(34))
+                        temp5 = htmlDatos.Remove(0, int5)
+
+                        int5 = temp5.IndexOf(":")
+                        temp5 = temp5.Remove(0, int5 + 1)
+
+                        int5 = temp5.IndexOf(ChrW(34))
+                        temp5 = temp5.Remove(0, int5 + 1)
+
+                        int6 = temp5.IndexOf(ChrW(34))
+                        temp6 = temp5.Remove(int6, temp5.Length - int6)
+
+                        Dim avatar As String = temp6.Trim
+
+                        cuenta = New Cuenta(usuario, id64, nombre, avatar)
+
+                        Try
+                            Await helper.SaveFileAsync(Of Cuenta)("cuenta2", cuenta)
+                        Catch ex As Exception
+
+                        End Try
+                    End If
+                End If
             End If
         End If
 
         If Not cuenta Is Nothing Then
+            Dim avatarCuenta As ImageEx = pagina.FindName("imagenCuentaSeleccionada")
+            avatarCuenta.Source = cuenta.Avatar
+
+            Dim tbCuenta As TextBlock = pagina.FindName("tbCuentaSeleccionada")
+            tbCuenta.Text = cuenta.Usuario
+
             tb.Text = cuenta.Usuario
 
             Dim htmlJuegos As String = Await Decompiladores.HttpClient(New Uri("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=41F2D73A0B5024E9101F8D4E8D8AC21E&steamid=" + cuenta.ID64 + "&format=json"))
@@ -118,13 +165,13 @@ Module Cuentas
                         temp2 = temp2.Replace(vbNullChar, Nothing)
                         temp2 = temp2.Trim
 
-                        Dim tbCuenta As TextBlock = pagina.FindName("tbJuegosCuenta")
+                        Dim tbJuegosCuenta As TextBlock = pagina.FindName("tbJuegosCuenta")
 
-                        tbCuenta.Text = temp2
+                        tbJuegosCuenta.Text = temp2
 
                         Dim botonCategorias As Button = pagina.FindName("botonCargaCategorias")
 
-                        If tbCuenta.Text.Length > 0 Then
+                        If tbJuegosCuenta.Text.Length > 0 Then
                             If actualizar = False Then
                                 botonCategorias.IsEnabled = True
                             End If

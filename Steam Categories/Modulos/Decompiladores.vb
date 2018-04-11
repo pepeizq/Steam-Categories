@@ -4,7 +4,7 @@ Module Decompiladores
 
     Public Async Function HttpClient(url As Uri) As Task(Of String)
 
-        Dim cliente As New HttpClient()
+        Dim cliente As New HttpClient
         Dim httpFinal As String = Nothing
 
         cliente.DefaultRequestHeaders.Add("user-agent", "Chrome/45.0.2454.93")

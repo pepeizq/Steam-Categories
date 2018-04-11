@@ -98,6 +98,8 @@ Public NotInheritable Class MainPage
             End If
 
             If Not listaJuegos Is Nothing Then
+                Juegos.Cargar()
+
                 Dim listaAños As New List(Of Categoria)
                 Dim listaCategorias As New List(Of Categoria)
                 Dim listaGeneros As New List(Of Categoria)
@@ -105,21 +107,21 @@ Public NotInheritable Class MainPage
                 Dim listaIdiomas As New List(Of Categoria)
 
                 For Each juego In listaJuegos
-                    listaAños.AddRange(juego.Años)
-                    listaCategorias.AddRange(juego.Categorias)
-                    listaGeneros.AddRange(juego.Generos)
-                    listaTags.AddRange(juego.Tags)
-                    listaIdiomas.AddRange(juego.Idiomas)
+                    'listaAños.AddRange(juego.Años)
+                    'listaCategorias.AddRange(juego.Categorias)
+                    'listaGeneros.AddRange(juego.Generos)
+                    'listaTags.AddRange(juego.Tags)
+                    'listaIdiomas.AddRange(juego.Idiomas)
                 Next
 
-                Interfaz.RellenarGridsCheckboxes(listaAños, gvAños, lvCategorias.Items(2).Tag)
-                Interfaz.RellenarGridsCheckboxes(listaCategorias, gvCategorias, lvCategorias.Items(3).Tag)
-                Interfaz.RellenarGridsCheckboxes(listaGeneros, gvGeneros, lvCategorias.Items(4).Tag)
-                Interfaz.RellenarGridsCheckboxes(listaTags, gvTags, lvCategorias.Items(5).Tag)
-                Interfaz.RellenarGridsCheckboxes(listaIdiomas, gvIdiomas, lvCategorias.Items(6).Tag)
+                'Interfaz.RellenarGridsCheckboxes(listaAños, gvAños, lvCategorias.Items(2).Tag)
+                'Interfaz.RellenarGridsCheckboxes(listaCategorias, gvCategorias, lvCategorias.Items(3).Tag)
+                'Interfaz.RellenarGridsCheckboxes(listaGeneros, gvGeneros, lvCategorias.Items(4).Tag)
+                'Interfaz.RellenarGridsCheckboxes(listaTags, gvTags, lvCategorias.Items(5).Tag)
+                'Interfaz.RellenarGridsCheckboxes(listaIdiomas, gvIdiomas, lvCategorias.Items(6).Tag)
             End If
         Else
-            Categorias.Cargar()
+            Juegos.Cargar()
         End If
 
         Cuentas.Detectar(actualizar)
@@ -278,7 +280,7 @@ Public NotInheritable Class MainPage
 
     Private Sub BotonCargaCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonCargaCategorias.Click
 
-        Categorias.Cargar()
+        Juegos.Cargar()
 
     End Sub
 
