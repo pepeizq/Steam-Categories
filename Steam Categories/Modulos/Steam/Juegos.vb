@@ -71,7 +71,7 @@ Module Juegos
         If Not listaJuegosID Is Nothing Then
             Dim i As Integer = 0
 
-            While i < 300 ' listaJuegosID.Count
+            While i < 40 ' listaJuegosID.Count
                 Dim boolAñadir As Boolean = False
 
                 If actualizar = True Then
@@ -130,7 +130,7 @@ Module Juegos
                             imagen = temp4.Trim
                         End If
 
-                        Dim userscore As String = Nothing
+                        Dim userscore As Categoria = Nothing
 
                         If html.Contains(ChrW(34) + "ratingValue" + ChrW(34)) Then
                             Dim temp5, temp6 As String
@@ -147,10 +147,10 @@ Module Juegos
 
                             temp6 = Math.Round(Double.Parse(temp6.Replace(".", ",")), 0)
 
-                            userscore = temp6.Trim
+                            userscore = New Categoria(temp6.Trim, False)
                         End If
 
-                        Dim listaTags As New List(Of String)
+                        Dim listaTags As New List(Of Categoria)
 
                         If html.Contains(">store_tags<") Then
                             Dim temp7, temp8 As String
@@ -179,13 +179,18 @@ Module Juegos
                                     int10 = temp9.IndexOf("<")
                                     temp10 = temp9.Remove(int10, temp9.Length - int10)
 
-                                    listaTags.Add(temp10.Trim)
+                                    temp10 = temp10.Trim
+                                    temp10 = WebUtility.HtmlDecode(temp10)
+
+                                    listaTags.Add(New Categoria(temp10.Trim, False))
                                 Else
                                     Exit While
                                 End If
                                 j += 1
                             End While
                         End If
+
+
 
 
                         '    Dim metascore As String = Nothing
@@ -559,7 +564,7 @@ Module Juegos
                         '        End If
                         '    End If
 
-                        Dim juego As New Juego(titulo, imagen, listaJuegosID(i), userscore, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing)
+                        Dim juego As New Juego(titulo, imagen, listaJuegosID(i), userscore, Nothing, Nothing, Nothing, Nothing, listaTags, Nothing)
 
                         Dim idBool As Boolean = False
                         Dim k As Integer = 0
@@ -657,51 +662,51 @@ Module Juegos
                         For Each cb In gvAños.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                                If categoria_.Nombre = categoria.Nombre Then
-                                    cb.IsChecked = True
-                                End If
-                            End If
+                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
+                            '    If categoria_.Nombre = categoria.Nombre Then
+                            '        cb.IsChecked = True
+                            '    End If
+                            'End If
                         Next
 
                         For Each cb In gvCategorias.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                                If categoria_.Nombre = categoria.Nombre Then
-                                    cb.IsChecked = True
-                                End If
-                            End If
+                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
+                            '    If categoria_.Nombre = categoria.Nombre Then
+                            '        cb.IsChecked = True
+                            '    End If
+                            'End If
                         Next
 
                         For Each cb In gvGeneros.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                                If categoria_.Nombre = categoria.Nombre Then
-                                    cb.IsChecked = True
-                                End If
-                            End If
+                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
+                            '    If categoria_.Nombre = categoria.Nombre Then
+                            '        cb.IsChecked = True
+                            '    End If
+                            'End If
                         Next
 
                         For Each cb In gvTags.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                                If categoria_.Nombre = categoria.Nombre Then
-                                    cb.IsChecked = True
-                                End If
-                            End If
+                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
+                            '    If categoria_.Nombre = categoria.Nombre Then
+                            '        cb.IsChecked = True
+                            '    End If
+                            'End If
                         Next
 
                         For Each cb In gvIdiomas.Items
                             Dim categoria_ As Categoria = cb.Tag
 
-                            If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                                If categoria_.Nombre = categoria.Nombre Then
-                                    cb.IsChecked = True
-                                End If
-                            End If
+                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
+                            '    If categoria_.Nombre = categoria.Nombre Then
+                            '        cb.IsChecked = True
+                            '    End If
+                            'End If
                         Next
                     End If
                 Next

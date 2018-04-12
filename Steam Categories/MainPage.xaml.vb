@@ -130,25 +130,25 @@ Public NotInheritable Class MainPage
 
         '--------------------------------------------------------
 
-        cbPersonalizarUserscore1.Tag = New Categoria(cbPersonalizarUserscore1.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        cbPersonalizarUserscore2.Tag = New Categoria(cbPersonalizarUserscore2.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        cbPersonalizarUserscore3.Tag = New Categoria(cbPersonalizarUserscore3.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        cbPersonalizarUserscore4.Tag = New Categoria(cbPersonalizarUserscore4.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        cbPersonalizarUserscore5.Tag = New Categoria(cbPersonalizarUserscore5.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        cbPersonalizarUserscore6.Tag = New Categoria(cbPersonalizarUserscore6.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        cbPersonalizarUserscore7.Tag = New Categoria(cbPersonalizarUserscore7.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        cbPersonalizarUserscore8.Tag = New Categoria(cbPersonalizarUserscore8.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        cbPersonalizarUserscore9.Tag = New Categoria(cbPersonalizarUserscore9.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+        'cbPersonalizarUserscore1.Tag = New Categoria(cbPersonalizarUserscore1.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+        'cbPersonalizarUserscore2.Tag = New Categoria(cbPersonalizarUserscore2.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+        'cbPersonalizarUserscore3.Tag = New Categoria(cbPersonalizarUserscore3.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+        'cbPersonalizarUserscore4.Tag = New Categoria(cbPersonalizarUserscore4.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+        'cbPersonalizarUserscore5.Tag = New Categoria(cbPersonalizarUserscore5.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+        'cbPersonalizarUserscore6.Tag = New Categoria(cbPersonalizarUserscore6.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+        'cbPersonalizarUserscore7.Tag = New Categoria(cbPersonalizarUserscore7.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+        'cbPersonalizarUserscore8.Tag = New Categoria(cbPersonalizarUserscore8.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+        'cbPersonalizarUserscore9.Tag = New Categoria(cbPersonalizarUserscore9.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
 
-        cbPersonalizarMetascore1.Tag = New Categoria(cbPersonalizarMetascore1.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        cbPersonalizarMetascore2.Tag = New Categoria(cbPersonalizarMetascore2.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        cbPersonalizarMetascore3.Tag = New Categoria(cbPersonalizarMetascore3.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        cbPersonalizarMetascore4.Tag = New Categoria(cbPersonalizarMetascore4.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        cbPersonalizarMetascore5.Tag = New Categoria(cbPersonalizarMetascore5.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        cbPersonalizarMetascore6.Tag = New Categoria(cbPersonalizarMetascore6.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        cbPersonalizarMetascore7.Tag = New Categoria(cbPersonalizarMetascore7.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        cbPersonalizarMetascore8.Tag = New Categoria(cbPersonalizarMetascore8.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        cbPersonalizarMetascore9.Tag = New Categoria(cbPersonalizarMetascore9.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+        'cbPersonalizarMetascore1.Tag = New Categoria(cbPersonalizarMetascore1.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+        'cbPersonalizarMetascore2.Tag = New Categoria(cbPersonalizarMetascore2.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+        'cbPersonalizarMetascore3.Tag = New Categoria(cbPersonalizarMetascore3.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+        'cbPersonalizarMetascore4.Tag = New Categoria(cbPersonalizarMetascore4.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+        'cbPersonalizarMetascore5.Tag = New Categoria(cbPersonalizarMetascore5.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+        'cbPersonalizarMetascore6.Tag = New Categoria(cbPersonalizarMetascore6.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+        'cbPersonalizarMetascore7.Tag = New Categoria(cbPersonalizarMetascore7.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+        'cbPersonalizarMetascore8.Tag = New Categoria(cbPersonalizarMetascore8.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+        'cbPersonalizarMetascore9.Tag = New Categoria(cbPersonalizarMetascore9.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
 
         '--------------------------------------------------------
 
@@ -405,17 +405,17 @@ Public NotInheritable Class MainPage
         End If
 
         If generarUserscore = True Then
-            userscore = New List(Of Categoria) From {
-                New Categoria("9", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-                New Categoria("8", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-                New Categoria("7", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-                New Categoria("6", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-                New Categoria("5", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-                New Categoria("4", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-                New Categoria("3", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-                New Categoria("2", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-                New Categoria("1", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-            }
+            'userscore = New List(Of Categoria) From {
+            '    New Categoria("9", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+            '    New Categoria("8", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+            '    New Categoria("7", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+            '    New Categoria("6", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+            '    New Categoria("5", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+            '    New Categoria("4", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+            '    New Categoria("3", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+            '    New Categoria("2", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
+            '    New Categoria("1", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
+            '}
         End If
 
         Dim generarMetascore As Boolean = False
@@ -467,17 +467,17 @@ Public NotInheritable Class MainPage
         End If
 
         If generarMetascore = True Then
-            metascore = New List(Of Categoria) From {
-                New Categoria("9", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-                New Categoria("8", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-                New Categoria("7", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-                New Categoria("6", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-                New Categoria("5", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-                New Categoria("4", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-                New Categoria("3", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-                New Categoria("2", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-                New Categoria("1", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-            }
+            'metascore = New List(Of Categoria) From {
+            '    New Categoria("9", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+            '    New Categoria("8", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+            '    New Categoria("7", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+            '    New Categoria("6", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+            '    New Categoria("5", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+            '    New Categoria("4", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+            '    New Categoria("3", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+            '    New Categoria("2", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
+            '    New Categoria("1", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
+            '}
         End If
 
         Try

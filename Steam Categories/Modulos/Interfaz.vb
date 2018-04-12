@@ -139,10 +139,10 @@ Module Interfaz
                             End While
 
                             If boolCategoria = False Then
-                                lista.Add(New Categoria(categoria.Nombre, False, maestro))
+                                lista.Add(New Categoria(categoria.Nombre, False))
                             End If
                         Else
-                            lista.Add(New Categoria(categoria.Nombre, False, maestro))
+                            lista.Add(New Categoria(categoria.Nombre, False))
                         End If
                     End If
                 Next
@@ -205,16 +205,16 @@ Module Interfaz
                 If listaCategorias.Count > 0 Then
                     Dim boolCategoria As Boolean = False
 
-                    Dim j As Integer = 0
-                    While j < listaCategorias.Count
-                        If categoria.Maestro.ID = listaCategorias(j).Maestro.ID Then
-                            If categoria.Nombre = listaCategorias(j).Nombre Then
-                                listaCategorias(j).Estado = True
-                                boolCategoria = True
-                            End If
-                        End If
-                        j += 1
-                    End While
+                    'Dim j As Integer = 0
+                    'While j < listaCategorias.Count
+                    '    If categoria.Maestro.ID = listaCategorias(j).Maestro.ID Then
+                    '        If categoria.Nombre = listaCategorias(j).Nombre Then
+                    '            listaCategorias(j).Estado = True
+                    '            boolCategoria = True
+                    '        End If
+                    '    End If
+                    '    j += 1
+                    'End While
 
                     If boolCategoria = False Then
                         listaCategorias.Add(categoria)
@@ -227,15 +227,15 @@ Module Interfaz
             If Not categoria Is Nothing Then
                 categoria.Estado = False
 
-                Dim j As Integer = 0
-                While j < listaCategorias.Count
-                    If categoria.Maestro.ID = listaCategorias(j).Maestro.ID Then
-                        If categoria.Nombre = listaCategorias(j).Nombre Then
-                            listaCategorias(j).Estado = False
-                        End If
-                    End If
-                    j += 1
-                End While
+                'Dim j As Integer = 0
+                'While j < listaCategorias.Count
+                '    If categoria.Maestro.ID = listaCategorias(j).Maestro.ID Then
+                '        If categoria.Nombre = listaCategorias(j).Nombre Then
+                '            listaCategorias(j).Estado = False
+                '        End If
+                '    End If
+                '    j += 1
+                'End While
             End If
         End If
 
@@ -282,9 +282,12 @@ Module Interfaz
 
     Public Function AñadirJuegoLista(juego As Juego)
 
+        Dim recursos As New Resources.ResourceLoader()
+
         Dim grid As New Grid With {
             .Tag = juego,
-            .Padding = New Thickness(10, 3, 10, 3)
+            .Padding = New Thickness(10, 3, 10, 3),
+            .Name = "grid" + juego.ID
         }
 
         Dim color1 As New GradientStop With {
@@ -361,19 +364,19 @@ Module Interfaz
             .Orientation = Orientation.Horizontal
         }
 
-        If Not juego.Userscore = Nothing Then
+        If Not juego.Userscore Is Nothing Then
             Dim iconoUserscore As New FontAwesome.UWP.FontAwesome With {
                 .VerticalAlignment = VerticalAlignment.Center
             }
 
-            If juego.Userscore > 74 Then
-                iconoUserscore.Icon = FontAwesomeIcon.ThumbsUp
+            If juego.Userscore.Nombre > 74 Then
+                iconoUserscore.Icon = FontAwesomeIcon.ThumbsOutlineUp
                 iconoUserscore.Foreground = New SolidColorBrush(Colors.Green)
-            ElseIf juego.Userscore > 49 And juego.Userscore < 75 Then
+            ElseIf juego.Userscore.Nombre > 49 And juego.Userscore.Nombre < 75 Then
                 iconoUserscore.Icon = FontAwesomeIcon.HandRockOutline
                 iconoUserscore.Foreground = New SolidColorBrush(Colors.Goldenrod)
-            ElseIf juego.Userscore < 50 Then
-                iconoUserscore.Icon = FontAwesomeIcon.ThumbsDown
+            ElseIf juego.Userscore.Nombre < 50 Then
+                iconoUserscore.Icon = FontAwesomeIcon.ThumbsOutlineDown
                 iconoUserscore.Foreground = New SolidColorBrush(Colors.Red)
             End If
 
@@ -381,9 +384,12 @@ Module Interfaz
                 .MinWidth = 0,
                 .Margin = New Thickness(5, 0, 5, 0),
                 .Content = iconoUserscore,
-                .VerticalAlignment = VerticalAlignment.Center
+                .VerticalAlignment = VerticalAlignment.Center,
+                .Name = "cbUserscore" + juego.ID
             }
 
+            AddHandler cbUserscore.Checked, AddressOf UsuarioClickeaCaja2
+            AddHandler cbUserscore.Unchecked, AddressOf UsuarioClickeaCaja2
             AddHandler cbUserscore.PointerEntered, AddressOf UsuarioEntraBoton
             AddHandler cbUserscore.PointerExited, AddressOf UsuarioSaleBoton
 
@@ -392,8 +398,49 @@ Module Interfaz
 
         If Not juego.Tags Is Nothing Then
             If juego.Tags.Count > 0 Then
-                Dim boton As New Button
+                Dim spBoton As New StackPanel With {
+                    .Orientation = Orientation.Horizontal
+                }
 
+                Dim tbBoton As New TextBlock With {
+                    .Foreground = New SolidColorBrush(Colors.White),
+                    .Text = recursos.GetString("Tags"),
+                    .VerticalAlignment = VerticalAlignment.Center
+                }
+
+                spBoton.Children.Add(tbBoton)
+
+                Dim iconoBoton As New FontAwesome.UWP.FontAwesome With {
+                    .Foreground = New SolidColorBrush(Colors.White),
+                    .Icon = FontAwesomeIcon.AngleDown,
+                    .Margin = New Thickness(5, 0, 0, 0)
+                }
+
+                spBoton.Children.Add(iconoBoton)
+
+                Dim menu As New MenuFlyout
+
+                For Each tag In juego.Tags
+                    Dim item As New ToggleMenuFlyoutItem With {
+                        .Text = tag.Nombre,
+                        .Name = "etiqueta" + juego.ID + tag.Nombre
+                    }
+
+                    AddHandler item.PointerEntered, AddressOf UsuarioEntraBoton
+                    AddHandler item.PointerExited, AddressOf UsuarioSaleBoton
+
+                    menu.Items.Add(item)
+                Next
+
+                Dim boton As New Button With {
+                    .Margin = New Thickness(20, 0, 0, 0),
+                    .Background = New SolidColorBrush(App.Current.Resources("ColorSecundario")),
+                    .Content = spBoton,
+                    .Flyout = menu
+                }
+
+                AddHandler boton.PointerEntered, AddressOf UsuarioEntraBoton
+                AddHandler boton.PointerExited, AddressOf UsuarioSaleBoton
 
                 sp.Children.Add(boton)
             End If
@@ -405,5 +452,14 @@ Module Interfaz
         Return grid
 
     End Function
+
+    Public Async Sub UsuarioClickeaCaja2(sender As Object, e As RoutedEventArgs)
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+
+
+    End Sub
 
 End Module

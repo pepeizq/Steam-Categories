@@ -154,21 +154,21 @@ Module Cliente
 
                     For Each categoria In listaCategorias
                         If categoria.Estado = True Then
-                            If categoria.Maestro.ID = 0 Then
-                                Dim puntuacion As String = GenerarPuntuacion(userscore, juego.Userscore, 0)
+                            'If categoria.Maestro.ID = 0 Then
+                            '    Dim puntuacion As String = GenerarPuntuacion(userscore, juego.Userscore, 0)
 
-                                If Not puntuacion = Nothing Then
-                                    listaCategoriasJuego.Add(puntuacion)
-                                End If
-                            End If
+                            '    If Not puntuacion = Nothing Then
+                            '        listaCategoriasJuego.Add(puntuacion)
+                            '    End If
+                            'End If
 
-                            If categoria.Maestro.ID = 1 Then
-                                Dim puntuacion As String = GenerarPuntuacion(metascore, juego.Metascore, 1)
+                            'If categoria.Maestro.ID = 1 Then
+                            '    Dim puntuacion As String = GenerarPuntuacion(metascore, juego.Metascore, 1)
 
-                                If Not puntuacion = Nothing Then
-                                    listaCategoriasJuego.Add(puntuacion)
-                                End If
-                            End If
+                            '    If Not puntuacion = Nothing Then
+                            '        listaCategoriasJuego.Add(puntuacion)
+                            '    End If
+                            'End If
 
                             For Each año In juego.Años
                                 If categoria.Nombre = año.Nombre Then
