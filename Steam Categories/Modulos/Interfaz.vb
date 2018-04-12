@@ -287,7 +287,7 @@ Module Interfaz
         Dim grid As New Grid With {
             .Tag = juego,
             .Padding = New Thickness(10, 3, 10, 3),
-            .Name = "grid" + juego.ID
+            .Name = "grid" + juego.ID.ToString
         }
 
         Dim color1 As New GradientStop With {
@@ -316,14 +316,28 @@ Module Interfaz
         Dim col1 As New ColumnDefinition
         Dim col2 As New ColumnDefinition
         Dim col3 As New ColumnDefinition
+        Dim col4 As New ColumnDefinition
 
         col1.Width = New GridLength(1, GridUnitType.Auto)
-        col2.Width = New GridLength(1, GridUnitType.Star)
-        col3.Width = New GridLength(1, GridUnitType.Auto)
+        col2.Width = New GridLength(1, GridUnitType.Auto)
+        col3.Width = New GridLength(1, GridUnitType.Star)
+        col4.Width = New GridLength(1, GridUnitType.Auto)
 
         grid.ColumnDefinitions.Add(col1)
         grid.ColumnDefinitions.Add(col2)
         grid.ColumnDefinitions.Add(col3)
+        grid.ColumnDefinitions.Add(col4)
+
+        Dim tbNumCategorias As New TextBlock With {
+            .Text = "(0)",
+            .Margin = New Thickness(5, 0, 10, 0),
+            .VerticalAlignment = VerticalAlignment.Center,
+            .Foreground = New SolidColorBrush(Colors.Black),
+            .Name = "tbNumCategorias" + juego.ID.ToString
+        }
+
+        tbNumCategorias.SetValue(Grid.ColumnProperty, 0)
+        grid.Children.Add(tbNumCategorias)
 
         Dim borde As New Border With {
             .BorderBrush = New SolidColorBrush(App.Current.Resources("ColorSecundario")),
@@ -343,20 +357,18 @@ Module Interfaz
         End Try
 
         borde.Child = imagenJuego
-        borde.SetValue(Grid.ColumnProperty, 0)
-
+        borde.SetValue(Grid.ColumnProperty, 1)
         grid.Children.Add(borde)
 
-        Dim tb As New TextBlock With {
+        Dim tbTitulo As New TextBlock With {
             .Text = juego.Titulo,
             .VerticalAlignment = VerticalAlignment.Center,
             .Margin = New Thickness(0, 0, 10, 0),
             .Foreground = New SolidColorBrush(Colors.Black)
         }
 
-        tb.SetValue(Grid.ColumnProperty, 1)
-
-        grid.Children.Add(tb)
+        tbTitulo.SetValue(Grid.ColumnProperty, 2)
+        grid.Children.Add(tbTitulo)
 
         '-------------------------------------------------------------
 
@@ -365,31 +377,48 @@ Module Interfaz
         }
 
         If Not juego.Userscore Is Nothing Then
+            Dim spUserScore As New StackPanel With {
+                .Orientation = Orientation.Horizontal
+            }
+
             Dim iconoUserscore As New FontAwesome.UWP.FontAwesome With {
                 .VerticalAlignment = VerticalAlignment.Center
+            }
+
+            Dim tbUserscore As New TextBlock With {
+                .Text = juego.Userscore.Nombre + "%",
+                .VerticalAlignment = VerticalAlignment.Center,
+                .Margin = New Thickness(5, 0, 0, 0)
             }
 
             If juego.Userscore.Nombre > 74 Then
                 iconoUserscore.Icon = FontAwesomeIcon.ThumbsOutlineUp
                 iconoUserscore.Foreground = New SolidColorBrush(Colors.Green)
+                tbUserscore.Foreground = New SolidColorBrush(Colors.Green)
             ElseIf juego.Userscore.Nombre > 49 And juego.Userscore.Nombre < 75 Then
                 iconoUserscore.Icon = FontAwesomeIcon.HandRockOutline
                 iconoUserscore.Foreground = New SolidColorBrush(Colors.Goldenrod)
+                tbUserscore.Foreground = New SolidColorBrush(Colors.Goldenrod)
             ElseIf juego.Userscore.Nombre < 50 Then
                 iconoUserscore.Icon = FontAwesomeIcon.ThumbsOutlineDown
                 iconoUserscore.Foreground = New SolidColorBrush(Colors.Red)
+                tbUserscore.Foreground = New SolidColorBrush(Colors.Red)
             End If
+
+            spUserScore.Children.Add(iconoUserscore)
+            spUserScore.Children.Add(tbUserscore)
 
             Dim cbUserscore As New CheckBox With {
                 .MinWidth = 0,
                 .Margin = New Thickness(5, 0, 5, 0),
-                .Content = iconoUserscore,
+                .Content = spUserScore,
                 .VerticalAlignment = VerticalAlignment.Center,
-                .Name = "cbUserscore" + juego.ID
+                .Name = "cbUserscore" + juego.ID.ToString,
+                .Tag = juego.Userscore
             }
 
-            AddHandler cbUserscore.Checked, AddressOf UsuarioClickeaCaja2
-            AddHandler cbUserscore.Unchecked, AddressOf UsuarioClickeaCaja2
+            AddHandler cbUserscore.Checked, AddressOf UsuarioClickeaUserscore
+            AddHandler cbUserscore.Unchecked, AddressOf UsuarioClickeaUserscore
             AddHandler cbUserscore.PointerEntered, AddressOf UsuarioEntraBoton
             AddHandler cbUserscore.PointerExited, AddressOf UsuarioSaleBoton
 
@@ -420,16 +449,19 @@ Module Interfaz
 
                 Dim menu As New MenuFlyout
 
+                Dim i As Integer = 0
                 For Each tag In juego.Tags
                     Dim item As New ToggleMenuFlyoutItem With {
                         .Text = tag.Nombre,
-                        .Name = "etiqueta" + juego.ID + tag.Nombre
+                        .Name = "etiqueta" + juego.ID.ToString + tag.Nombre,
+                        .Tag = juego.Tags(i)
                     }
 
                     AddHandler item.PointerEntered, AddressOf UsuarioEntraBoton
                     AddHandler item.PointerExited, AddressOf UsuarioSaleBoton
 
                     menu.Items.Add(item)
+                    i += 1
                 Next
 
                 Dim boton As New Button With {
@@ -446,19 +478,86 @@ Module Interfaz
             End If
         End If
 
-        sp.SetValue(Grid.ColumnProperty, 2)
+        sp.SetValue(Grid.ColumnProperty, 3)
         grid.Children.Add(sp)
 
         Return grid
 
     End Function
 
-    Public Async Sub UsuarioClickeaCaja2(sender As Object, e As RoutedEventArgs)
+    Public Sub UsuarioClickeaUserscore(sender As Object, e As RoutedEventArgs)
+
+        Dim cb As CheckBox = sender
+        Dim categoria As Categoria = cb.Tag
+        categoria.Estado = cb.IsChecked
+        cb.Tag = categoria
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
+        Dim lvJuegos As ListView = pagina.FindName("lvJuegos")
 
+        For Each juegoGrid In lvJuegos.Items
+            Dim juego As Juego = juegoGrid.tag
+
+            If Not juego.Userscore Is Nothing Then
+                Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + juego.ID.ToString)
+                Dim tempNumCategorias As String = tbNumCategorias.Text
+                tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
+                tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
+                Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
+
+                Dim cbUserscore As CheckBox = pagina.FindName("cbUserscore" + juego.ID.ToString)
+
+                If Not cbUserscore Is Nothing Then
+                    If categoria.Nombre > 89 Then
+                        If juego.Userscore.Nombre > 89 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+
+                            If cb.IsChecked = True Then
+                                numCategorias += 1
+                            End If
+                        End If
+                    ElseIf categoria.Nombre > 79 And categoria.Nombre < 90 Then
+                        If juego.Userscore.Nombre > 79 And juego.Userscore.Nombre < 90 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+                        End If
+                    ElseIf categoria.Nombre > 69 And categoria.Nombre < 80 Then
+                        If juego.Userscore.Nombre > 69 And juego.Userscore.Nombre < 80 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+                        End If
+                    ElseIf categoria.Nombre > 59 And categoria.Nombre < 70 Then
+                        If juego.Userscore.Nombre > 59 And juego.Userscore.Nombre < 70 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+                        End If
+                    ElseIf categoria.Nombre > 49 And categoria.Nombre < 60 Then
+                        If juego.Userscore.Nombre > 49 And juego.Userscore.Nombre < 60 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+                        End If
+                    ElseIf categoria.Nombre > 39 And categoria.Nombre < 50 Then
+                        If juego.Userscore.Nombre > 39 And juego.Userscore.Nombre < 50 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+                        End If
+                    ElseIf categoria.Nombre > 29 And categoria.Nombre < 40 Then
+                        If juego.Userscore.Nombre > 29 And juego.Userscore.Nombre < 40 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+                        End If
+                    ElseIf categoria.Nombre > 19 And categoria.Nombre < 30 Then
+                        If juego.Userscore.Nombre > 19 And juego.Userscore.Nombre < 30 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+                        End If
+                    ElseIf categoria.Nombre > 9 And categoria.Nombre < 20 Then
+                        If juego.Userscore.Nombre > 9 And juego.Userscore.Nombre < 20 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+                        End If
+                    ElseIf categoria.Nombre < 10 Then
+                        If juego.Userscore.Nombre < 10 Then
+                            cbUserscore.IsChecked = cb.IsChecked
+                        End If
+                    End If
+                End If
+            End If
+        Next
 
     End Sub
 
