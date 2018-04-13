@@ -497,8 +497,62 @@ Module Interfaz
 
         Dim lvJuegos As ListView = pagina.FindName("lvJuegos")
 
-        For Each juegoGrid In lvJuegos.Items
-            Dim juego As Juego = juegoGrid.tag
+        For Each juegoGrid As Grid In lvJuegos.Items
+            Dim juego As Juego = juegoGrid.Tag
+
+            If Not juego.Userscore Is Nothing Then
+                Dim cbUserscore As CheckBox = pagina.FindName("cbUserscore" + juego.ID.ToString)
+
+                If Not cbUserscore Is Nothing Then
+                    If Not cbUserscore.IsChecked = categoria.Estado Then
+                        If categoria.Nombre > 89 Then
+                            If juego.Userscore.Nombre > 89 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        ElseIf categoria.Nombre > 79 And categoria.Nombre < 90 Then
+                            If juego.Userscore.Nombre > 79 And juego.Userscore.Nombre < 90 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        ElseIf categoria.Nombre > 69 And categoria.Nombre < 80 Then
+                            If juego.Userscore.Nombre > 69 And juego.Userscore.Nombre < 80 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        ElseIf categoria.Nombre > 59 And categoria.Nombre < 70 Then
+                            If juego.Userscore.Nombre > 59 And juego.Userscore.Nombre < 70 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        ElseIf categoria.Nombre > 49 And categoria.Nombre < 60 Then
+                            If juego.Userscore.Nombre > 49 And juego.Userscore.Nombre < 60 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        ElseIf categoria.Nombre > 39 And categoria.Nombre < 50 Then
+                            If juego.Userscore.Nombre > 39 And juego.Userscore.Nombre < 50 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        ElseIf categoria.Nombre > 29 And categoria.Nombre < 40 Then
+                            If juego.Userscore.Nombre > 29 And juego.Userscore.Nombre < 40 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        ElseIf categoria.Nombre > 19 And categoria.Nombre < 30 Then
+                            If juego.Userscore.Nombre > 19 And juego.Userscore.Nombre < 30 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        ElseIf categoria.Nombre > 9 And categoria.Nombre < 20 Then
+                            If juego.Userscore.Nombre > 9 And juego.Userscore.Nombre < 20 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        ElseIf categoria.Nombre < 10 Then
+                            If juego.Userscore.Nombre < 10 Then
+                                cbUserscore.IsChecked = categoria.Estado
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        Next
+
+        For Each juegoGrid As Grid In lvJuegos.Items
+            Dim juego As Juego = juegoGrid.Tag
 
             If Not juego.Userscore Is Nothing Then
                 Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + juego.ID.ToString)
@@ -509,53 +563,15 @@ Module Interfaz
 
                 Dim cbUserscore As CheckBox = pagina.FindName("cbUserscore" + juego.ID.ToString)
 
-                If Not cbUserscore Is Nothing Then
-                    If categoria.Nombre > 89 Then
-                        If juego.Userscore.Nombre > 89 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-
-                            If cb.IsChecked = True Then
-                                numCategorias += 1
-                            End If
-                        End If
-                    ElseIf categoria.Nombre > 79 And categoria.Nombre < 90 Then
-                        If juego.Userscore.Nombre > 79 And juego.Userscore.Nombre < 90 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-                        End If
-                    ElseIf categoria.Nombre > 69 And categoria.Nombre < 80 Then
-                        If juego.Userscore.Nombre > 69 And juego.Userscore.Nombre < 80 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-                        End If
-                    ElseIf categoria.Nombre > 59 And categoria.Nombre < 70 Then
-                        If juego.Userscore.Nombre > 59 And juego.Userscore.Nombre < 70 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-                        End If
-                    ElseIf categoria.Nombre > 49 And categoria.Nombre < 60 Then
-                        If juego.Userscore.Nombre > 49 And juego.Userscore.Nombre < 60 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-                        End If
-                    ElseIf categoria.Nombre > 39 And categoria.Nombre < 50 Then
-                        If juego.Userscore.Nombre > 39 And juego.Userscore.Nombre < 50 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-                        End If
-                    ElseIf categoria.Nombre > 29 And categoria.Nombre < 40 Then
-                        If juego.Userscore.Nombre > 29 And juego.Userscore.Nombre < 40 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-                        End If
-                    ElseIf categoria.Nombre > 19 And categoria.Nombre < 30 Then
-                        If juego.Userscore.Nombre > 19 And juego.Userscore.Nombre < 30 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-                        End If
-                    ElseIf categoria.Nombre > 9 And categoria.Nombre < 20 Then
-                        If juego.Userscore.Nombre > 9 And juego.Userscore.Nombre < 20 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-                        End If
-                    ElseIf categoria.Nombre < 10 Then
-                        If juego.Userscore.Nombre < 10 Then
-                            cbUserscore.IsChecked = cb.IsChecked
-                        End If
+                If cbUserscore.IsChecked = True Then
+                    numCategorias = numCategorias + 1
+                Else
+                    If numCategorias > 0 Then
+                        numCategorias -= 1
                     End If
                 End If
+
+                tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
             End If
         Next
 
