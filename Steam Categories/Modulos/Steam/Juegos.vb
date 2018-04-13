@@ -147,7 +147,7 @@ Module Juegos
 
                             temp6 = Math.Round(Double.Parse(temp6.Replace(".", ",")), 0)
 
-                            userscore = New Categoria(temp6.Trim, False)
+                            userscore = New Categoria(temp6.Trim, False, listaJuegosID(i))
                         End If
 
                         Dim listaTags As New List(Of Categoria)
@@ -182,7 +182,7 @@ Module Juegos
                                     temp10 = temp10.Trim
                                     temp10 = WebUtility.HtmlDecode(temp10)
 
-                                    listaTags.Add(New Categoria(temp10.Trim, False))
+                                    listaTags.Add(New Categoria(temp10.Trim, False, listaJuegosID(i)))
                                 Else
                                     Exit While
                                 End If

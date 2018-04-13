@@ -139,10 +139,10 @@ Module Interfaz
                             End While
 
                             If boolCategoria = False Then
-                                lista.Add(New Categoria(categoria.Nombre, False))
+                                'lista.Add(New Categoria(categoria.Nombre, False))
                             End If
                         Else
-                            lista.Add(New Categoria(categoria.Nombre, False))
+                            'lista.Add(New Categoria(categoria.Nombre, False))
                         End If
                     End If
                 Next
@@ -457,6 +457,7 @@ Module Interfaz
                         .Tag = juego.Tags(i)
                     }
 
+                    AddHandler item.Click, AddressOf UsuarioClickeaEtiqueta
                     AddHandler item.PointerEntered, AddressOf UsuarioEntraBoton
                     AddHandler item.PointerExited, AddressOf UsuarioSaleBoton
 
@@ -555,23 +556,58 @@ Module Interfaz
             Dim juego As Juego = juegoGrid.Tag
 
             If Not juego.Userscore Is Nothing Then
-                Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + juego.ID.ToString)
-                Dim tempNumCategorias As String = tbNumCategorias.Text
-                tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
-                tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
-                Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
+                If categoria.IDJuego = juego.ID Then
+                    Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + juego.ID.ToString)
+                    Dim tempNumCategorias As String = tbNumCategorias.Text
+                    tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
+                    tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
+                    Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
 
-                Dim cbUserscore As CheckBox = pagina.FindName("cbUserscore" + juego.ID.ToString)
+                    Dim cbUserscore As CheckBox = pagina.FindName("cbUserscore" + juego.ID.ToString)
 
-                If cbUserscore.IsChecked = True Then
-                    numCategorias = numCategorias + 1
-                Else
-                    If numCategorias > 0 Then
-                        numCategorias -= 1
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                    Else
+                        If numCategorias > 0 Then
+                            numCategorias -= 1
+                        End If
                     End If
+
+                    tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
+                End If
+            End If
+        Next
+
+    End Sub
+
+    Public Sub UsuarioClickeaEtiqueta(sender As Object, e As RoutedEventArgs)
+
+        Dim toggle As ToggleMenuFlyoutItem = sender
+        Dim categoria As Categoria = toggle.Tag
+        categoria.Estado = toggle.IsChecked
+        toggle.Tag = categoria
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim lvJuegos As ListView = pagina.FindName("lvJuegos")
+
+        For Each juegoGrid As Grid In lvJuegos.Items
+            Dim juego As Juego = juegoGrid.Tag
+
+            If Not juego.Tags Is Nothing Then
+                If juego.Tags.Count > 0 Then
+                    For Each tag In juego.Tags
+                        Dim toggleEtiqueta As ToggleMenuFlyoutItem = pagina.FindName("etiqueta" + juego.ID.ToString + tag.Nombre)
+
+                        If Not toggleEtiqueta Is Nothing Then
+                            If Not toggleEtiqueta.IsChecked = categoria.Estado Then
+                                toggleEtiqueta.IsChecked = categoria.Estado
+                            End If
+                        End If
+                    Next
                 End If
 
-                tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
             End If
         Next
 
