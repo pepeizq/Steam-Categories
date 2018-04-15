@@ -52,8 +52,6 @@ Public NotInheritable Class MainPage
         GridVisibilidad(gridCategorias, recursos.GetString("Categories"))
         nvPrincipal.IsPaneOpen = False
 
-        Interfaz.GenerarMenu()
-
         Dim helper As New LocalObjectStorageHelper
         Dim listaJuegos As List(Of Juego) = Nothing
 
@@ -71,7 +69,7 @@ Public NotInheritable Class MainPage
                     End Try
 
                     If Not carpeta Is Nothing Then
-                        lvCategorias.IsEnabled = True
+                        'lvCategorias.IsEnabled = True
                         tbMensajeCategorias.Text = recursos.GetString("MessageCategories2")
                     End If
 
@@ -202,16 +200,6 @@ Public NotInheritable Class MainPage
 
     'CATEGORIAS--------------------------------------------------------------
 
-    Private Sub LvCategoriasItemClick(sender As Object, e As ItemClickEventArgs)
-
-        If panelMensajeCategorias.Visibility = Visibility.Visible Then
-            panelMensajeCategorias.Visibility = Visibility.Collapsed
-        End If
-
-        Interfaz.ClickeoBarraIzquierda(e.ClickedItem)
-
-    End Sub
-
     Private Sub BotonAñadirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonAñadirCategorias.Click
 
         Cliente.EscribirCategorias()
@@ -220,41 +208,82 @@ Public NotInheritable Class MainPage
 
     Private Async Sub BotonLimpiarSeleccion_Click(sender As Object, e As RoutedEventArgs) Handles botonLimpiarSeleccion.Click
 
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim helper As New LocalObjectStorageHelper
         Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
 
-        For Each cb As CheckBox In gvUserscore.Items
-            cb.IsChecked = False
+        For Each juegoGrid As Grid In lvJuegos.Items
+            Dim juego As Juego = juegoGrid.Tag
+
+            If Not juego.Userscore Is Nothing Then
+                Dim cbUserscore As CheckBox = pagina.FindName("cbUserscore" + juego.ID.ToString)
+
+                If Not cbUserscore Is Nothing Then
+                    cbUserscore.IsChecked = False
+
+                    Dim categoria As Categoria = cbUserscore.Tag
+                    categoria.Estado = cbUserscore.IsChecked
+                    cbUserscore.Tag = categoria
+                End If
+            End If
+
+            If Not juego.Tags Is Nothing Then
+                Dim boton As Button = pagina.FindName("botonEtiquetas" + juego.ID.ToString)
+
+                If Not boton Is Nothing Then
+                    Dim menu As MenuFlyout = boton.Flyout
+
+                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                        item.IsChecked = False
+
+                        Dim categoria As Categoria = item.Tag
+                        categoria.Estado = item.IsChecked
+                        item.Tag = categoria
+                    Next
+                End If
+            End If
+
+            If Not juego.Categorias Is Nothing Then
+                Dim boton As Button = pagina.FindName("botonCategorias" + juego.ID.ToString)
+
+                If Not boton Is Nothing Then
+                    Dim menu As MenuFlyout = boton.Flyout
+
+                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                        item.IsChecked = False
+
+                        Dim categoria As Categoria = item.Tag
+                        categoria.Estado = item.IsChecked
+                        item.Tag = categoria
+                    Next
+                End If
+            End If
+
+            If Not juego.Generos Is Nothing Then
+                Dim boton As Button = pagina.FindName("botonGeneros" + juego.ID.ToString)
+
+                If Not boton Is Nothing Then
+                    Dim menu As MenuFlyout = boton.Flyout
+
+                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                        item.IsChecked = False
+
+                        Dim categoria As Categoria = item.Tag
+                        categoria.Estado = item.IsChecked
+                        item.Tag = categoria
+                    Next
+                End If
+            End If
+
+            Dim tb As TextBlock = juegoGrid.Children(0)
+            tb.Text = "(0)"
         Next
 
-        For Each cb As CheckBox In gvMetascore.Items
-            cb.IsChecked = False
-        Next
-
-        For Each cb As CheckBox In gvAños.Items
-            cb.IsChecked = False
-        Next
-
-        For Each cb As CheckBox In gvCategorias.Items
-            cb.IsChecked = False
-        Next
-
-        For Each cb As CheckBox In gvGeneros.Items
-            cb.IsChecked = False
-        Next
-
-        For Each cb As CheckBox In gvTags.Items
-            cb.IsChecked = False
-        Next
-
-        For Each cb As CheckBox In gvIdiomas.Items
-            cb.IsChecked = False
-        Next
-
-        tbNumeroCategorias.Text = String.Empty
+        tbNumeroCategorias.Text = "0"
         botonAñadirCategorias.IsEnabled = False
         botonLimpiarSeleccion.IsEnabled = False
-        botonBorrarCategorias.IsEnabled = False
 
     End Sub
 
@@ -315,7 +344,6 @@ Public NotInheritable Class MainPage
         gvTags.Items.Clear()
         gvIdiomas.Items.Clear()
 
-        lvCategorias.IsEnabled = False
         botonAñadirCategorias.IsEnabled = False
         botonLimpiarSeleccion.IsEnabled = False
         botonBorrarCategorias.IsEnabled = False
@@ -520,258 +548,6 @@ Public NotInheritable Class MainPage
 
             End Try
         End If
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore9_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore9.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("9", cbPersonalizarUserscore9.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore9_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore9.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("9", cbPersonalizarUserscore9.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore8_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore8.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("8", cbPersonalizarUserscore8.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore8_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore8.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("8", cbPersonalizarUserscore8.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore7_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore7.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("7", cbPersonalizarUserscore7.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore7_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore7.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("7", cbPersonalizarUserscore7.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore6_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore6.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("6", cbPersonalizarUserscore6.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore6_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore6.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("6", cbPersonalizarUserscore6.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore5_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore5.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("5", cbPersonalizarUserscore5.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore5_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore5.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("5", cbPersonalizarUserscore5.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore4_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore4.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("4", cbPersonalizarUserscore4.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore4_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore4.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("4", cbPersonalizarUserscore4.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore3_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore3.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("3", cbPersonalizarUserscore3.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore3_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore3.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("3", cbPersonalizarUserscore3.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore2_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore2.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("2", cbPersonalizarUserscore2.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore2_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore2.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("2", cbPersonalizarUserscore2.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore1_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore1.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("1", cbPersonalizarUserscore1.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarUserscore1_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarUserscore1.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("1", cbPersonalizarUserscore1.IsChecked, "userscore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore9_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore9.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("9", cbPersonalizarMetascore9.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore9_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore9.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("9", cbPersonalizarMetascore9.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore8_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore8.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("8", cbPersonalizarMetascore8.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore8_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore8.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("8", cbPersonalizarMetascore8.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore7_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore7.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("7", cbPersonalizarMetascore7.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore7_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore7.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("7", cbPersonalizarMetascore7.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore6_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore6.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("6", cbPersonalizarMetascore6.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore6_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore6.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("6", cbPersonalizarMetascore6.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore5_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore5.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("5", cbPersonalizarMetascore5.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore5_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore5.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("5", cbPersonalizarMetascore5.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore4_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore4.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("4", cbPersonalizarMetascore4.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore4_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore4.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("4", cbPersonalizarMetascore4.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore3_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore3.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("3", cbPersonalizarMetascore3.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore3_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore3.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("3", cbPersonalizarMetascore3.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore2_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore2.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("2", cbPersonalizarMetascore2.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore2_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore2.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("2", cbPersonalizarMetascore2.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore1_Checked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore1.Checked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("1", cbPersonalizarMetascore1.IsChecked, "metascore")
-
-    End Sub
-
-    Private Sub CbPersonalizarMetascore1_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbPersonalizarMetascore1.Unchecked
-
-        Interfaz.UsuarioClickeaCaja(sender, e)
-        PersonalizarPuntuaciones("1", cbPersonalizarMetascore1.IsChecked, "metascore")
 
     End Sub
 

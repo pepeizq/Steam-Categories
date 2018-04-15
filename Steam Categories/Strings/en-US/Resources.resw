@@ -207,6 +207,9 @@
   <data name="ImageExample.Text" xml:space="preserve">
     <value>Example image</value>
   </data>
+  <data name="InfoCategories.Text" xml:space="preserve">
+    <value>Number of categories that will be added in Steam</value>
+  </data>
   <data name="Languages" xml:space="preserve">
     <value>Languages</value>
   </data>

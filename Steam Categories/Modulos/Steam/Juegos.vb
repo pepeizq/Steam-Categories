@@ -190,7 +190,82 @@ Module Juegos
                             End While
                         End If
 
+                        Dim listaCategorias As New List(Of Categoria)
 
+                        If html.Contains(ChrW(34) + "header-thing header-thing-full" + ChrW(34)) Then
+                            Dim temp11, temp12 As String
+                            Dim int11, int12 As Integer
+
+                            int11 = html.IndexOf(ChrW(34) + "header-thing header-thing-full" + ChrW(34))
+                            temp11 = html.Remove(0, int11)
+
+                            int12 = temp11.IndexOf("</div>")
+                            temp12 = temp11.Remove(int12, temp11.Length - int12)
+
+                            j = 0
+                            While j < 50
+                                If temp12.Contains("aria-label=") Then
+                                    Dim temp13, temp14 As String
+                                    Dim int13, int14 As Integer
+
+                                    int13 = temp12.IndexOf("aria-label=")
+                                    temp13 = temp12.Remove(0, int13 + 12)
+
+                                    temp12 = temp13
+
+                                    int14 = temp13.IndexOf(ChrW(34))
+                                    temp14 = temp13.Remove(int14, temp13.Length - int14)
+
+                                    temp14 = temp14.Trim
+                                    temp14 = WebUtility.HtmlDecode(temp14)
+
+                                    listaCategorias.Add(New Categoria(temp14.Trim, False, listaJuegosID(i)))
+                                End If
+                                j += 1
+                            End While
+                        End If
+
+                        Dim listaGeneros As New List(Of Categoria)
+
+                        If html.Contains(">Genres</td>") Then
+                            Dim temp15, temp16 As String
+                            Dim int15, int16 As Integer
+
+                            int15 = html.IndexOf(">Genres</td>")
+                            temp15 = html.Remove(0, int15 + 4)
+
+                            int15 = temp15.IndexOf("<td>")
+                            temp15 = temp15.Remove(0, int15 + 4)
+
+                            int16 = temp15.IndexOf("</td>")
+                            temp16 = temp15.Remove(int16, temp15.Length - int16)
+
+                            If temp16.Trim.Length > 0 Then
+                                temp16 = temp16.Trim
+                                temp16 = WebUtility.HtmlDecode(temp16)
+
+                                j = 0
+                                While j < 50
+                                    If temp16.Contains(",") Then
+                                        Dim temp17, temp18 As String
+                                        Dim int17 As Integer
+
+                                        int17 = temp16.IndexOf(",")
+                                        temp17 = temp16.Remove(0, int17 + 1)
+
+                                        temp18 = temp16.Remove(int17, temp16.Length - int17)
+
+                                        temp16 = temp17
+
+                                        listaGeneros.Add(New Categoria(temp18.Trim, False, listaJuegosID(i)))
+                                    Else
+                                        listaGeneros.Add(New Categoria(temp16.Trim, False, listaJuegosID(i)))
+                                        Exit While
+                                    End If
+                                    j += 1
+                                End While
+                            End If
+                        End If
 
 
                         '    Dim metascore As String = Nothing
@@ -269,206 +344,8 @@ Module Juegos
                         '        años.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(2).Tag))
                         '    End If
 
-                        '    Dim categorias As New List(Of Categoria)
 
-                        '    If html.Contains("<strong>Category:</strong>") Then
-                        '        Dim temp4, temp5 As String
-                        '        Dim int4, int5 As Integer
 
-                        '        int4 = html.IndexOf("<strong>Category:</strong>")
-                        '        temp4 = html.Remove(0, int4)
-
-                        '        int5 = temp4.IndexOf("<br>")
-                        '        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        '        temp5 = temp5.Replace("<strong>", Nothing)
-                        '        temp5 = temp5.Replace("</strong>", Nothing)
-                        '        temp5 = temp5.Replace("Category:", Nothing)
-                        '        temp5 = temp5.Trim
-
-                        '        If Not temp5.Contains(",") Then
-                        '            categorias.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(3).Tag))
-                        '        Else
-                        '            Dim j As Integer = 0
-                        '            While j < 100
-                        '                Dim temp6 As String
-                        '                Dim int6 As Integer
-
-                        '                If temp5.Contains(",") Then
-                        '                    int6 = temp5.IndexOf(",")
-                        '                    temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                        '                    categorias.Add(New Categoria(temp6.Trim, False, lvCategorias.Items(3).Tag))
-
-                        '                    temp5 = temp5.Remove(0, int6 + 1)
-                        '                Else
-                        '                    categorias.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(3).Tag))
-                        '                    Exit While
-                        '                End If
-                        '                j += 1
-                        '            End While
-                        '        End If
-                        '    End If
-
-                        '    Dim generos As New List(Of Categoria)
-
-                        '    If html.Contains("<strong>Genre:</strong>") Then
-                        '        Dim temp4, temp5 As String
-                        '        Dim int4, int5 As Integer
-
-                        '        int4 = html.IndexOf("<strong>Genre:</strong>")
-                        '        temp4 = html.Remove(0, int4)
-
-                        '        int5 = temp4.IndexOf("<br>")
-                        '        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        '        temp5 = temp5.Replace("<strong>", Nothing)
-                        '        temp5 = temp5.Replace("</strong>", Nothing)
-                        '        temp5 = temp5.Replace("Genre:", Nothing)
-                        '        temp5 = temp5.Trim
-
-                        '        If Not temp5.Contains(",") Then
-                        '            If temp5.Contains("<") Then
-                        '                Dim int7, int8 As Integer
-
-                        '                int7 = temp5.IndexOf("<")
-                        '                int8 = temp5.IndexOf(">")
-                        '                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '                temp5 = temp5.Replace("</a>", Nothing)
-                        '            End If
-
-                        '            generos.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(4).Tag))
-                        '        Else
-                        '            Dim j As Integer = 0
-                        '            While j < 100
-                        '                Dim temp6 As String
-                        '                Dim int6 As Integer
-
-                        '                If temp5.Contains(",") Then
-                        '                    int6 = temp5.IndexOf(",")
-                        '                    temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                        '                    If temp6.Contains("<") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp6.IndexOf("<")
-                        '                        int8 = temp6.IndexOf(">")
-                        '                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                        '                        temp6 = temp6.Replace("</a>", Nothing)
-                        '                    End If
-
-                        '                    generos.Add(New Categoria(temp6.Trim, False, lvCategorias.Items(4).Tag))
-
-                        '                    temp5 = temp5.Remove(0, int6 + 1)
-                        '                Else
-                        '                    If temp5.Contains("<") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp5.IndexOf("<")
-                        '                        int8 = temp5.IndexOf(">")
-                        '                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '                        temp5 = temp5.Replace("</a>", Nothing)
-                        '                    End If
-
-                        '                    generos.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(4).Tag))
-                        '                    Exit While
-                        '                End If
-                        '                j += 1
-                        '            End While
-                        '        End If
-                        '    End If
-
-                        '    Dim tags As New List(Of Categoria)
-
-                        '    If html.Contains("<strong>Tags:</strong>") Then
-                        '        Dim temp4, temp5 As String
-                        '        Dim int4, int5 As Integer
-
-                        '        int4 = html.IndexOf("<strong>Tags:</strong>")
-                        '        temp4 = html.Remove(0, int4)
-
-                        '        int5 = temp4.IndexOf("<br>")
-                        '        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        '        temp5 = temp5.Replace("<strong>", Nothing)
-                        '        temp5 = temp5.Replace("</strong>", Nothing)
-                        '        temp5 = temp5.Replace("Tags:", Nothing)
-                        '        temp5 = temp5.Trim
-
-                        '        If Not temp5.Contains(",") Then
-                        '            If temp5.Contains("<") Then
-                        '                Dim int7, int8 As Integer
-
-                        '                int7 = temp5.IndexOf("<")
-                        '                int8 = temp5.IndexOf(">")
-                        '                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '                temp5 = temp5.Replace("</a>", Nothing)
-                        '            End If
-
-                        '            If temp5.Contains("(") Then
-                        '                Dim int7, int8 As Integer
-
-                        '                int7 = temp5.IndexOf("(")
-                        '                int8 = temp5.IndexOf(")")
-                        '                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '            End If
-
-                        '            tags.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(5).Tag))
-                        '        Else
-                        '            Dim j As Integer = 0
-                        '            While j < 100
-                        '                Dim temp6 As String
-                        '                Dim int6 As Integer
-
-                        '                If temp5.Contains(",") Then
-                        '                    int6 = temp5.IndexOf(",")
-                        '                    temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                        '                    If temp6.Contains("<") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp6.IndexOf("<")
-                        '                        int8 = temp6.IndexOf(">")
-                        '                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                        '                        temp6 = temp6.Replace("</a>", Nothing)
-                        '                    End If
-
-                        '                    If temp6.Contains("(") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp6.IndexOf("(")
-                        '                        int8 = temp6.IndexOf(")")
-                        '                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                        '                    End If
-
-                        '                    tags.Add(New Categoria(temp6.Trim, False, lvCategorias.Items(5).Tag))
-
-                        '                    temp5 = temp5.Remove(0, int6 + 1)
-                        '                Else
-                        '                    If temp5.Contains("<") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp5.IndexOf("<")
-                        '                        int8 = temp5.IndexOf(">")
-                        '                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '                        temp5 = temp5.Replace("</a>", Nothing)
-                        '                    End If
-
-                        '                    If temp5.Contains("(") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp5.IndexOf("(")
-                        '                        int8 = temp5.IndexOf(")")
-                        '                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '                    End If
-
-                        '                    tags.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(5).Tag))
-                        '                    Exit While
-                        '                End If
-                        '                j += 1
-                        '            End While
-                        '        End If
-                        '    End If
 
                         '    Dim idiomas As New List(Of Categoria)
 
@@ -564,7 +441,7 @@ Module Juegos
                         '        End If
                         '    End If
 
-                        Dim juego As New Juego(titulo, imagen, listaJuegosID(i), userscore, Nothing, Nothing, Nothing, Nothing, listaTags, Nothing)
+                        Dim juego As New Juego(titulo, imagen, listaJuegosID(i), userscore, Nothing, Nothing, listaCategorias, listaGeneros, listaTags, Nothing)
 
                         Dim idBool As Boolean = False
                         Dim k As Integer = 0
