@@ -1,6 +1,5 @@
 ﻿Imports FontAwesome.UWP
 Imports Microsoft.Toolkit.Uwp.Helpers
-Imports Windows.Storage
 Imports Windows.Storage.AccessCache
 Imports Windows.UI
 Imports Windows.UI.Core
@@ -40,7 +39,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
+    Private Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
@@ -52,101 +51,9 @@ Public NotInheritable Class MainPage
         GridVisibilidad(gridCategorias, recursos.GetString("Categories"))
         nvPrincipal.IsPaneOpen = False
 
-        Dim helper As New LocalObjectStorageHelper
-        Dim listaJuegos As List(Of Juego) = Nothing
-
-        If Await helper.FileExistsAsync("listaJuegos") = True Then
-            listaJuegos = Await helper.ReadFileAsync(Of List(Of Juego))("listaJuegos")
-
-            If Not listaJuegos Is Nothing Then
-                If listaJuegos.Count > 0 Then
-                    Dim carpeta As StorageFolder = Nothing
-
-                    Try
-                        carpeta = Await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("SteamPath")
-                    Catch ex As Exception
-
-                    End Try
-
-                    If Not carpeta Is Nothing Then
-                        'lvCategorias.IsEnabled = True
-                        tbMensajeCategorias.Text = recursos.GetString("MessageCategories2")
-                    End If
-
-                    tbJuegosApp.Text = listaJuegos.Count.ToString
-                End If
-            End If
-        End If
-
-        Dim actualizar As Boolean = False
-
-        If Await helper.FileExistsAsync("actualizar") = True Then
-            Try
-                actualizar = Await helper.ReadFileAsync(Of Boolean)("actualizar")
-            Catch ex As Exception
-
-            End Try
-
-            cbActualizarListaJuegos.IsChecked = actualizar
-        End If
-
-        If actualizar = False Then
-            If Await helper.FileExistsAsync("listaCategorias") = True Then
-                Await helper.SaveFileAsync(Of List(Of Categoria))("listaCategorias", New List(Of Categoria))
-            End If
-
-            If Not listaJuegos Is Nothing Then
-                Juegos.Cargar()
-
-                Dim listaAños As New List(Of Categoria)
-                Dim listaCategorias As New List(Of Categoria)
-                Dim listaGeneros As New List(Of Categoria)
-                Dim listaTags As New List(Of Categoria)
-                Dim listaIdiomas As New List(Of Categoria)
-
-                For Each juego In listaJuegos
-                    'listaAños.AddRange(juego.Años)
-                    'listaCategorias.AddRange(juego.Categorias)
-                    'listaGeneros.AddRange(juego.Generos)
-                    'listaTags.AddRange(juego.Tags)
-                    'listaIdiomas.AddRange(juego.Idiomas)
-                Next
-
-                'Interfaz.RellenarGridsCheckboxes(listaAños, gvAños, lvCategorias.Items(2).Tag)
-                'Interfaz.RellenarGridsCheckboxes(listaCategorias, gvCategorias, lvCategorias.Items(3).Tag)
-                'Interfaz.RellenarGridsCheckboxes(listaGeneros, gvGeneros, lvCategorias.Items(4).Tag)
-                'Interfaz.RellenarGridsCheckboxes(listaTags, gvTags, lvCategorias.Items(5).Tag)
-                'Interfaz.RellenarGridsCheckboxes(listaIdiomas, gvIdiomas, lvCategorias.Items(6).Tag)
-            End If
-        Else
-            Juegos.Cargar()
-        End If
-
-        Cuentas.Detectar(actualizar)
+        Cuentas.Detectar()
+        Juegos.Cargar()
         Cliente.Detectar(False)
-        PersonalizarConfigUserMetascore(actualizar)
-
-        '--------------------------------------------------------
-
-        'cbPersonalizarUserscore1.Tag = New Categoria(cbPersonalizarUserscore1.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        'cbPersonalizarUserscore2.Tag = New Categoria(cbPersonalizarUserscore2.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        'cbPersonalizarUserscore3.Tag = New Categoria(cbPersonalizarUserscore3.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        'cbPersonalizarUserscore4.Tag = New Categoria(cbPersonalizarUserscore4.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        'cbPersonalizarUserscore5.Tag = New Categoria(cbPersonalizarUserscore5.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        'cbPersonalizarUserscore6.Tag = New Categoria(cbPersonalizarUserscore6.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        'cbPersonalizarUserscore7.Tag = New Categoria(cbPersonalizarUserscore7.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        'cbPersonalizarUserscore8.Tag = New Categoria(cbPersonalizarUserscore8.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-        'cbPersonalizarUserscore9.Tag = New Categoria(cbPersonalizarUserscore9.Content, False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-
-        'cbPersonalizarMetascore1.Tag = New Categoria(cbPersonalizarMetascore1.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        'cbPersonalizarMetascore2.Tag = New Categoria(cbPersonalizarMetascore2.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        'cbPersonalizarMetascore3.Tag = New Categoria(cbPersonalizarMetascore3.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        'cbPersonalizarMetascore4.Tag = New Categoria(cbPersonalizarMetascore4.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        'cbPersonalizarMetascore5.Tag = New Categoria(cbPersonalizarMetascore5.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        'cbPersonalizarMetascore6.Tag = New Categoria(cbPersonalizarMetascore6.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        'cbPersonalizarMetascore7.Tag = New Categoria(cbPersonalizarMetascore7.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        'cbPersonalizarMetascore8.Tag = New Categoria(cbPersonalizarMetascore8.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-        'cbPersonalizarMetascore9.Tag = New Categoria(cbPersonalizarMetascore9.Content, False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
 
         '--------------------------------------------------------
 
@@ -199,6 +106,34 @@ Public NotInheritable Class MainPage
     End Sub
 
     'CATEGORIAS--------------------------------------------------------------
+
+    Private Sub TbBusquedaJuego_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbBusquedaJuego.TextChanged
+
+        If tbBusquedaJuego.Text.Trim.Length > 0 Then
+            For Each juegoGrid As Grid In lvJuegos.Items
+                Dim item As ListViewItem = lvJuegos.ContainerFromItem(juegoGrid)
+
+                If Not item Is Nothing Then
+                    Dim juego As Juego = juegoGrid.Tag
+
+                    If juego.Titulo.ToLower.Contains(tbBusquedaJuego.Text.ToLower.Trim) Then
+                        item.Visibility = Visibility.Visible
+                    Else
+                        item.Visibility = Visibility.Collapsed
+                    End If
+                End If
+            Next
+        Else
+            For Each juegoGrid As Grid In lvJuegos.Items
+                Dim item As ListViewItem = lvJuegos.ContainerFromItem(juegoGrid)
+
+                If Not item Is Nothing Then
+                    item.Visibility = Visibility.Visible
+                End If
+            Next
+        End If
+
+    End Sub
 
     Private Sub BotonAñadirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonAñadirCategorias.Click
 
@@ -303,7 +238,7 @@ Public NotInheritable Class MainPage
 
     Private Sub BotonSteamCuenta_Click(sender As Object, e As RoutedEventArgs) Handles botonSteamCuenta.Click
 
-        Cuentas.Detectar(False)
+        Cuentas.Detectar()
 
     End Sub
 
@@ -313,37 +248,14 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Async Sub CbActualizarListaJuegos_Checked(sender As Object, e As RoutedEventArgs) Handles cbActualizarListaJuegos.Checked
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        Await helper.SaveFileAsync(Of Boolean)("actualizar", True)
-        cbActualizarListaJuegos.IsChecked = True
-
-    End Sub
-
-    Private Async Sub CbActualizarListaJuegos_Unchecked(sender As Object, e As RoutedEventArgs) Handles cbActualizarListaJuegos.Unchecked
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        Await helper.SaveFileAsync(Of Boolean)("actualizar", False)
-        cbActualizarListaJuegos.IsChecked = False
-
-    End Sub
-
     Private Async Sub BotonLimpiarTodo_Click(sender As Object, e As RoutedEventArgs) Handles botonLimpiarTodo.Click
 
-        Dim recursos As Resources.ResourceLoader = New Resources.ResourceLoader()
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
+        Dim recursos As New Resources.ResourceLoader()
+        Dim helper As New LocalObjectStorageHelper
 
         Await helper.SaveFileAsync(Of List(Of Juego))("listaJuegos", New List(Of Juego))
 
-        PersonalizarConfigUserMetascore(False)
-
-        gvAños.Items.Clear()
-        gvCategorias.Items.Clear()
-        gvGeneros.Items.Clear()
-        gvTags.Items.Clear()
-        gvIdiomas.Items.Clear()
-
+        tbBusquedaJuego.Text = String.Empty
         botonAñadirCategorias.IsEnabled = False
         botonLimpiarSeleccion.IsEnabled = False
         botonBorrarCategorias.IsEnabled = False
@@ -357,7 +269,7 @@ Public NotInheritable Class MainPage
         botonSteamRutaTexto.Text = recursos.GetString("Add2")
         tbSteamRuta.Text = String.Empty
 
-        Await helper.SaveFileAsync(Of Cuenta)("cuenta", Nothing)
+        Await helper.SaveFileAsync(Of Cuenta)("cuenta2", Nothing)
         Await helper.SaveFileAsync(Of List(Of String))("listaJuegosID", Nothing)
         botonSteamCuentaTexto.Text = recursos.GetString("Add2")
         tbSteamCuenta.Text = String.Empty
@@ -365,189 +277,6 @@ Public NotInheritable Class MainPage
         botonCargaCategorias.IsEnabled = False
         tbJuegosCuenta.Text = 0
         tbJuegosApp.Text = 0
-        cbActualizarListaJuegos.IsChecked = False
-
-    End Sub
-
-    Private Async Sub PersonalizarConfigUserMetascore(actualizacion As Boolean)
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-
-        Dim userscore As List(Of Categoria) = Nothing
-        Dim metascore As List(Of Categoria) = Nothing
-
-        If Await helper.FileExistsAsync("userscore") = True Then
-            userscore = Await helper.ReadFileAsync(Of List(Of Categoria))("userscore")
-        End If
-
-        If Await helper.FileExistsAsync("metascore") = True Then
-            metascore = Await helper.ReadFileAsync(Of List(Of Categoria))("metascore")
-        End If
-
-        Dim generarUserscore As Boolean = False
-
-        If userscore Is Nothing Then
-            generarUserscore = True
-        End If
-
-        If actualizacion = False Then
-            generarUserscore = True
-        Else
-            For Each score In userscore
-                If score.Nombre = "9" Then
-                    cbPersonalizarUserscore9.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "8" Then
-                    cbPersonalizarUserscore8.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "7" Then
-                    cbPersonalizarUserscore7.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "6" Then
-                    cbPersonalizarUserscore6.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "5" Then
-                    cbPersonalizarUserscore5.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "4" Then
-                    cbPersonalizarUserscore4.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "3" Then
-                    cbPersonalizarUserscore3.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "2" Then
-                    cbPersonalizarUserscore2.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "1" Then
-                    cbPersonalizarUserscore1.IsChecked = score.Estado
-                End If
-            Next
-        End If
-
-        If generarUserscore = True Then
-            'userscore = New List(Of Categoria) From {
-            '    New Categoria("9", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-            '    New Categoria("8", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-            '    New Categoria("7", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-            '    New Categoria("6", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-            '    New Categoria("5", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-            '    New Categoria("4", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-            '    New Categoria("3", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-            '    New Categoria("2", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore")),
-            '    New Categoria("1", False, New CategoriaMaestro("Userscore", "Assets\Menu\categorias_userscore.PNG", 0, "gridCategoriasUserscore"))
-            '}
-        End If
-
-        Dim generarMetascore As Boolean = False
-
-        If metascore Is Nothing Then
-            generarMetascore = True
-        End If
-
-        If actualizacion = False Then
-            generarMetascore = True
-        Else
-            For Each score In metascore
-                If score.Nombre = "9" Then
-                    cbPersonalizarMetascore9.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "8" Then
-                    cbPersonalizarMetascore8.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "7" Then
-                    cbPersonalizarMetascore7.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "6" Then
-                    cbPersonalizarMetascore6.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "5" Then
-                    cbPersonalizarMetascore5.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "4" Then
-                    cbPersonalizarMetascore4.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "3" Then
-                    cbPersonalizarMetascore3.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "2" Then
-                    cbPersonalizarMetascore2.IsChecked = score.Estado
-                End If
-
-                If score.Nombre = "1" Then
-                    cbPersonalizarMetascore1.IsChecked = score.Estado
-                End If
-            Next
-        End If
-
-        If generarMetascore = True Then
-            'metascore = New List(Of Categoria) From {
-            '    New Categoria("9", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-            '    New Categoria("8", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-            '    New Categoria("7", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-            '    New Categoria("6", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-            '    New Categoria("5", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-            '    New Categoria("4", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-            '    New Categoria("3", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-            '    New Categoria("2", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore")),
-            '    New Categoria("1", False, New CategoriaMaestro("Metascore", "Assets\Menu\categorias_metascore.PNG", 1, "gridCategoriasMetascore"))
-            '}
-        End If
-
-        Try
-            Await helper.SaveFileAsync(Of List(Of Categoria))("userscore", userscore)
-        Catch ex As Exception
-
-        End Try
-
-        Try
-            Await helper.SaveFileAsync(Of List(Of Categoria))("metascore", metascore)
-        Catch ex As Exception
-
-        End Try
-
-    End Sub
-
-    Private Async Sub PersonalizarPuntuaciones(numero As String, estado As Boolean, opcion As String)
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-        Dim lista As List(Of Categoria) = Nothing
-
-        If Await helper.FileExistsAsync(opcion) = True Then
-            Try
-                lista = Await helper.ReadFileAsync(Of List(Of Categoria))(opcion)
-            Catch ex As Exception
-
-            End Try
-        End If
-
-        If Not lista Is Nothing Then
-            For Each item In lista
-                If item.Nombre = numero Then
-                    item.Estado = estado
-                End If
-            Next
-
-            Try
-                Await helper.SaveFileAsync(Of List(Of Categoria))(opcion, lista)
-            Catch ex As Exception
-
-            End Try
-        End If
 
     End Sub
 

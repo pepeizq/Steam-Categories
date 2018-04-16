@@ -58,6 +58,20 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
+                    <Grid Grid.Row="0" Background="{StaticResource BrushCuarto}" Padding="15">
+                        <TextBox x:Name="tbBusquedaJuego"/>
+                    </Grid>
+
+                    <Grid x:Name="gridProgreso2" Grid.Row="1" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ProgressBar x:Name="prProgreso2" Grid.Column="0" IsIndeterminate="True" Margin="10" Foreground="{StaticResource BrushPrimario}"/>
+                        <TextBlock x:Name="tbProgreso2" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    </Grid>
+
                     <ListView x:Name="lvJuegos" Grid.Row="1" ItemContainerStyle="{StaticResource ListViewEstilo1}"/>
 
                     <Grid Grid.Row="2" Background="{StaticResource BrushCuarto}" Padding="15">
@@ -103,319 +117,6 @@
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                    </Grid>
-
-                    <Grid Grid.Column="1" Padding="10" Visibility="Collapsed">
-                        
-
-                        <controls:DropShadowPanel x:Name="panelMensajeCategorias" Grid.Row="0" Color="IndianRed" 
-                                                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                  BlurRadius="4" ShadowOpacity="1" OffsetZ="5">
-                            <Grid Padding="10" Background="IndianRed">
-                                <TextBlock x:Name="tbMensajeCategorias" x:Uid="MessageCategories" TextWrapping="Wrap" Foreground="White"/>
-                            </Grid>
-                        </controls:DropShadowPanel>
-
-                        <Grid x:Name="gridCategoriasMaestro" Grid.Row="0">
-                            <Grid x:Name="gridCategoriasUserscore" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock x:Uid="UserscoreInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
-
-                                    <Button x:Name="botonPopupUserscore" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                                        <Button.Content>
-                                            <StackPanel Orientation="Horizontal">
-                                                <fa:FontAwesome Icon="Image" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
-                                                <TextBlock x:Uid="ImageExample" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button.Content>
-                                        <Button.Flyout>
-                                            <Flyout>
-                                                <controls:ImageEx Source="Assets\Menu\categorias_userscore.PNG" Width="400" Height="290" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None"/>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
-                                </Grid>
-
-                                <GridView x:Name="gvUserscore" Grid.Row="1" Margin="0,10" Padding="10">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-
-                                    <GridView.Items>
-                                        <CheckBox x:Name="cbPersonalizarUserscore9" Width="200" Content="+90%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore8" Width="200" Content="+80% &amp; -91%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore7" Width="200" Content="+70% &amp; -81%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore6" Width="200" Content="+60% &amp; -71%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore5" Width="200" Content="+50% &amp; -61%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore4" Width="200" Content="+40% &amp; -51%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore3" Width="200" Content="+30% &amp; -41%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore2" Width="200" Content="+20% &amp; -31%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarUserscore1" Width="200" Content="-20%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                    </GridView.Items>
-                                </GridView>
-                            </Grid>
-
-                            <Grid x:Name="gridCategoriasMetascore" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock x:Uid="MetascoreInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
-
-                                    <Button x:Name="botonPopupMetascore" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                                        <Button.Content>
-                                            <StackPanel Orientation="Horizontal">
-                                                <fa:FontAwesome Icon="Image" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
-                                                <TextBlock x:Uid="ImageExample" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button.Content>
-                                        <Button.Flyout>
-                                            <Flyout>
-                                                <controls:ImageEx Source="Assets\Menu\categorias_metascore.PNG" Width="400" Height="290" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None"/>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
-                                </Grid>
-
-                                <GridView x:Name="gvMetascore" Grid.Row="1" Margin="0,10" Padding="10">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-
-                                    <GridView.Items>
-                                        <CheckBox x:Name="cbPersonalizarMetascore9" Width="200" Content="+90%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore8" Width="200" Content="+80% &amp; -91%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore7" Width="200" Content="+70% &amp; -81%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore6" Width="200" Content="+60% &amp; -71%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore5" Width="200" Content="+50% &amp; -61%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore4" Width="200" Content="+40% &amp; -51%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore3" Width="200" Content="+30% &amp; -41%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore2" Width="200" Content="+20% &amp; -31%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                        <CheckBox x:Name="cbPersonalizarMetascore1" Width="200" Content="-20%" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton"/>
-                                    </GridView.Items>
-                                </GridView>
-                            </Grid>
-
-                            <Grid x:Name="gridCategoriasAños" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock x:Uid="YearsInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
-
-                                    <Button x:Name="botonPopupAños" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                                        <Button.Content>
-                                            <StackPanel Orientation="Horizontal">
-                                                <fa:FontAwesome Icon="Image" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
-                                                <TextBlock x:Uid="ImageExample" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button.Content>
-                                        <Button.Flyout>
-                                            <Flyout>
-                                                <controls:ImageEx Source="Assets\Menu\categorias_años.PNG" Width="400" Height="290" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None"/>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
-                                </Grid>
-
-                                <GridView x:Name="gvAños" Grid.Row="1" Margin="0,10" Padding="10">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-                                </GridView>
-                            </Grid>
-
-                            <Grid x:Name="gridCategoriasCategorias" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock x:Uid="CategoriesInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
-
-                                    <Button x:Name="botonPopupCategorias" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                                        <Button.Content>
-                                            <StackPanel Orientation="Horizontal">
-                                                <fa:FontAwesome Icon="Image" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
-                                                <TextBlock x:Uid="ImageExample" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button.Content>
-                                        <Button.Flyout>
-                                            <Flyout>
-                                                <controls:ImageEx Source="Assets\Menu\categorias_categorias.PNG" Width="400" Height="290" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None"/>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
-                                </Grid>
-
-                                <GridView x:Name="gvCategorias" Grid.Row="1" Margin="0,10" Padding="10">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-                                </GridView>
-                            </Grid>
-
-                            <Grid x:Name="gridCategoriasGeneros" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock x:Uid="GenresInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
-
-                                    <Button x:Name="botonPopupGeneros" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                                        <Button.Content>
-                                            <StackPanel Orientation="Horizontal">
-                                                <fa:FontAwesome Icon="Image" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
-                                                <TextBlock x:Uid="ImageExample" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button.Content>
-                                        <Button.Flyout>
-                                            <Flyout>
-                                                <controls:ImageEx Source="Assets\Menu\categorias_generos.PNG" Width="400" Height="290" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None"/>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
-                                </Grid>
-
-                                <GridView x:Name="gvGeneros" Grid.Row="1" Margin="0,10" Padding="10">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-                                </GridView>
-                            </Grid>
-
-                            <Grid x:Name="gridCategoriasTags" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock x:Uid="TagsInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
-
-                                    <Button x:Name="botonPopupTags" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                                        <Button.Content>
-                                            <StackPanel Orientation="Horizontal">
-                                                <fa:FontAwesome Icon="Image" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
-                                                <TextBlock x:Uid="ImageExample" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button.Content>
-                                        <Button.Flyout>
-                                            <Flyout>
-                                                <controls:ImageEx Source="Assets\Menu\categorias_etiquetas.PNG" Width="400" Height="290" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None"/>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
-                                </Grid>
-
-                                <GridView x:Name="gvTags" Grid.Row="1" Margin="0,10" Padding="10">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-                                </GridView>
-                            </Grid>
-
-                            <Grid x:Name="gridCategoriasIdiomas" Visibility="Collapsed">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock x:Uid="LanguagesInfo" Grid.Column="0" HorizontalAlignment="Left" Margin="10,5" VerticalAlignment="Center"/>
-
-                                    <Button x:Name="botonPopupIdiomas" Grid.Column="1" Background="{StaticResource BrushSecundario}" Padding="15,10" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                                        <Button.Content>
-                                            <StackPanel Orientation="Horizontal">
-                                                <fa:FontAwesome Icon="Image" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
-                                                <TextBlock x:Uid="ImageExample" Foreground="White"/>
-                                            </StackPanel>
-                                        </Button.Content>
-                                        <Button.Flyout>
-                                            <Flyout>
-                                                <controls:ImageEx Source="Assets\Menu\categorias_idiomas.PNG" Width="400" Height="290" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None"/>
-                                            </Flyout>
-                                        </Button.Flyout>    
-                                    </Button> 
-                                </Grid>
-                               
-                                <GridView x:Name="gvIdiomas" Grid.Row="1" Margin="0,10" Padding="10">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-                                </GridView>
-                            </Grid>
-                        </Grid>
-
-                       
                     </Grid>
                 </Grid>
 
@@ -498,7 +199,7 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <ProgressBar x:Name="prProgreso" Grid.Column="0" IsIndeterminate="True" Margin="10" Foreground="DarkBlue"/>
+                                            <ProgressBar x:Name="prProgreso" Grid.Column="0" IsIndeterminate="True" Margin="10" Foreground="{StaticResource BrushPrimario}"/>
                                             <TextBlock x:Name="tbProgreso" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,10,0" />
                                         </Grid>
                                     </Grid>
@@ -532,29 +233,7 @@
 
                                     <Grid BorderBrush="{StaticResource BrushSecundario}" BorderThickness="0,1,0,0" HorizontalAlignment="Stretch" Margin="0,25"/>
 
-                                    <CheckBox x:Name="cbActualizarListaJuegos" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
-                                        <CheckBox.Content>
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-
-                                                <TextBlock x:Uid="ConfigAutoUpdate" Grid.Row="0"/>
-                                                <Grid Grid.Row="1" Margin="0,10,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <SymbolIcon Symbol="Important" Grid.Column="0" Margin="0,0,10,0"/>
-                                                    <TextBlock x:Uid="ConfigAutoUpdateDescription" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap"/>
-                                                </Grid>
-                                            </Grid>
-                                        </CheckBox.Content>
-                                    </CheckBox>
-
-                                    <Button x:Name="botonLimpiarTodo" Margin="0,25,0,5" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
+                                    <Button x:Name="botonLimpiarTodo" Margin="0,0,0,5" Padding="15,10" Background="{StaticResource BrushSecundario}" PointerEntered="UsuarioEntraBoton" PointerExited="UsuarioSaleBoton">
                                         <StackPanel Orientation="Horizontal">
                                             <fa:FontAwesome Icon="TrashOutline" VerticalAlignment="Center" Foreground="White" Margin="0,0,10,0"/>
                                             <TextBlock x:Uid="ConfigCleanAll" Foreground="White"/>

@@ -129,8 +129,8 @@ Module Interfaz
                 iconoUserscore.RenderTransformOrigin = New Point(0.5, 0.5)
 
                 iconoUserscore.Icon = FontAwesomeIcon.HandRockOutline
-                iconoUserscore.Foreground = New SolidColorBrush(Colors.Peru)
-                tbUserscore.Foreground = New SolidColorBrush(Colors.Peru)
+                iconoUserscore.Foreground = New SolidColorBrush(Colors.Chocolate)
+                tbUserscore.Foreground = New SolidColorBrush(Colors.Chocolate)
             ElseIf juego.Userscore.Nombre < 50 Then
                 iconoUserscore.Icon = FontAwesomeIcon.ThumbsOutlineDown
                 iconoUserscore.Foreground = New SolidColorBrush(Colors.Red)
@@ -426,9 +426,13 @@ Module Interfaz
 
         Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
         Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
 
         If numCategoriasTotales > 0 Then
-            botonAñadir.IsEnabled = True
+            If botonBorrar.IsEnabled = True Then
+                botonAñadir.IsEnabled = True
+            End If
+
             botonLimpiar.IsEnabled = True
         Else
             botonAñadir.IsEnabled = False
@@ -510,9 +514,13 @@ Module Interfaz
 
         Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
         Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
 
         If numCategoriasTotales > 0 Then
-            botonAñadir.IsEnabled = True
+            If botonBorrar.IsEnabled = True Then
+                botonAñadir.IsEnabled = True
+            End If
+
             botonLimpiar.IsEnabled = True
         Else
             botonAñadir.IsEnabled = False
@@ -563,7 +571,7 @@ Module Interfaz
         For Each juegoGrid As Grid In lvJuegos.Items
             Dim juego As Juego = juegoGrid.Tag
 
-            If Not juego.Tags Is Nothing Then
+            If Not juego.Categorias Is Nothing Then
                 Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + juego.ID.ToString)
                 Dim tempNumCategorias As String = tbNumCategorias.Text
                 tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
@@ -594,9 +602,13 @@ Module Interfaz
 
         Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
         Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
 
         If numCategoriasTotales > 0 Then
-            botonAñadir.IsEnabled = True
+            If botonBorrar.IsEnabled = True Then
+                botonAñadir.IsEnabled = True
+            End If
+
             botonLimpiar.IsEnabled = True
         Else
             botonAñadir.IsEnabled = False
@@ -678,9 +690,13 @@ Module Interfaz
 
         Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
         Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
 
         If numCategoriasTotales > 0 Then
-            botonAñadir.IsEnabled = True
+            If botonBorrar.IsEnabled = True Then
+                botonAñadir.IsEnabled = True
+            End If
+
             botonLimpiar.IsEnabled = True
         Else
             botonAñadir.IsEnabled = False

@@ -3,7 +3,7 @@ Imports Microsoft.Toolkit.Uwp.UI.Controls
 
 Module Cuentas
 
-    Public Async Sub Detectar(actualizar As Boolean)
+    Public Async Sub Detectar()
 
         Dim helper As New LocalObjectStorageHelper
         Dim cuenta As Cuenta = Nothing
@@ -172,10 +172,6 @@ Module Cuentas
                         Dim botonCategorias As Button = pagina.FindName("botonCargaCategorias")
 
                         If tbJuegosCuenta.Text.Length > 0 Then
-                            If actualizar = False Then
-                                botonCategorias.IsEnabled = True
-                            End If
-
                             Dim listaJuegosID As New List(Of String)
 
                             Dim i As Integer = 0
@@ -217,10 +213,8 @@ Module Cuentas
             End If
         End If
 
-        If actualizar = False Then
-            botonCuenta.IsEnabled = True
-            tb.IsEnabled = True
-        End If
+        botonCuenta.IsEnabled = True
+        tb.IsEnabled = True
 
         pr.Visibility = Visibility.Collapsed
 

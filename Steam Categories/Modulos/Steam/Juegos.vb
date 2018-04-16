@@ -1,6 +1,5 @@
 ﻿Imports System.Net
 Imports Microsoft.Toolkit.Uwp.Helpers
-Imports Windows.UI.Core
 
 Module Juegos
 
@@ -9,16 +8,27 @@ Module Juegos
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
 
+        Dim tbBusquedaJuego As TextBox = pagina.FindName("tbBusquedaJuego")
+        tbBusquedaJuego.IsEnabled = False
+
         Dim lvJuegos As ListView = pagina.FindName("lvJuegos")
-        lvJuegos.IsEnabled = False
+        lvJuegos.Visibility = Visibility.Collapsed
 
         Dim gridProgreso As Grid = pagina.FindName("gridProgreso")
         gridProgreso.Visibility = Visibility.Visible
 
+        Dim gridProgreso2 As Grid = pagina.FindName("gridProgreso2")
+        gridProgreso2.Visibility = Visibility.Visible
+
         Dim prProgreso As ProgressBar = pagina.FindName("prProgreso")
         prProgreso.IsIndeterminate = False
 
+        Dim prProgreso2 As ProgressBar = pagina.FindName("prProgreso2")
+        prProgreso2.IsIndeterminate = False
+
         Dim tbProgreso As TextBlock = pagina.FindName("tbProgreso")
+
+        Dim tbProgreso2 As TextBlock = pagina.FindName("tbProgreso2")
 
         Dim botonCargaCategorias As Button = pagina.FindName("botonCargaCategorias")
         botonCargaCategorias.IsEnabled = False
@@ -34,9 +44,6 @@ Module Juegos
 
         Dim tbSteamCuenta As TextBox = pagina.FindName("tbSteamCuenta")
         tbSteamCuenta.IsEnabled = False
-
-        Dim cbActualizar As CheckBox = pagina.FindName("cbActualizarListaJuegos")
-        cbActualizar.IsEnabled = False
 
         Dim tbJuegosApp As TextBlock = pagina.FindName("tbJuegosApp")
 
@@ -58,30 +65,23 @@ Module Juegos
             listaJuegos = New List(Of Juego)
         End If
 
-        Dim actualizar As Boolean = False
-
-        If Await helper.FileExistsAsync("actualizar") = True Then
-            Try
-                actualizar = Await helper.ReadFileAsync(Of Boolean)("actualizar")
-            Catch ex As Exception
-
-            End Try
-        End If
+        prProgreso.Value = 0
+        prProgreso2.Value = 0
+        tbProgreso.Text = String.Empty
+        tbProgreso2.Text = String.Empty
 
         If Not listaJuegosID Is Nothing Then
             Dim i As Integer = 0
 
-            While i < 40 ' listaJuegosID.Count
+            While i < 70 ' listaJuegosID.Count
                 Dim boolAñadir As Boolean = False
 
-                If actualizar = True Then
-                    If Not listaJuegos Is Nothing Then
-                        For Each juego In listaJuegos
-                            If listaJuegosID(i) = juego.ID Then
-                                boolAñadir = True
-                            End If
-                        Next
-                    End If
+                If Not listaJuegos Is Nothing Then
+                    For Each juego In listaJuegos
+                        If listaJuegosID(i) = juego.ID Then
+                            boolAñadir = True
+                        End If
+                    Next
                 End If
 
                 If boolAñadir = False Then
@@ -267,180 +267,6 @@ Module Juegos
                             End If
                         End If
 
-
-                        '    Dim metascore As String = Nothing
-
-                        '    If html.Contains("<strong>Metascore:</strong>") Then
-                        '        Dim temp4, temp5 As String
-                        '        Dim int4, int5 As Integer
-
-                        '        int4 = html.IndexOf("<strong>Metascore:</strong>")
-                        '        temp4 = html.Remove(0, int4)
-
-                        '        int5 = temp4.IndexOf("%")
-                        '        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        '        temp5 = temp5.Replace("<strong>", Nothing)
-                        '        temp5 = temp5.Replace("</strong>", Nothing)
-                        '        temp5 = temp5.Replace("Metascore:", Nothing)
-                        '        temp5 = temp5.Trim
-
-                        '        metascore = temp5
-                        '    End If
-
-                        '    Dim años As New List(Of Categoria)
-
-                        '    If html.Contains("<strong>Release date</strong>") Then
-                        '        Dim temp4, temp5 As String
-                        '        Dim int4, int5 As Integer
-
-                        '        int4 = html.IndexOf("<strong>Release date</strong>")
-                        '        temp4 = html.Remove(0, int4)
-
-                        '        int5 = temp4.IndexOf("<br>")
-                        '        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        '        temp5 = temp5.Replace("<strong>", Nothing)
-                        '        temp5 = temp5.Replace("</strong>", Nothing)
-                        '        temp5 = temp5.Replace("Release date", Nothing)
-                        '        temp5 = temp5.Replace(":", Nothing)
-
-                        '        If temp5.Contains(",") Then
-                        '            Dim int6 As Integer
-
-                        '            int6 = temp5.IndexOf(",")
-                        '            temp5 = temp5.Remove(0, int6 + 1)
-                        '        End If
-
-                        '        If temp5.Contains("19") Then
-                        '            Dim int6 As Integer
-
-                        '            int6 = temp5.IndexOf("19")
-                        '            temp5 = temp5.Remove(0, int6)
-
-                        '            If (temp5.Length - (int6 + 4)) > 0 Then
-                        '                temp5 = temp5.Remove(int6 + 4, temp5.Length - (int6 + 4))
-                        '            End If
-                        '        End If
-
-                        '        If temp5.Contains("20") Then
-                        '            Dim int6 As Integer
-
-                        '            int6 = temp5.IndexOf("20")
-                        '            temp5 = temp5.Remove(0, int6)
-
-                        '            If (temp5.Length - (int6 + 4)) > 0 Then
-                        '                temp5 = temp5.Remove(int6 + 4, temp5.Length - (int6 + 4))
-                        '            End If
-                        '        End If
-
-                        '        If temp5.Contains("<") Then
-                        '            Dim int6 As Integer
-
-                        '            int6 = temp5.IndexOf("<")
-                        '            temp5 = temp5.Remove(int6, temp5.Length - int6)
-                        '        End If
-
-                        '        años.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(2).Tag))
-                        '    End If
-
-
-
-
-                        '    Dim idiomas As New List(Of Categoria)
-
-                        '    If html.Contains("<strong>Languages:</strong>") Then
-                        '        Dim temp4, temp5 As String
-                        '        Dim int4, int5 As Integer
-
-                        '        int4 = html.IndexOf("<strong>Languages:</strong>")
-                        '        temp4 = html.Remove(0, int4)
-
-                        '        int5 = temp4.IndexOf("<br>")
-                        '        temp5 = temp4.Remove(int5, temp4.Length - int5)
-
-                        '        temp5 = temp5.Replace("<strong>", Nothing)
-                        '        temp5 = temp5.Replace("</strong>", Nothing)
-                        '        temp5 = temp5.Replace("Languages:", Nothing)
-                        '        temp5 = temp5.Replace("[b]*[/b]", Nothing)
-                        '        temp5 = temp5.Replace(";", Nothing)
-                        '        temp5 = temp5.Trim
-
-                        '        If Not temp5.Contains(",") Then
-                        '            If temp5.Contains("<") Then
-                        '                Dim int7, int8 As Integer
-
-                        '                int7 = temp5.IndexOf("<")
-                        '                int8 = temp5.IndexOf(">")
-                        '                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '                temp5 = temp5.Replace("</a>", Nothing)
-                        '            End If
-
-                        '            If temp5.Contains("(") Then
-                        '                Dim int7, int8 As Integer
-
-                        '                int7 = temp5.IndexOf("(")
-                        '                int8 = temp5.IndexOf(")")
-                        '                temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '            End If
-
-                        '            idiomas.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(6).Tag))
-                        '        Else
-                        '            Dim j As Integer = 0
-                        '            While j < 100
-                        '                Dim temp6 As String
-                        '                Dim int6 As Integer
-
-                        '                If temp5.Contains(",") Then
-                        '                    int6 = temp5.IndexOf(",")
-                        '                    temp6 = temp5.Remove(int6, temp5.Length - int6)
-
-                        '                    If temp6.Contains("<") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp6.IndexOf("<")
-                        '                        int8 = temp6.IndexOf(">")
-                        '                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                        '                        temp6 = temp6.Replace("</a>", Nothing)
-                        '                    End If
-
-                        '                    If temp6.Contains("(") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp6.IndexOf("(")
-                        '                        int8 = temp6.IndexOf(")")
-                        '                        temp6 = temp6.Remove(int7, int8 - int7 + 1)
-                        '                    End If
-
-                        '                    idiomas.Add(New Categoria(temp6.Trim, False, lvCategorias.Items(6).Tag))
-
-                        '                    temp5 = temp5.Remove(0, int6 + 1)
-                        '                Else
-                        '                    If temp5.Contains("<") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp5.IndexOf("<")
-                        '                        int8 = temp5.IndexOf(">")
-                        '                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '                        temp5 = temp5.Replace("</a>", Nothing)
-                        '                    End If
-
-                        '                    If temp5.Contains("(") Then
-                        '                        Dim int7, int8 As Integer
-
-                        '                        int7 = temp5.IndexOf("(")
-                        '                        int8 = temp5.IndexOf(")")
-                        '                        temp5 = temp5.Remove(int7, int8 - int7 + 1)
-                        '                    End If
-
-                        '                    idiomas.Add(New Categoria(temp5.Trim, False, lvCategorias.Items(6).Tag))
-                        '                    Exit While
-                        '                End If
-                        '                j += 1
-                        '            End While
-                        '        End If
-                        '    End If
-
                         Dim juego As New Juego(titulo, imagen, listaJuegosID(i), userscore, Nothing, Nothing, listaCategorias, listaGeneros, listaTags, Nothing)
 
                         Dim idBool As Boolean = False
@@ -459,7 +285,9 @@ Module Juegos
                 End If
 
                 prProgreso.Value = (i / listaJuegosID.Count) * 100
+                prProgreso2.Value = (i / listaJuegosID.Count) * 100
                 tbProgreso.Text = "(" + i.ToString + "/" + listaJuegosID.Count.ToString + ")"
+                tbProgreso2.Text = "(" + i.ToString + "/" + listaJuegosID.Count.ToString + ")"
                 i += 1
             End While
         End If
@@ -479,137 +307,20 @@ Module Juegos
                 lvJuegos.Items.Add(Interfaz.AñadirJuegoLista(juego))
             Next
 
-            If actualizar = False Then
-                Toast("Steam Categories", recursos.GetString("CategoriesLoaded"))
-            Else
-                Comprobar()
-            End If
+            Toast("Steam Categories", recursos.GetString("CategoriesLoaded"))
         Else
             Toast("Steam Categories", recursos.GetString("CategoriesNotLoaded"))
         End If
 
-        lvJuegos.IsEnabled = True
+        tbBusquedaJuego.IsEnabled = True
+        lvJuegos.Visibility = Visibility.Visible
         gridProgreso.Visibility = Visibility.Collapsed
+        gridProgreso2.Visibility = Visibility.Collapsed
         botonCargaCategorias.IsEnabled = True
         botonLimpiarTodo.IsEnabled = True
         botonSteamRuta.IsEnabled = True
         botonCuenta.IsEnabled = True
         tbSteamCuenta.IsEnabled = True
-        cbActualizar.IsEnabled = True
-
-    End Sub
-
-    Public Async Sub Comprobar()
-
-        Dim frame As Frame = Window.Current.Content
-        Dim pagina As Page = frame.Content
-
-        Dim helper As LocalObjectStorageHelper = New LocalObjectStorageHelper
-
-        If Await helper.FileExistsAsync("listaCategorias") = True Then
-            Dim listaCategorias As List(Of Categoria) = Await helper.ReadFileAsync(Of List(Of Categoria))("listaCategorias")
-
-            Dim cbUserscore As CheckBox = pagina.FindName("cbSeleccionUserscore")
-            Dim cbMetascore As CheckBox = pagina.FindName("cbSeleccionMetascore")
-
-            Dim gvAños As GridView = pagina.FindName("gvAños")
-            Dim gvCategorias As GridView = pagina.FindName("gvCategorias")
-            Dim gvGeneros As GridView = pagina.FindName("gvGeneros")
-            Dim gvTags As GridView = pagina.FindName("gvTags")
-            Dim gvIdiomas As GridView = pagina.FindName("gvIdiomas")
-
-            Dim boolBoton As Boolean = False
-            Dim contadorTrue As Integer = 0
-
-            If Not listaCategorias Is Nothing Then
-                For Each categoria In listaCategorias
-                    If categoria.Estado = True Then
-
-                        boolBoton = True
-                        contadorTrue += 1
-
-                        If categoria.Nombre = ("/*1/Userscore") Then
-                            cbUserscore.IsChecked = True
-                        End If
-
-                        If categoria.Nombre = ("/*2/Metascore") Then
-                            cbMetascore.IsChecked = True
-                        End If
-
-                        For Each cb In gvAños.Items
-                            Dim categoria_ As Categoria = cb.Tag
-
-                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                            '    If categoria_.Nombre = categoria.Nombre Then
-                            '        cb.IsChecked = True
-                            '    End If
-                            'End If
-                        Next
-
-                        For Each cb In gvCategorias.Items
-                            Dim categoria_ As Categoria = cb.Tag
-
-                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                            '    If categoria_.Nombre = categoria.Nombre Then
-                            '        cb.IsChecked = True
-                            '    End If
-                            'End If
-                        Next
-
-                        For Each cb In gvGeneros.Items
-                            Dim categoria_ As Categoria = cb.Tag
-
-                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                            '    If categoria_.Nombre = categoria.Nombre Then
-                            '        cb.IsChecked = True
-                            '    End If
-                            'End If
-                        Next
-
-                        For Each cb In gvTags.Items
-                            Dim categoria_ As Categoria = cb.Tag
-
-                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                            '    If categoria_.Nombre = categoria.Nombre Then
-                            '        cb.IsChecked = True
-                            '    End If
-                            'End If
-                        Next
-
-                        For Each cb In gvIdiomas.Items
-                            Dim categoria_ As Categoria = cb.Tag
-
-                            'If categoria_.Maestro.ID = categoria.Maestro.ID Then
-                            '    If categoria_.Nombre = categoria.Nombre Then
-                            '        cb.IsChecked = True
-                            '    End If
-                            'End If
-                        Next
-                    End If
-                Next
-            End If
-
-            Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
-            botonAñadir.IsEnabled = boolBoton
-
-            Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
-            botonLimpiar.IsEnabled = boolBoton
-
-            Dim botonEliminar As Button = pagina.FindName("botonBorrarCategorias")
-            botonEliminar.IsEnabled = boolBoton
-
-            If boolBoton = True Then
-                Cliente.EscribirCategorias()
-            End If
-
-            Dim tb As TextBlock = pagina.FindName("tbNumeroCategorias")
-
-            If Not contadorTrue = 0 Then
-                tb.Text = contadorTrue.ToString
-            Else
-                tb.Text = String.Empty
-            End If
-        End If
 
     End Sub
 
