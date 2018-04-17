@@ -188,7 +188,7 @@ Module Juegos
                             int6 = temp5.IndexOf(ChrW(34))
                             temp6 = temp5.Remove(int6, temp5.Length - int6)
 
-                            temp6 = Math.Round(Double.Parse(temp6.Replace(".", ",")), 0)
+                            temp6 = Math.Round(Double.Parse(temp6), 0)
 
                             userscore = New Categoria(temp6.Trim, False, listaJuegosID(i))
                         End If
