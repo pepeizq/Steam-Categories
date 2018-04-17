@@ -39,7 +39,7 @@ Public NotInheritable Class MainPage
 
     End Sub
 
-    Private Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
+    Private Async Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
 
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "es-ES"
         'Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "en-US"
@@ -51,9 +51,19 @@ Public NotInheritable Class MainPage
         GridVisibilidad(gridCategorias, recursos.GetString("Categories"))
         nvPrincipal.IsPaneOpen = False
 
-        Cuentas.Detectar()
-        Juegos.Cargar()
         Cliente.Detectar(False)
+        Await Task.Delay(2000)
+        Cuentas.Detectar()
+        Await Task.Delay(2000)
+        Juegos.Cargar()
+
+        Dim helper As New LocalObjectStorageHelper
+
+        If Await helper.FileExistsAsync("categoriascustom") = True Then
+            If Not Await helper.ReadFileAsync(Of String)("categoriascustom") = Nothing Then
+                tbCategoriasPersonalizadas.Text = Await helper.ReadFileAsync(Of String)("categoriascustom")
+            End If
+        End If
 
         '--------------------------------------------------------
 
@@ -212,6 +222,22 @@ Public NotInheritable Class MainPage
                 End If
             End If
 
+            If Not juego.Custom Is Nothing Then
+                Dim boton As Button = pagina.FindName("botonCustoms" + juego.ID.ToString)
+
+                If Not boton Is Nothing Then
+                    Dim menu As MenuFlyout = boton.Flyout
+
+                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                        item.IsChecked = False
+
+                        Dim categoria As Categoria = item.Tag
+                        categoria.Estado = item.IsChecked
+                        item.Tag = categoria
+                    Next
+                End If
+            End If
+
             Dim tb As TextBlock = juegoGrid.Children(0)
             tb.Text = "(0)"
         Next
@@ -271,12 +297,29 @@ Public NotInheritable Class MainPage
 
         Await helper.SaveFileAsync(Of Cuenta)("cuenta2", Nothing)
         Await helper.SaveFileAsync(Of List(Of String))("listaJuegosID", Nothing)
+        Await helper.SaveFileAsync(Of String)("categoriascustom", Nothing)
+
         botonSteamCuentaTexto.Text = recursos.GetString("Add2")
         tbSteamCuenta.Text = String.Empty
+        tbCategoriasPersonalizadas.Text = String.Empty
 
         botonCargaCategorias.IsEnabled = False
         tbJuegosCuenta.Text = 0
         tbJuegosApp.Text = 0
+
+    End Sub
+
+    Private Async Sub TbCategoriasPersonalizadas_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbCategoriasPersonalizadas.TextChanged
+
+        If tbCategoriasPersonalizadas.Text.Trim.Length > 0 Then
+            Dim helper As New LocalObjectStorageHelper
+
+            Try
+                Await helper.SaveFileAsync(Of String)("categoriascustom", tbCategoriasPersonalizadas.Text.Trim)
+            Catch ex As Exception
+
+            End Try
+        End If
 
     End Sub
 

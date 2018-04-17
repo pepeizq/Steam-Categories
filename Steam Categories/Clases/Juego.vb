@@ -4,26 +4,34 @@
     Public Property Imagen As String
     Public Property ID As Integer
     Public Property Userscore As Categoria
-    Public Property Metascore As String
-    Public Property Años As List(Of Categoria)
+    Public Property CbUserscore As CheckBox
     Public Property Categorias As List(Of Categoria)
+    Public Property CbCategorias As List(Of ToggleMenuFlyoutItem)
     Public Property Generos As List(Of Categoria)
+    Public Property CbGeneros As List(Of ToggleMenuFlyoutItem)
     Public Property Tags As List(Of Categoria)
-    Public Property Idiomas As List(Of Categoria)
+    Public Property CbTags As List(Of ToggleMenuFlyoutItem)
+    Public Property Custom As List(Of Categoria)
+    Public Property CbCustom As List(Of ToggleMenuFlyoutItem)
 
-    Public Sub New(ByVal titulo As String, ByVal imagen As String, ByVal id As Integer, ByVal userscore As Categoria, ByVal metascore As String,
-                   ByVal años As List(Of Categoria), ByVal categorias As List(Of Categoria), ByVal generos As List(Of Categoria),
-                   ByVal tags As List(Of Categoria), ByVal idiomas As List(Of Categoria))
+    Public Sub New(ByVal titulo As String, ByVal imagen As String, ByVal id As Integer, ByVal userscore As Categoria, ByVal cbuserscore As CheckBox,
+                   ByVal categorias As List(Of Categoria), ByVal cbcategorias As List(Of ToggleMenuFlyoutItem),
+                   ByVal generos As List(Of Categoria), ByVal cbgeneros As List(Of ToggleMenuFlyoutItem),
+                   ByVal tags As List(Of Categoria), ByVal cbtags As List(Of ToggleMenuFlyoutItem),
+                   ByVal custom As List(Of Categoria), ByVal cbcustom As List(Of ToggleMenuFlyoutItem))
         Me.Titulo = titulo
         Me.Imagen = imagen
         Me.ID = id
         Me.Userscore = userscore
-        Me.Metascore = metascore
-        Me.Años = años
+        Me.CbUserscore = cbuserscore
         Me.Categorias = categorias
+        Me.CbCategorias = cbcategorias
         Me.Generos = generos
+        Me.CbGeneros = cbgeneros
         Me.Tags = tags
-        Me.Idiomas = idiomas
+        Me.CbTags = cbtags
+        Me.Custom = custom
+        Me.CbCustom = cbcustom
     End Sub
 
 End Class

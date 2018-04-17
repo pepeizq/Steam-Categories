@@ -14,6 +14,9 @@ Module Juegos
         Dim lvJuegos As ListView = pagina.FindName("lvJuegos")
         lvJuegos.Visibility = Visibility.Collapsed
 
+        Dim gridMensaje As Grid = pagina.FindName("gridMensaje")
+        gridMensaje.Visibility = Visibility.Collapsed
+
         Dim gridProgreso As Grid = pagina.FindName("gridProgreso")
         gridProgreso.Visibility = Visibility.Visible
 
@@ -45,6 +48,9 @@ Module Juegos
         Dim tbSteamCuenta As TextBox = pagina.FindName("tbSteamCuenta")
         tbSteamCuenta.IsEnabled = False
 
+        Dim tbCategoriasPersonalizadas As TextBox = pagina.FindName("tbCategoriasPersonalizadas")
+        tbCategoriasPersonalizadas.IsEnabled = False
+
         Dim tbJuegosApp As TextBlock = pagina.FindName("tbJuegosApp")
 
         Dim helper As New LocalObjectStorageHelper
@@ -65,6 +71,35 @@ Module Juegos
             listaJuegos = New List(Of Juego)
         End If
 
+        Dim listaCustom As New List(Of String)
+
+        If Await helper.FileExistsAsync("categoriascustom") = True Then
+            Dim contenido As String = Await helper.ReadFileAsync(Of String)("categoriascustom")
+
+            If Not contenido = Nothing Then
+                Dim j As Integer = 0
+                While j < 1000
+                    If contenido.Contains(",") Then
+                        Dim int19 As Integer = contenido.IndexOf(",")
+                        Dim temp19 As String = contenido.Remove(0, int19 + 1)
+                        Dim temp20 As String = contenido.Remove(int19, contenido.Length - int19)
+
+                        If temp20.Trim.Length > 0 Then
+                            listaCustom.Add(temp20.Trim)
+                        End If
+
+                        contenido = temp19
+                    Else
+                        If contenido.Trim.Length > 0 Then
+                            listaCustom.Add(contenido.Trim)
+                        End If
+                        Exit While
+                    End If
+                    j += 1
+                End While
+            End If
+        End If
+
         prProgreso.Value = 0
         prProgreso2.Value = 0
         tbProgreso.Text = String.Empty
@@ -73,11 +108,19 @@ Module Juegos
         If Not listaJuegosID Is Nothing Then
             Dim i As Integer = 0
 
-            While i < 70 ' listaJuegosID.Count
+            While i < listaJuegosID.Count
                 Dim boolAñadir As Boolean = False
 
                 If Not listaJuegos Is Nothing Then
                     For Each juego In listaJuegos
+                        Dim listaCustomFinal As New List(Of Categoria)
+
+                        For Each item In listaCustom
+                            listaCustomFinal.Add(New Categoria(item, False, juego.ID))
+                        Next
+
+                        juego.Custom = listaCustomFinal
+
                         If listaJuegosID(i) = juego.ID Then
                             boolAñadir = True
                         End If
@@ -152,11 +195,11 @@ Module Juegos
 
                         Dim listaTags As New List(Of Categoria)
 
-                        If html.Contains(">store_tags<") Then
+                        If html.Contains(">store_tags</td>") Then
                             Dim temp7, temp8 As String
                             Dim int7, int8 As Integer
 
-                            int7 = html.IndexOf(">store_tags<")
+                            int7 = html.IndexOf(">store_tags</td>")
                             temp7 = html.Remove(0, int7)
 
                             int8 = temp7.IndexOf("</tr>")
@@ -267,7 +310,13 @@ Module Juegos
                             End If
                         End If
 
-                        Dim juego As New Juego(titulo, imagen, listaJuegosID(i), userscore, Nothing, Nothing, listaCategorias, listaGeneros, listaTags, Nothing)
+                        Dim listaCustomFinal As New List(Of Categoria)
+
+                        For Each item In listaCustom
+                            listaCustomFinal.Add(New Categoria(item, False, listaJuegosID(i)))
+                        Next
+
+                        Dim juego As New Juego(titulo, imagen, listaJuegosID(i), userscore, Nothing, listaCategorias, Nothing, listaGeneros, Nothing, listaTags, Nothing, listaCustomFinal, Nothing)
 
                         Dim idBool As Boolean = False
                         Dim k As Integer = 0
@@ -308,19 +357,30 @@ Module Juegos
             Next
 
             Toast("Steam Categories", recursos.GetString("CategoriesLoaded"))
+
+            tbBusquedaJuego.IsEnabled = True
+            lvJuegos.Visibility = Visibility.Visible
+            gridMensaje.Visibility = Visibility.Collapsed
         Else
-            Toast("Steam Categories", recursos.GetString("CategoriesNotLoaded"))
+            tbBusquedaJuego.IsEnabled = False
+            lvJuegos.Visibility = Visibility.Collapsed
+            gridMensaje.Visibility = Visibility.Visible
         End If
 
-        tbBusquedaJuego.IsEnabled = True
-        lvJuegos.Visibility = Visibility.Visible
         gridProgreso.Visibility = Visibility.Collapsed
         gridProgreso2.Visibility = Visibility.Collapsed
-        botonCargaCategorias.IsEnabled = True
+
+        If Not listaJuegosID Is Nothing Then
+            botonCargaCategorias.IsEnabled = True
+        Else
+            botonCargaCategorias.IsEnabled = False
+        End If
+
         botonLimpiarTodo.IsEnabled = True
         botonSteamRuta.IsEnabled = True
         botonCuenta.IsEnabled = True
         tbSteamCuenta.IsEnabled = True
+        tbCategoriasPersonalizadas.IsEnabled = True
 
     End Sub
 

@@ -201,6 +201,7 @@ Module Cuentas
                                 Await helper.SaveFileAsync(Of List(Of String))("listaJuegosID", listaJuegosID)
 
                                 botonCuentaTexto.Text = recursos.GetString("Change")
+                                botonCategorias.IsEnabled = True
                             Catch ex As Exception
 
                             End Try

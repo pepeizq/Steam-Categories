@@ -159,12 +159,6 @@
   <data name="Config" xml:space="preserve">
     <value>Configuration</value>
   </data>
-  <data name="ConfigAutoUpdate.Text" xml:space="preserve">
-    <value>Auto-Update</value>
-  </data>
-  <data name="ConfigAutoUpdateDescription.Text" xml:space="preserve">
-    <value>If you activate this option the app every time it is started it will look for new games and add the categories in Steam</value>
-  </data>
   <data name="ConfigCategoriesLoad.Text" xml:space="preserve">
     <value>To display all the available categories of your games, the application must load all the necessary information</value>
   </data>
@@ -182,6 +176,12 @@
   </data>
   <data name="ConfigSteamFolder.Text" xml:space="preserve">
     <value>Steam Folder</value>
+  </data>
+  <data name="CustomCategories.Text" xml:space="preserve">
+    <value>Add custom categories to include in your games. Notice: separate the terms by a comma (,) and restart the app to see the categories</value>
+  </data>
+  <data name="Customs" xml:space="preserve">
+    <value>Customs</value>
   </data>
   <data name="DeleteCategoriesSteam.Text" xml:space="preserve">
     <value>Delete Categories in Steam</value>

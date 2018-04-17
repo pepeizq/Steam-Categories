@@ -187,6 +187,16 @@ Module Cliente
                 End If
             End If
 
+            If Not juego.Custom Is Nothing Then
+                If juego.Custom.Count > 0 Then
+                    For Each custom In juego.Custom
+                        If custom.Estado = True Then
+                            listaFinalAñadir.Add(custom.Nombre)
+                        End If
+                    Next
+                End If
+            End If
+
             If listaFinalAñadir.Count > 0 Then
                 listaFinal.Add(New CategoriaCliente(juego.ID, listaFinalAñadir))
             End If
@@ -292,23 +302,7 @@ Module Cliente
         Dim helper As New LocalObjectStorageHelper
 
         If boolFinal = True Then
-            If Await helper.FileExistsAsync("actualizar") = True Then
-                Dim actualizar As Boolean = False
-
-                Try
-                    actualizar = Await helper.ReadFileAsync(Of Boolean)("actualizar")
-                Catch ex As Exception
-
-                End Try
-
-                If actualizar = True Then
-                    Toast(recursos.GetString("CategoriesUpdated"), Nothing)
-                Else
-                    Toast(recursos.GetString("CategoriesAdded"), Nothing)
-                End If
-            Else
-                Toast(recursos.GetString("CategoriesAdded"), Nothing)
-            End If
+            Toast(recursos.GetString("CategoriesAdded"), Nothing)
         Else
             Toast(recursos.GetString("CategoriesNotAdded"), Nothing)
         End If

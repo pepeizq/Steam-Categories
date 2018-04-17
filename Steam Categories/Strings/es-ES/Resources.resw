@@ -183,6 +183,12 @@
   <data name="ConfigSteamFolder.Text" xml:space="preserve">
     <value>Carpeta de Steam</value>
   </data>
+  <data name="CustomCategories.Text" xml:space="preserve">
+    <value>Añade categorias personalizadas para incluir en tus juegos. Aviso: separa los terminos por una coma (,) y reinicia la app para poder ver las categorias</value>
+  </data>
+  <data name="Customs" xml:space="preserve">
+    <value>Personalizadas</value>
+  </data>
   <data name="DeleteCategoriesSteam.Text" xml:space="preserve">
     <value>Borrar Categorías en Steam</value>
   </data>

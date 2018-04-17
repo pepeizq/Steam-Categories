@@ -11,7 +11,7 @@ Module Interfaz
 
         Dim grid As New Grid With {
             .Tag = juego,
-            .Padding = New Thickness(10, 3, 10, 3),
+            .Padding = New Thickness(10, 3, 30, 3),
             .Name = "grid" + juego.ID.ToString
         }
 
@@ -154,6 +154,7 @@ Module Interfaz
             AddHandler cbUserscore.PointerEntered, AddressOf UsuarioEntraBoton
             AddHandler cbUserscore.PointerExited, AddressOf UsuarioSaleBoton
 
+            juego.CbUserscore = cbUserscore
             sp.Children.Add(cbUserscore)
         End If
 
@@ -180,6 +181,7 @@ Module Interfaz
                 spBoton.Children.Add(iconoBoton)
 
                 Dim menu As New MenuFlyout
+                Dim listaItems As New List(Of ToggleMenuFlyoutItem)
 
                 Dim i As Integer = 0
                 For Each tag In juego.Tags
@@ -193,9 +195,12 @@ Module Interfaz
                     AddHandler item.PointerEntered, AddressOf UsuarioEntraBoton
                     AddHandler item.PointerExited, AddressOf UsuarioSaleBoton
 
+                    listaItems.Add(item)
                     menu.Items.Add(item)
                     i += 1
                 Next
+
+                juego.CbTags = listaItems
 
                 Dim boton As New Button With {
                     .Margin = New Thickness(20, 0, 0, 0),
@@ -235,6 +240,7 @@ Module Interfaz
                 spBoton.Children.Add(iconoBoton)
 
                 Dim menu As New MenuFlyout
+                Dim listaItems As New List(Of ToggleMenuFlyoutItem)
 
                 Dim i As Integer = 0
                 For Each categoria In juego.Categorias
@@ -248,9 +254,12 @@ Module Interfaz
                     AddHandler item.PointerEntered, AddressOf UsuarioEntraBoton
                     AddHandler item.PointerExited, AddressOf UsuarioSaleBoton
 
+                    listaItems.Add(item)
                     menu.Items.Add(item)
                     i += 1
                 Next
+
+                juego.CbCategorias = listaItems
 
                 Dim boton As New Button With {
                     .Margin = New Thickness(20, 0, 0, 0),
@@ -290,6 +299,7 @@ Module Interfaz
                 spBoton.Children.Add(iconoBoton)
 
                 Dim menu As New MenuFlyout
+                Dim listaItems As New List(Of ToggleMenuFlyoutItem)
 
                 Dim i As Integer = 0
                 For Each genero In juego.Generos
@@ -303,9 +313,12 @@ Module Interfaz
                     AddHandler item.PointerEntered, AddressOf UsuarioEntraBoton
                     AddHandler item.PointerExited, AddressOf UsuarioSaleBoton
 
+                    listaItems.Add(item)
                     menu.Items.Add(item)
                     i += 1
                 Next
+
+                juego.CbGeneros = listaItems
 
                 Dim boton As New Button With {
                     .Margin = New Thickness(20, 0, 0, 0),
@@ -313,6 +326,65 @@ Module Interfaz
                     .Content = spBoton,
                     .Flyout = menu,
                     .Name = "botonGeneros" + juego.ID.ToString
+                }
+
+                AddHandler boton.PointerEntered, AddressOf UsuarioEntraBoton
+                AddHandler boton.PointerExited, AddressOf UsuarioSaleBoton
+
+                sp.Children.Add(boton)
+            End If
+        End If
+
+        If Not juego.Custom Is Nothing Then
+            If juego.Custom.Count > 0 Then
+                Dim spBoton As New StackPanel With {
+                    .Orientation = Orientation.Horizontal
+                }
+
+                Dim tbBoton As New TextBlock With {
+                    .Foreground = New SolidColorBrush(Colors.White),
+                    .Text = recursos.GetString("Customs"),
+                    .VerticalAlignment = VerticalAlignment.Center
+                }
+
+                spBoton.Children.Add(tbBoton)
+
+                Dim iconoBoton As New FontAwesome.UWP.FontAwesome With {
+                    .Foreground = New SolidColorBrush(Colors.White),
+                    .Icon = FontAwesomeIcon.AngleDown,
+                    .Margin = New Thickness(5, 0, 0, 0)
+                }
+
+                spBoton.Children.Add(iconoBoton)
+
+                Dim menu As New MenuFlyout
+                Dim listaItems As New List(Of ToggleMenuFlyoutItem)
+
+                Dim i As Integer = 0
+                For Each custom In juego.Custom
+                    Dim item As New ToggleMenuFlyoutItem With {
+                        .Text = custom.Nombre,
+                        .Name = "custom" + juego.ID.ToString + custom.Nombre.Replace(" ", Nothing),
+                        .Tag = juego.Custom(i)
+                    }
+
+                    AddHandler item.Click, AddressOf UsuarioClickeaCustom
+                    AddHandler item.PointerEntered, AddressOf UsuarioEntraBoton
+                    AddHandler item.PointerExited, AddressOf UsuarioSaleBoton
+
+                    listaItems.Add(item)
+                    menu.Items.Add(item)
+                    i += 1
+                Next
+
+                juego.CbCustom = listaItems
+
+                Dim boton As New Button With {
+                    .Margin = New Thickness(20, 0, 0, 0),
+                    .Background = New SolidColorBrush(App.Current.Resources("ColorSecundario")),
+                    .Content = spBoton,
+                    .Flyout = menu,
+                    .Name = "botonCustoms" + juego.ID.ToString
                 }
 
                 AddHandler boton.PointerEntered, AddressOf UsuarioEntraBoton
@@ -345,10 +417,13 @@ Module Interfaz
             Dim juego As Juego = juegoGrid.Tag
 
             If Not juego.Userscore Is Nothing Then
-                Dim cbUserscore As CheckBox = pagina.FindName("cbUserscore" + juego.ID.ToString)
+                Dim cbUserscore As CheckBox = juego.CbUserscore
 
                 If Not cbUserscore Is Nothing Then
                     If Not cbUserscore.IsChecked = categoria.Estado Then
+                        RemoveHandler cbUserscore.Checked, AddressOf UsuarioClickeaUserscore
+                        RemoveHandler cbUserscore.Unchecked, AddressOf UsuarioClickeaUserscore
+
                         If categoria.Nombre > 89 Then
                             If juego.Userscore.Nombre > 89 Then
                                 cbUserscore.IsChecked = categoria.Estado
@@ -390,6 +465,13 @@ Module Interfaz
                                 cbUserscore.IsChecked = categoria.Estado
                             End If
                         End If
+
+                        Dim categoriaItem As Categoria = cbUserscore.Tag
+                        categoriaItem.Estado = cbUserscore.IsChecked
+                        cbUserscore.Tag = categoriaItem
+
+                        AddHandler cbUserscore.Checked, AddressOf UsuarioClickeaUserscore
+                        AddHandler cbUserscore.Unchecked, AddressOf UsuarioClickeaUserscore
                     End If
                 End If
             End If
@@ -402,15 +484,15 @@ Module Interfaz
             Dim juego As Juego = juegoGrid.Tag
 
             If Not juego.Userscore Is Nothing Then
-                If categoria.IDJuego = juego.ID Then
-                    Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + juego.ID.ToString)
-                    Dim tempNumCategorias As String = tbNumCategorias.Text
-                    tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
-                    tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
-                    Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
+                Dim tbNumCategorias As TextBlock = juegoGrid.Children(0)
+                Dim tempNumCategorias As String = tbNumCategorias.Text
+                tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
+                tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
+                Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
 
-                    Dim cbUserscore As CheckBox = pagina.FindName("cbUserscore" + juego.ID.ToString)
+                Dim cbUserscore As CheckBox = juego.CbUserscore
 
+                If categoria.Nombre > 89 And juego.Userscore.Nombre > 89 Then
                     If cbUserscore.IsChecked = True Then
                         numCategorias += 1
                         numCategoriasTotales += 1
@@ -418,9 +500,81 @@ Module Interfaz
                         numCategorias -= 1
                         numCategoriasTotales -= 1
                     End If
-
-                    tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
+                ElseIf (categoria.Nombre > 79 And categoria.Nombre < 90) And (juego.Userscore.Nombre > 79 And juego.Userscore.Nombre < 90) Then
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
+                ElseIf (categoria.Nombre > 69 And categoria.Nombre < 80) And (juego.Userscore.Nombre > 69 And juego.Userscore.Nombre < 80) Then
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
+                ElseIf (categoria.Nombre > 59 And categoria.Nombre < 70) And (juego.Userscore.Nombre > 59 And juego.Userscore.Nombre < 70) Then
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
+                ElseIf (categoria.Nombre > 49 And categoria.Nombre < 60) And (juego.Userscore.Nombre > 49 And juego.Userscore.Nombre < 60) Then
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
+                ElseIf (categoria.Nombre > 39 And categoria.Nombre < 50) And (juego.Userscore.Nombre > 39 And juego.Userscore.Nombre < 50) Then
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
+                ElseIf (categoria.Nombre > 29 And categoria.Nombre < 40) And (juego.Userscore.Nombre > 29 And juego.Userscore.Nombre < 40) Then
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
+                ElseIf (categoria.Nombre > 19 And categoria.Nombre < 30) And (juego.Userscore.Nombre > 19 And juego.Userscore.Nombre < 30) Then
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
+                ElseIf (categoria.Nombre > 9 And categoria.Nombre < 20) And (juego.Userscore.Nombre > 9 And juego.Userscore.Nombre < 20) Then
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
+                ElseIf categoria.Nombre < 10 And juego.Userscore.Nombre < 10 Then
+                    If cbUserscore.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
                 End If
+
+                tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
             End If
         Next
 
@@ -459,12 +613,8 @@ Module Interfaz
             Dim juego As Juego = juegoGrid.Tag
 
             If Not juego.Tags Is Nothing Then
-                Dim boton As Button = pagina.FindName("botonEtiquetas" + juego.ID.ToString)
-
-                If Not boton Is Nothing Then
-                    Dim menu As MenuFlyout = boton.Flyout
-
-                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                If Not juego.CbTags Is Nothing Then
+                    For Each item As ToggleMenuFlyoutItem In juego.CbTags
                         If item.Name = "etiqueta" + juego.ID.ToString + categoria.Nombre.Replace(" ", Nothing) Then
                             item.IsChecked = categoria.Estado
 
@@ -484,18 +634,14 @@ Module Interfaz
             Dim juego As Juego = juegoGrid.Tag
 
             If Not juego.Tags Is Nothing Then
-                Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + juego.ID.ToString)
-                Dim tempNumCategorias As String = tbNumCategorias.Text
-                tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
-                tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
-                Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
+                If Not juego.CbTags Is Nothing Then
+                    Dim tbNumCategorias As TextBlock = juegoGrid.Children(0)
+                    Dim tempNumCategorias As String = tbNumCategorias.Text
+                    tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
+                    tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
+                    Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
 
-                Dim boton As Button = pagina.FindName("botonEtiquetas" + juego.ID.ToString)
-
-                If Not boton Is Nothing Then
-                    Dim menu As MenuFlyout = boton.Flyout
-
-                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                    For Each item As ToggleMenuFlyoutItem In juego.CbTags
                         If item.Name = "etiqueta" + juego.ID.ToString + categoria.Nombre.Replace(" ", Nothing) Then
                             If item.IsChecked = True Then
                                 numCategorias += 1
@@ -506,9 +652,11 @@ Module Interfaz
                             End If
                         End If
                     Next
-                End If
 
-                tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
+                    If Not tbNumCategorias Is Nothing Then
+                        tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
+                    End If
+                End If
             End If
         Next
 
@@ -547,12 +695,8 @@ Module Interfaz
             Dim juego As Juego = juegoGrid.Tag
 
             If Not juego.Categorias Is Nothing Then
-                Dim boton As Button = pagina.FindName("botonCategorias" + juego.ID.ToString)
-
-                If Not boton Is Nothing Then
-                    Dim menu As MenuFlyout = boton.Flyout
-
-                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                If Not juego.CbCategorias Is Nothing Then
+                    For Each item As ToggleMenuFlyoutItem In juego.CbCategorias
                         If item.Name = "categoria" + juego.ID.ToString + categoria.Nombre.Replace(" ", Nothing) Then
                             item.IsChecked = categoria.Estado
 
@@ -572,18 +716,14 @@ Module Interfaz
             Dim juego As Juego = juegoGrid.Tag
 
             If Not juego.Categorias Is Nothing Then
-                Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + juego.ID.ToString)
-                Dim tempNumCategorias As String = tbNumCategorias.Text
-                tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
-                tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
-                Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
+                If Not juego.CbCategorias Is Nothing Then
+                    Dim tbNumCategorias As TextBlock = juegoGrid.Children(0)
+                    Dim tempNumCategorias As String = tbNumCategorias.Text
+                    tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
+                    tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
+                    Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
 
-                Dim boton As Button = pagina.FindName("botonCategorias" + juego.ID.ToString)
-
-                If Not boton Is Nothing Then
-                    Dim menu As MenuFlyout = boton.Flyout
-
-                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                    For Each item As ToggleMenuFlyoutItem In juego.CbCategorias
                         If item.Name = "categoria" + juego.ID.ToString + categoria.Nombre.Replace(" ", Nothing) Then
                             If item.IsChecked = True Then
                                 numCategorias += 1
@@ -594,9 +734,11 @@ Module Interfaz
                             End If
                         End If
                     Next
-                End If
 
-                tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
+                    If Not tbNumCategorias Is Nothing Then
+                        tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
+                    End If
+                End If
             End If
         Next
 
@@ -635,12 +777,8 @@ Module Interfaz
             Dim juego As Juego = juegoGrid.Tag
 
             If Not juego.Generos Is Nothing Then
-                Dim boton As Button = pagina.FindName("botonGeneros" + juego.ID.ToString)
-
-                If Not boton Is Nothing Then
-                    Dim menu As MenuFlyout = boton.Flyout
-
-                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                If Not juego.CbGeneros Is Nothing Then
+                    For Each item As ToggleMenuFlyoutItem In juego.CbGeneros
                         If item.Name = "genero" + juego.ID.ToString + categoria.Nombre.Replace(" ", Nothing) Then
                             item.IsChecked = categoria.Estado
 
@@ -659,19 +797,15 @@ Module Interfaz
         For Each juegoGrid As Grid In lvJuegos.Items
             Dim juego As Juego = juegoGrid.Tag
 
-            If Not juego.Tags Is Nothing Then
-                Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + juego.ID.ToString)
-                Dim tempNumCategorias As String = tbNumCategorias.Text
-                tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
-                tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
-                Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
+            If Not juego.Generos Is Nothing Then
+                If Not juego.CbGeneros Is Nothing Then
+                    Dim tbNumCategorias As TextBlock = juegoGrid.Children(0)
+                    Dim tempNumCategorias As String = tbNumCategorias.Text
+                    tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
+                    tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
+                    Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
 
-                Dim boton As Button = pagina.FindName("botonGeneros" + juego.ID.ToString)
-
-                If Not boton Is Nothing Then
-                    Dim menu As MenuFlyout = boton.Flyout
-
-                    For Each item As ToggleMenuFlyoutItem In menu.Items
+                    For Each item As ToggleMenuFlyoutItem In juego.CbGeneros
                         If item.Name = "genero" + juego.ID.ToString + categoria.Nombre.Replace(" ", Nothing) Then
                             If item.IsChecked = True Then
                                 numCategorias += 1
@@ -682,11 +816,73 @@ Module Interfaz
                             End If
                         End If
                     Next
-                End If
 
-                tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
+                    If Not tbNumCategorias Is Nothing Then
+                        tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
+                    End If
+                End If
             End If
         Next
+
+        Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
+        Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")
+        Dim botonBorrar As Button = pagina.FindName("botonBorrarCategorias")
+
+        If numCategoriasTotales > 0 Then
+            If botonBorrar.IsEnabled = True Then
+                botonAñadir.IsEnabled = True
+            End If
+
+            botonLimpiar.IsEnabled = True
+        Else
+            botonAñadir.IsEnabled = False
+            botonLimpiar.IsEnabled = False
+        End If
+
+        tbNumeroCategorias.Text = numCategoriasTotales.ToString
+
+    End Sub
+
+    Public Sub UsuarioClickeaCustom(sender As Object, e As RoutedEventArgs)
+
+        Dim toggle As ToggleMenuFlyoutItem = sender
+        Dim categoria As Categoria = toggle.Tag
+        categoria.Estado = toggle.IsChecked
+        toggle.Tag = categoria
+
+        Dim frame As Frame = Window.Current.Content
+        Dim pagina As Page = frame.Content
+
+        Dim tbNumeroCategorias As TextBlock = pagina.FindName("tbNumeroCategorias")
+        Dim numCategoriasTotales As Integer = tbNumeroCategorias.Text
+
+        Dim tbNumCategorias As TextBlock = pagina.FindName("tbNumCategorias" + categoria.IDJuego.ToString)
+        Dim tempNumCategorias As String = tbNumCategorias.Text
+        tempNumCategorias = tempNumCategorias.Replace("(", Nothing)
+        tempNumCategorias = tempNumCategorias.Replace(")", Nothing)
+        Dim numCategorias As Integer = Integer.Parse(tempNumCategorias)
+
+        Dim boton As Button = pagina.FindName("botonCustoms" + categoria.IDJuego.ToString)
+
+        If Not boton Is Nothing Then
+            Dim menu As MenuFlyout = boton.Flyout
+
+            For Each item As ToggleMenuFlyoutItem In menu.Items
+                If item.Name = "custom" + categoria.IDJuego.ToString + categoria.Nombre.Replace(" ", Nothing) Then
+                    If item.IsChecked = True Then
+                        numCategorias += 1
+                        numCategoriasTotales += 1
+                    Else
+                        numCategorias -= 1
+                        numCategoriasTotales -= 1
+                    End If
+                End If
+            Next
+        End If
+
+        If Not tbNumCategorias Is Nothing Then
+            tbNumCategorias.Text = "(" + numCategorias.ToString + ")"
+        End If
 
         Dim botonAñadir As Button = pagina.FindName("botonAñadirCategorias")
         Dim botonLimpiar As Button = pagina.FindName("botonLimpiarSeleccion")

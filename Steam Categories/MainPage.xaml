@@ -59,7 +59,17 @@
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0" Background="{StaticResource BrushCuarto}" Padding="15">
-                        <TextBox x:Name="tbBusquedaJuego"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <fa:FontAwesome Icon="Search" Grid.Column="0" Foreground="{StaticResource BrushPrimario}" Margin="0,0,10,0"/>
+                        <TextBox x:Name="tbBusquedaJuego" Grid.Column="1" IsEnabled="False"/>
+                    </Grid>
+
+                    <Grid x:Name="gridMensaje" Grid.Row="1" Padding="10" Background="IndianRed" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                        <TextBlock x:Uid="MessageCategories" TextWrapping="Wrap" Foreground="White"/>
                     </Grid>
 
                     <Grid x:Name="gridProgreso2" Grid.Row="1" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -241,7 +251,25 @@
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel> 
+
+                            <StackPanel Orientation="Vertical" Margin="40,20" BorderBrush="{StaticResource BrushSecundario}" BorderThickness="1">
+                                <StackPanel.Background>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="#FFE4E4E4" Offset="0.5" />
+                                        <GradientStop Color="#FFBFBFBF" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </StackPanel.Background>
+
+                                <Grid x:Name="gridConfigPersonalizacion" HorizontalAlignment="Stretch" Padding="10" Background="{StaticResource GridTituloBackground}">
+                                    <TextBlock x:Uid="Personalization" FontSize="16" Foreground="White" Margin="5,0,0,0"/>
+                                </Grid>
+
+                                <StackPanel Orientation="Vertical" Padding="15">
+                                    <TextBlock x:Uid="CustomCategories" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                                    <TextBox x:Name="tbCategoriasPersonalizadas" TextWrapping="Wrap"/>
+                                </StackPanel> 
+                            </StackPanel> 
+                         </StackPanel> 
                     </ScrollViewer>                                       
                 </Grid>
             </Grid> 
