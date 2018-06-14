@@ -3,10 +3,13 @@ Imports Microsoft.Toolkit.Uwp.Helpers
 
 Module Juegos
 
-    Public Async Sub Cargar()
+    Public Async Sub Cargar(inicio As Boolean)
 
         Dim frame As Frame = Window.Current.Content
         Dim pagina As Page = frame.Content
+
+        Dim botonBuscar As Button = pagina.FindName("botonBuscar")
+        botonBuscar.IsEnabled = False
 
         Dim tbBusquedaJuego As TextBox = pagina.FindName("tbBusquedaJuego")
         tbBusquedaJuego.IsEnabled = False
@@ -356,12 +359,16 @@ Module Juegos
                 lvJuegos.Items.Add(Interfaz.AñadirJuegoLista(juego))
             Next
 
-            Toast("Steam Categories", recursos.GetString("CategoriesLoaded"))
+            If inicio = False Then
+                Toast("Steam Categories", recursos.GetString("CategoriesLoaded"))
+            End If
 
+            botonBuscar.IsEnabled = True
             tbBusquedaJuego.IsEnabled = True
             lvJuegos.Visibility = Visibility.Visible
             gridMensaje.Visibility = Visibility.Collapsed
         Else
+            botonBuscar.IsEnabled = False
             tbBusquedaJuego.IsEnabled = False
             lvJuegos.Visibility = Visibility.Collapsed
             gridMensaje.Visibility = Visibility.Visible

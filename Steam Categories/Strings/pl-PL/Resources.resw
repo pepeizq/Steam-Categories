@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,174 +118,162 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add.Text" xml:space="preserve">
-    <value>Añadir</value>
+    <value>Dodaj</value>
   </data>
   <data name="Add2" xml:space="preserve">
-    <value>Añadir</value>
+    <value>Dodaj</value>
   </data>
   <data name="AddCategoriesSteam.Text" xml:space="preserve">
-    <value>Añadir Categorías en Steam</value>
+    <value>Dodaj kategorie do Steam</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value>Categorías</value>
+    <value>Kategorie</value>
   </data>
   <data name="Categories2.Text" xml:space="preserve">
-    <value>Categorías</value>
+    <value>Kategorie</value>
   </data>
   <data name="CategoriesAdded" xml:space="preserve">
-    <value>Se han añadido las categorías en Steam</value>
-  </data>
-  <data name="CategoriesInfo.Text" xml:space="preserve">
-    <value>Categorías asignadas por los creadores de tus juegos</value>
+    <value>Kategorie zostały dodane do Steam</value>
   </data>
   <data name="CategoriesLoaded" xml:space="preserve">
-    <value>Juegos cargados en la aplicación</value>
+    <value>Gry załadowane do aplikacji</value>
   </data>
   <data name="CategoriesNotAdded" xml:space="preserve">
-    <value>No se han podido añadir las categorías, cierra Steam</value>
+    <value>Kategorie nie mogą zostać dodane, zamknij Steam</value>
   </data>
   <data name="CategoriesNotLoaded" xml:space="preserve">
-    <value>No se han cargado los juegos en la aplicación</value>
+    <value>Gry nie zostały załadowane</value>
   </data>
   <data name="CategoriesUpdated" xml:space="preserve">
-    <value>Categorías actualizadas, reinicia Steam</value>
+    <value>Zaktualizowane kategorie, uruchom ponownie Steam</value>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>Cambiar</value>
+    <value>Zmień</value>
   </data>
   <data name="CleanSelection.Text" xml:space="preserve">
-    <value>Limpiar Categorías Seleccionadas</value>
+    <value>Wyczyść wybrane kategorie</value>
   </data>
   <data name="Config" xml:space="preserve">
-    <value>Configuración</value>
-  </data>
-  <data name="ConfigAutoUpdate.Text" xml:space="preserve">
-    <value>Auto-Actualización</value>
-  </data>
-  <data name="ConfigAutoUpdateDescription.Text" xml:space="preserve">
-    <value>Si activas esta opción la app cada vez que sea iniciada buscara nuevos juegos y añadirá las categorias en Steam</value>
+    <value>Konfiguracja</value>
   </data>
   <data name="ConfigCategoriesLoad.Text" xml:space="preserve">
-    <value>Para mostrar todas las categorías disponibles de tus juegos la aplicación debe cargar toda la información necesaria</value>
+    <value>Aby wyświetlić wszystkie dostępne kategorie gier, aplikacja musi załadować wszystkie niezbędne informacje</value>
   </data>
   <data name="ConfigCategoriesLoadWarning.Text" xml:space="preserve">
-    <value>Si tienes cientos o miles de juegos la carga tardara minutos</value>
+    <value>Jeśli masz setki lub tysiące gier, ładowanie zajmie kilka minut</value>
   </data>
   <data name="ConfigCategoriesMessage.Text" xml:space="preserve">
-    <value>Para que funcione la aplicación se deben especificar la carpeta donde esta instalado Steam y una cuenta de Steam Community (ejemplo: http://steamcommunity.com/id/pepeizq/)</value>
+    <value>Aby rozpocząć pracę z aplikacją, musisz określić folder, w którym zainstalowany jest  Steam, oraz podać konto społeczności Steam (przykład: http://steamcommunity.com/id/pepeizq/)</value>
   </data>
   <data name="ConfigCleanAll.Text" xml:space="preserve">
-    <value>Limpiar Configuración</value>
+    <value>Wyczyść konfigurację</value>
   </data>
   <data name="ConfigSteamAccount.Text" xml:space="preserve">
-    <value>Cuenta de Steam Community</value>
+    <value>Konto społeczności Steam</value>
   </data>
   <data name="ConfigSteamFolder.Text" xml:space="preserve">
-    <value>Carpeta de Steam</value>
-  </data>
-  <data name="CustomCategories.Text" xml:space="preserve">
-    <value>Añade categorias personalizadas para incluir en tus juegos. Aviso: separa los terminos por una coma (,) y reinicia la app para poder ver las categorias</value>
-  </data>
-  <data name="Customs" xml:space="preserve">
-    <value>Personalizadas</value>
+    <value>Folder Steam</value>
   </data>
   <data name="DeleteCategoriesSteam.Text" xml:space="preserve">
-    <value>Borrar Categorías en Steam</value>
+    <value>Usuń kategorie w Steam</value>
   </data>
   <data name="DeleteCategoriesSteamNo" xml:space="preserve">
-    <value>No se han eliminado las categorías de Steam</value>
+    <value>Kategorie Steam nie mogą zostać usunięte.</value>
   </data>
   <data name="DeleteCategoriesSteamYes" xml:space="preserve">
-    <value>Se han eliminado las categorías de Steam</value>
+    <value>Kategorie Steam zostały usunięte</value>
   </data>
   <data name="GamesAccount.Text" xml:space="preserve">
-    <value>Juegos detectados en la cuenta:</value>
+    <value>Gry wykryte na koncie:</value>
   </data>
   <data name="GamesApp.Text" xml:space="preserve">
-    <value>Juegos cargados en la app:</value>
-  </data>
-  <data name="Genres" xml:space="preserve">
-    <value>Géneros</value>
-  </data>
-  <data name="GenresInfo.Text" xml:space="preserve">
-    <value>Géneros asignados por los creadores de tus juegos</value>
-  </data>
-  <data name="ImageExample.Text" xml:space="preserve">
-    <value>Imagen de ejemplo</value>
-  </data>
-  <data name="InfoCategories.Text" xml:space="preserve">
-    <value>Número de Categorías que serán añadidas en Steam</value>
-  </data>
-  <data name="Languages" xml:space="preserve">
-    <value>Idiomas</value>
-  </data>
-  <data name="LanguagesInfo.Text" xml:space="preserve">
-    <value>Idiomas disponibles para tus juegos</value>
+    <value>Gry załadowane do aplikacji:</value>
   </data>
   <data name="Load.Text" xml:space="preserve">
-    <value>Cargar</value>
+    <value>Załaduj</value>
   </data>
   <data name="MessageCategories.Text" xml:space="preserve">
-    <value>Debes ir a Configuración antes de poder añadir categorías</value>
+    <value>Przed dodaniem kategorii musisz przejść do konfiguracji</value>
   </data>
   <data name="MessageCategories2" xml:space="preserve">
-    <value>Selecciona una opción de la barra de la izquierda para añadir categorías</value>
-  </data>
-  <data name="MetascoreInfo.Text" xml:space="preserve">
-    <value>Añade categorías a tus juegos en base a su puntuación de Metacritic</value>
+    <value>Wybierz opcję z lewego paska, aby dodać kategorie</value>
   </data>
   <data name="MoreThings" xml:space="preserve">
-    <value>Más Cosas</value>
-  </data>
-  <data name="MoreThings_Back" xml:space="preserve">
-    <value>Volver</value>
-  </data>
-  <data name="MoreThings_Contact" xml:space="preserve">
-    <value>Contactar</value>
-  </data>
-  <data name="MoreThings_HelpTranslate" xml:space="preserve">
-    <value>Ayuda a Traducir</value>
-  </data>
-  <data name="MoreThings_MoreApps" xml:space="preserve">
-    <value>Más Apps</value>
-  </data>
-  <data name="MoreThings_ReportBug" xml:space="preserve">
-    <value>Informa de un Fallo</value>
-  </data>
-  <data name="MoreThings_SourceCode" xml:space="preserve">
-    <value>Código Fuente</value>
-  </data>
-  <data name="MoreThings_VoteApp" xml:space="preserve">
-    <value>Vota la App</value>
-  </data>
-  <data name="NoAdsButton.Text" xml:space="preserve">
-    <value>Comprar No Ads</value>
-  </data>
-  <data name="NoAdsMessage.Text" xml:space="preserve">
-    <value>Comprando el complemento No Ads no se mostrará esta pantalla y puedes empezar de inmediato a añadir categorías</value>
+    <value>Więcej rzeczy</value>
   </data>
   <data name="Personalization.Text" xml:space="preserve">
-    <value>Personalización</value>
+    <value>Personalizacja</value>
   </data>
-  <data name="StoreDescription" xml:space="preserve">
-    <value>Añade categorías para tus juegos de Steam de forma fácil y automática.</value>
+  <data name="CategoriesInfo.Text" xml:space="preserve">
+    <value>Kategorie przypisane przez twórców gier</value>
   </data>
-  <data name="StoreTags" xml:space="preserve">
-    <value>Steam;Categorías;Juegos</value>
+  <data name="GenresInfo.Text" xml:space="preserve">
+    <value>Gatunki przypisane przez twórców gier</value>
   </data>
-  <data name="Tags" xml:space="preserve">
-    <value>Etiquetas</value>
+  <data name="LanguagesInfo.Text" xml:space="preserve">
+    <value>Obsługiwane języki przez gry</value>
+  </data>
+  <data name="MetascoreInfo.Text" xml:space="preserve">
+    <value>Dodaj kategorie do swoich gier na podstawie wyniku z serwisu Metacritic</value>
   </data>
   <data name="TagsInfo.Text" xml:space="preserve">
-    <value>Etiquetas creadas por usuarios para tus juegos</value>
+    <value>Tagi utworzone przez użytkowników dla twoich gier</value>
   </data>
   <data name="UserscoreInfo.Text" xml:space="preserve">
-    <value>Añade categorías a tus juegos en base a los análisis de los usuarios de Steam</value>
-  </data>
-  <data name="Years" xml:space="preserve">
-    <value>Años</value>
+    <value>Dodaj kategorie do swoich gier na podstawie opinii użytkowników Steam</value>
   </data>
   <data name="YearsInfo.Text" xml:space="preserve">
-    <value>Años de lanzamiento de tus juegos</value>
+    <value>Rok wydania gier</value>
+  </data>
+  <data name="Genres" xml:space="preserve">
+    <value>Gatunki</value>
+  </data>
+  <data name="ImageExample.Text" xml:space="preserve">
+    <value>Przykładowy obraz</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Języki</value>
+  </data>
+  <data name="MoreThings_Back" xml:space="preserve">
+    <value>Wstecz</value>
+  </data>
+  <data name="MoreThings_Contact" xml:space="preserve">
+    <value>Kontakt</value>
+  </data>
+  <data name="MoreThings_HelpTranslate" xml:space="preserve">
+    <value>Pomóż w tłumaczeniu</value>
+  </data>
+  <data name="MoreThings_MoreApps" xml:space="preserve">
+    <value>Więcej aplikacji</value>
+  </data>
+  <data name="MoreThings_ReportBug" xml:space="preserve">
+    <value>Zgłoś błąd</value>
+  </data>
+  <data name="MoreThings_SourceCode" xml:space="preserve">
+    <value>Kod źródłowy</value>
+  </data>
+  <data name="MoreThings_VoteApp" xml:space="preserve">
+    <value>Oceń aplikację</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tagi</value>
+  </data>
+  <data name="Years" xml:space="preserve">
+    <value>Lata</value>
+  </data>
+  <data name="StoreDescription" xml:space="preserve">
+    <value>Dodaj kategorie do gier Steam w łatwy i automatyczny sposób</value>
+  </data>
+  <data name="StoreTags" xml:space="preserve">
+    <value>Steam;Kategorie;Gry</value>
+  </data>
+  <data name="CustomCategories.Text" xml:space="preserve">
+    <value>Dodaj niestandardowe kategorie do swoich gier. Uwaga: oddziel wyrażenia przecinkami (,) i uruchom ponownie aplikację, aby wyświetlić kategorie</value>
+  </data>
+  <data name="Customs" xml:space="preserve">
+    <value>Niestandardowe</value>
+  </data>
+  <data name="InfoCategories.Text" xml:space="preserve">
+    <value>Liczba kategorii, które zostaną dodane do Steam</value>
   </data>
 </root>

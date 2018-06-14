@@ -1,5 +1,7 @@
 ﻿Imports FontAwesome.UWP
 Imports Microsoft.Toolkit.Uwp.Helpers
+Imports Windows.ApplicationModel.Store
+Imports Windows.Services.Store
 Imports Windows.Storage.AccessCache
 Imports Windows.UI
 Imports Windows.UI.Core
@@ -51,11 +53,9 @@ Public NotInheritable Class MainPage
         GridVisibilidad(gridCategorias, recursos.GetString("Categories"))
         nvPrincipal.IsPaneOpen = False
 
-        Cliente.Detectar(False)
-        Await Task.Delay(2000)
-        Cuentas.Detectar()
-        Await Task.Delay(2000)
-        Juegos.Cargar()
+        Await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, (Sub() Cliente.Detectar(False)))
+        Await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, (Sub() Cuentas.Detectar()))
+        Await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, (Sub() Juegos.Cargar(True)))
 
         Dim helper As New LocalObjectStorageHelper
 
@@ -83,9 +83,11 @@ Public NotInheritable Class MainPage
 
         Await Dispatcher.RunAsync(CoreDispatcherPriority.High, Sub()
                                                                    If estado = True Then
+                                                                       gridAnuncio.Background = App.Current.Resources("GridAcrilico")
                                                                        gridConfig.Background = App.Current.Resources("GridAcrilico")
                                                                        gridConfigCategories.Background = App.Current.Resources("GridTituloBackground")
                                                                    Else
+                                                                       gridAnuncio.Background = New SolidColorBrush(Colors.LightGray)
                                                                        gridConfig.Background = New SolidColorBrush(Colors.LightGray)
                                                                        gridConfigCategories.Background = New SolidColorBrush(App.Current.Resources("ColorPrimario"))
                                                                    End If
@@ -97,6 +99,7 @@ Public NotInheritable Class MainPage
 
         tbTitulo.Text = Package.Current.DisplayName + " (" + Package.Current.Id.Version.Major.ToString + "." + Package.Current.Id.Version.Minor.ToString + "." + Package.Current.Id.Version.Build.ToString + "." + Package.Current.Id.Version.Revision.ToString + ") - " + tag
 
+        gridAnuncio.Visibility = Visibility.Collapsed
         gridConfig.Visibility = Visibility.Collapsed
 
         grid.Visibility = Visibility.Visible
@@ -115,37 +118,67 @@ Public NotInheritable Class MainPage
 
     End Sub
 
+    Private Async Sub BotonQuitarAnuncios_Click(sender As Object, e As RoutedEventArgs) Handles botonQuitarAnuncios.Click
+
+        Dim contexto As StoreContext = StoreContext.GetDefault
+        Await contexto.RequestPurchaseAsync("9N848WLHX309")
+
+    End Sub
+
     'CATEGORIAS--------------------------------------------------------------
 
-    Private Sub TbBusquedaJuego_TextChanged(sender As Object, e As TextChangedEventArgs) Handles tbBusquedaJuego.TextChanged
+    Private Sub BotonBuscar_Click(sender As Object, e As RoutedEventArgs) Handles botonBuscar.Click
 
         If tbBusquedaJuego.Text.Trim.Length > 0 Then
+            Dim i As Integer = 0
+
             For Each juegoGrid As Grid In lvJuegos.Items
                 Dim item As ListViewItem = lvJuegos.ContainerFromItem(juegoGrid)
+                Dim juego As Juego = juegoGrid.Tag
 
-                If Not item Is Nothing Then
-                    Dim juego As Juego = juegoGrid.Tag
-
-                    If juego.Titulo.ToLower.Contains(tbBusquedaJuego.Text.ToLower.Trim) Then
-                        item.Visibility = Visibility.Visible
-                    Else
-                        item.Visibility = Visibility.Collapsed
-                    End If
+                If juego.Titulo.ToLower.Contains(tbBusquedaJuego.Text.ToLower.Trim) Then
+                    lvJuegos.ScrollIntoView(lvJuegos.Items(i))
                 End If
-            Next
-        Else
-            For Each juegoGrid As Grid In lvJuegos.Items
-                Dim item As ListViewItem = lvJuegos.ContainerFromItem(juegoGrid)
 
-                If Not item Is Nothing Then
-                    item.Visibility = Visibility.Visible
-                End If
+                i += 1
             Next
         End If
 
     End Sub
 
-    Private Sub BotonAñadirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonAñadirCategorias.Click
+    Private Async Sub BotonAñadirCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonAñadirCategorias.Click
+
+        Dim licencia As LicenseInformation = Nothing
+
+        Try
+            licencia = CurrentApp.LicenseInformation
+        Catch ex As Exception
+
+        End Try
+
+        If Not licencia Is Nothing Then
+            If Not licencia.ProductLicenses("NoAds").IsActive Then
+                gridAnuncio.Visibility = Visibility.Visible
+            End If
+        Else
+            gridAnuncio.Visibility = Visibility.Visible
+        End If
+
+        If gridAnuncio.Visibility = Visibility.Visible Then
+            gridCategorias.Visibility = Visibility.Collapsed
+
+            Dim i As Integer = 30
+            While i > 0
+                tbAnuncioContadorSegundos.Text = i.ToString
+
+                Await Task.Delay(1000)
+
+                i -= 1
+            End While
+
+            gridCategorias.Visibility = Visibility.Visible
+            gridAnuncio.Visibility = Visibility.Collapsed
+        End If
 
         Cliente.EscribirCategorias()
 
@@ -270,7 +303,7 @@ Public NotInheritable Class MainPage
 
     Private Sub BotonCargaCategorias_Click(sender As Object, e As RoutedEventArgs) Handles botonCargaCategorias.Click
 
-        Juegos.Cargar()
+        Juegos.Cargar(False)
 
     End Sub
 

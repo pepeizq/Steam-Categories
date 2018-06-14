@@ -252,6 +252,12 @@
   <data name="MoreThings_VoteApp" xml:space="preserve">
     <value>Vote the App</value>
   </data>
+  <data name="NoAdsButton.Text" xml:space="preserve">
+    <value>Buy No Ads</value>
+  </data>
+  <data name="NoAdsMessage.Text" xml:space="preserve">
+    <value>Buying the No Ads plugin will not show this screen and you can immediately start to add categories</value>
+  </data>
   <data name="Personalization.Text" xml:space="preserve">
     <value>Personalization</value>
   </data>
